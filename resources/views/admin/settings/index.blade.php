@@ -99,16 +99,16 @@
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-secondary-gradient">
-                        <a href="">
+                        <a href="{{route('admin.settings.realisations')}}">
                         <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                             <div class="">
-                                <h6 class="mb-3 tx-12 text-white">{{__('admin/navBar.vehicules')}}</h6>
+                                <h6 class="mb-3 tx-12 text-white">الأعمال و الملتقيات</h6>
                             </div>
                             <div class="pb-0 mt-0">
                                 <div class="d-flex">
                                     <span class="float-right my-auto mr-auto">
                                         <i class="fas fa-arrow-circle-up text-white"></i>
-                                        <span class="text-white op-7">Voir ( 7)</span>
+                                        <span class="text-white op-7">عرض</span>
                                     </span>
                                 </div>
                             </div>
@@ -118,17 +118,17 @@
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-danger-gradient">
-                        <a href="">
+                        <a href="{{route('admin.settings.programmes')}}">
                         <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                             <div class="">
-                                <h6 class="mb-3 tx-12 text-white">{{__('admin/navBar.categories')}}</h6>
+                                <h6 class="mb-3 tx-12 text-white">البرامج التعليمية</h6>
                                 <p></p>
                             </div>
                             <div class="pb-0 mt-0">
                                 <div class="d-flex">
                                     <span class="float-right my-auto mr-auto">
                                         <i class="fas fa-arrow-circle-up text-white"></i>
-                                        <span class="text-white op-7">Voir ( 4 ) </span>
+                                        <span class="text-white op-7">عرض </span>
                                     </span>
                                 </div>
                             </div>
@@ -138,16 +138,16 @@
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-primary-gradient">
-                        <a href="">
+                        <a href="{{route('admin.settings.types_users')}}">
                         <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                             <div class="">
-                                <h6 class="mb-3 tx-12 text-white">Les Unites</h6>
+                                <h6 class="mb-3 tx-12 text-white">صفات حسابات الزوار</h6>
                             </div>
                             <div class="pb-0 mt-0">
                                 <div class="d-flex">
                                     <span class="float-right my-auto mr-auto">
                                         <i class="fas fa-arrow-circle-up text-white"></i>
-                                        <span class="text-white op-7">Voit ( 5 ) </span>
+                                        <span class="text-white op-7">عرض</span>
                                     </span>
                                 </div>
                             </div>
@@ -156,19 +156,38 @@
                     </div>
                 </div>
                 
-                
                 <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-info-gradient">
-                        <a href="">
+                        <a href="{{route('admin.settings.emplois')}}">
                         <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                             <div class="">
-                                <h6 class="mb-3 tx-12 text-white">Generateurs D'Oxy</h6>
+                                <h6 class="mb-3 tx-12 text-white">الوظائف المطلوبة</h6>
                             </div>
                             <div class="pb-0 mt-0">
                                 <div class="d-flex">
                                     <span class="float-right my-auto mr-auto">
                                         <i class="fas fa-arrow-circle-up text-white"></i>
-                                        <span class="text-white op-7">Voir ( 4 )</span>
+                                        <span class="text-white op-7">عرض</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+                    <div class="card overflow-hidden sales-card bg-warning-gradient">
+                        <a href="{{route('admin.settings.domaines_conseils')}}">
+                        <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                            <div class="">
+                                <h6 class="mb-3 tx-12 text-white"> مجالات الاستشارات</h6>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <span class="float-right my-auto mr-auto">
+                                        <i class="fas fa-arrow-circle-up text-white"></i>
+                                        <span class="text-white op-7">عرض</span>
                                     </span>
                                 </div>
                             </div>

@@ -7,6 +7,11 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\DomaineVendeurController;
 use App\Http\Controllers\Admin\CategoriesProductsController;
 use App\Http\Controllers\Admin\CategoriesBlogsController;
+use App\Http\Controllers\Admin\RealisationController;
+use App\Http\Controllers\Admin\ProgrammeCrecheController;
+use App\Http\Controllers\Admin\TypesUsersController;
+use App\Http\Controllers\Admin\EmpoloiController;
+use App\Http\Controllers\Admin\DomaineConseilController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -39,6 +44,9 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::group(['prefix' => 'about'],function(){
             Route::get('edit',[AboutController::class,'edit'])->name('admin.settings.about');
             Route::post('update',[AboutController::class,'update'])->name('admin.settings.about.update');
+            Route::post('updateGerant',[AboutController::class,'updateGerant'])->name('admin.settings.about.updateGerant');
+
+            
         });
         
         ///Domaines des vendeurs
@@ -72,10 +80,67 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
             Route::get('changeStatus/{uuid}',[CategoriesBlogsController::class,'changeStatus'])->name('admin.settings.categories_blogs.changeStatus');
         });
 
+        ///Nos réalisations
+        Route::group(['prefix' => 'realisations'],function(){
+            Route::get('/',[RealisationController::class,'index'])->name('admin.settings.realisations');
+            Route::get('create',[RealisationController::class,'create'])->name('admin.settings.realisations.create');
+            Route::post('store',[RealisationController::class,'store'])->name('admin.settings.realisations.store');
+            Route::get('edit/{id}',[RealisationController::class,'edit'])->name('admin.settings.realisations.edit');
+            Route::post('update/{id}',[RealisationController::class,'update'])->name('admin.settings.realisations.update');
+            Route::get('delete/{id}',[RealisationController::class,'destroy'])->name('admin.settings.realisations.delete');
+            Route::get('changeStatus/{uuid}',[RealisationController::class,'changeStatus'])->name('admin.settings.realisations.changeStatus');
+            Route::get('deleteImage/{uuid}',[RealisationController::class,'deleteImage'])->name('admin.settings.realisations.deleteImage');
+        });
+
+        ///programmes creches
+        Route::group(['prefix' => 'programmes'],function(){
+            Route::get('/',[ProgrammeCrecheController::class,'index'])->name('admin.settings.programmes');
+            Route::get('create',[ProgrammeCrecheController::class,'create'])->name('admin.settings.programmes.create');
+            Route::post('store',[ProgrammeCrecheController::class,'store'])->name('admin.settings.programmes.store');
+            Route::get('edit/{id}',[ProgrammeCrecheController::class,'edit'])->name('admin.settings.programmes.edit');
+            Route::post('update/{id}',[ProgrammeCrecheController::class,'update'])->name('admin.settings.programmes.update');
+            Route::get('delete/{id}',[ProgrammeCrecheController::class,'destroy'])->name('admin.settings.programmes.delete');
+            Route::get('changeStatus/{uuid}',[ProgrammeCrecheController::class,'changeStatus'])->name('admin.settings.programmes.changeStatus');
+        });
+
+        ///type_users
+        Route::group(['prefix' => 'types_users'],function(){
+            Route::get('/',[TypesUsersController::class,'index'])->name('admin.settings.types_users');
+            Route::get('create',[TypesUsersController::class,'create'])->name('admin.settings.types_users.create');
+            Route::post('store',[TypesUsersController::class,'store'])->name('admin.settings.types_users.store');
+            Route::get('edit/{id}',[TypesUsersController::class,'edit'])->name('admin.settings.types_users.edit');
+            Route::post('update/{id}',[TypesUsersController::class,'update'])->name('admin.settings.types_users.update');
+            Route::get('delete/{id}',[TypesUsersController::class,'destroy'])->name('admin.settings.types_users.delete');
+            Route::get('changeStatus/{uuid}',[TypesUsersController::class,'changeStatus'])->name('admin.settings.types_users.changeStatus');
+        });
+
+        ///emplois
+        Route::group(['prefix' => 'emplois'],function(){
+            Route::get('/',[EmpoloiController::class,'index'])->name('admin.settings.emplois');
+            Route::get('create',[EmpoloiController::class,'create'])->name('admin.settings.emplois.create');
+            Route::post('store',[EmpoloiController::class,'store'])->name('admin.settings.emplois.store');
+            Route::get('edit/{id}',[EmpoloiController::class,'edit'])->name('admin.settings.emplois.edit');
+            Route::post('update/{id}',[EmpoloiController::class,'update'])->name('admin.settings.emplois.update');
+            Route::get('delete/{id}',[EmpoloiController::class,'destroy'])->name('admin.settings.emplois.delete');
+            Route::get('changeStatus/{uuid}',[EmpoloiController::class,'changeStatus'])->name('admin.settings.emplois.changeStatus');
+        });
+
+        ///domaines_conseils
+        Route::group(['prefix' => 'domaines_conseils'],function(){
+            Route::get('/',[DomaineConseilController::class,'index'])->name('admin.settings.domaines_conseils');
+            Route::get('create',[DomaineConseilController::class,'create'])->name('admin.settings.domaines_conseils.create');
+            Route::post('store',[DomaineConseilController::class,'store'])->name('admin.settings.domaines_conseils.store');
+            Route::get('edit/{id}',[DomaineConseilController::class,'edit'])->name('admin.settings.domaines_conseils.edit');
+            Route::post('update/{id}',[DomaineConseilController::class,'update'])->name('admin.settings.domaines_conseils.update');
+            Route::get('delete/{id}',[DomaineConseilController::class,'destroy'])->name('admin.settings.domaines_conseils.delete');
+            Route::get('changeStatus/{uuid}',[DomaineConseilController::class,'changeStatus'])->name('admin.settings.domaines_conseils.changeStatus');
+        });
+
+
         
 
 
-
+        
     });
 });
 

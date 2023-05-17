@@ -43,12 +43,20 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-        'logo' => [
+        'about' => [
             'driver' => 'local',
-            'root'   => public_path().'/files/logo',
+            'root'   => public_path().'/files/about',
             'url'    => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
+        'realisations' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/realisations',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
+
+        
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

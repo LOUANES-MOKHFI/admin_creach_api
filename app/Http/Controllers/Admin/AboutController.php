@@ -37,7 +37,7 @@ class AboutController extends Controller
              if($request->has('logo')){
                 $filename = '';
                 $file = $request->file('logo');
-                $filename = UploadFile('logo',$file);
+                $filename = UploadFile('about',$file);
                 $about->logo = $filename;
                 $about->save();
             } 
@@ -48,4 +48,39 @@ class AboutController extends Controller
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
+    public function updateGerant(Request $request){
+        $request->validate([
+            'image' => 'required',
+            //'video' => 'required',
+            'gerant_name' => 'required',
+            'description' => 'required',
+        ]);
+        try {
+            $about = About::where('id',1)->first();
+            $about->update([
+                'gerant_name' => $request->gerant_name,
+                'description' => $request->description,
+            ]);
+            if($request->has('image')){
+                $filename = '';
+                $file = $request->file('image');
+                $filename = UploadFile('about',$file);
+                $about->image = $filename;
+                $about->save();
+            } 
+            if($request->has('video')){
+                $filename = '';
+                $file = $request->file('video');
+                $filename = UploadFile('about',$file);
+                $about->video = $filename;
+                $about->save();
+            } 
+            return redirect()->back()->with(['success' => 'تمت عملية تحديث المعلومات بنجاح']);
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
+    
 }
