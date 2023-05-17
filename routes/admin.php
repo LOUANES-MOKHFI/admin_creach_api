@@ -12,6 +12,11 @@ use App\Http\Controllers\Admin\ProgrammeCrecheController;
 use App\Http\Controllers\Admin\TypesUsersController;
 use App\Http\Controllers\Admin\EmpoloiController;
 use App\Http\Controllers\Admin\DomaineConseilController;
+use App\Http\Controllers\Admin\GuidePedagogiqueController;
+use App\Http\Controllers\Admin\NiveauBooksController;
+use App\Http\Controllers\Admin\BookCrecheController;
+
+
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -44,11 +49,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::group(['prefix' => 'about'],function(){
             Route::get('edit',[AboutController::class,'edit'])->name('admin.settings.about');
             Route::post('update',[AboutController::class,'update'])->name('admin.settings.about.update');
-            Route::post('updateGerant',[AboutController::class,'updateGerant'])->name('admin.settings.about.updateGerant');
-
-            
+            Route::post('updateGerant',[AboutController::class,'updateGerant'])->name('admin.settings.about.updateGerant');  
         });
-        
         ///Domaines des vendeurs
         Route::group(['prefix' => 'domaines'],function(){
             Route::get('/',[DomaineVendeurController::class,'index'])->name('admin.settings.domaines');
@@ -79,7 +81,6 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
             Route::get('delete/{id}',[CategoriesBlogsController::class,'destroy'])->name('admin.settings.categories_blogs.delete');
             Route::get('changeStatus/{uuid}',[CategoriesBlogsController::class,'changeStatus'])->name('admin.settings.categories_blogs.changeStatus');
         });
-
         ///Nos réalisations
         Route::group(['prefix' => 'realisations'],function(){
             Route::get('/',[RealisationController::class,'index'])->name('admin.settings.realisations');
@@ -91,7 +92,6 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
             Route::get('changeStatus/{uuid}',[RealisationController::class,'changeStatus'])->name('admin.settings.realisations.changeStatus');
             Route::get('deleteImage/{uuid}',[RealisationController::class,'deleteImage'])->name('admin.settings.realisations.deleteImage');
         });
-
         ///programmes creches
         Route::group(['prefix' => 'programmes'],function(){
             Route::get('/',[ProgrammeCrecheController::class,'index'])->name('admin.settings.programmes');
@@ -102,7 +102,6 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
             Route::get('delete/{id}',[ProgrammeCrecheController::class,'destroy'])->name('admin.settings.programmes.delete');
             Route::get('changeStatus/{uuid}',[ProgrammeCrecheController::class,'changeStatus'])->name('admin.settings.programmes.changeStatus');
         });
-
         ///type_users
         Route::group(['prefix' => 'types_users'],function(){
             Route::get('/',[TypesUsersController::class,'index'])->name('admin.settings.types_users');
@@ -113,7 +112,6 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
             Route::get('delete/{id}',[TypesUsersController::class,'destroy'])->name('admin.settings.types_users.delete');
             Route::get('changeStatus/{uuid}',[TypesUsersController::class,'changeStatus'])->name('admin.settings.types_users.changeStatus');
         });
-
         ///emplois
         Route::group(['prefix' => 'emplois'],function(){
             Route::get('/',[EmpoloiController::class,'index'])->name('admin.settings.emplois');
@@ -124,7 +122,6 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
             Route::get('delete/{id}',[EmpoloiController::class,'destroy'])->name('admin.settings.emplois.delete');
             Route::get('changeStatus/{uuid}',[EmpoloiController::class,'changeStatus'])->name('admin.settings.emplois.changeStatus');
         });
-
         ///domaines_conseils
         Route::group(['prefix' => 'domaines_conseils'],function(){
             Route::get('/',[DomaineConseilController::class,'index'])->name('admin.settings.domaines_conseils');
@@ -135,12 +132,40 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
             Route::get('delete/{id}',[DomaineConseilController::class,'destroy'])->name('admin.settings.domaines_conseils.delete');
             Route::get('changeStatus/{uuid}',[DomaineConseilController::class,'changeStatus'])->name('admin.settings.domaines_conseils.changeStatus');
         });
-
-
-        
-
-
-        
     });
+
+
+    
+    ///guide_pedagogique
+    Route::group(['prefix' => 'guide_pedagogique'],function(){
+        Route::get('/',[GuidePedagogiqueController::class,'index'])->name('admin.guide_pedagogique');
+        Route::get('create',[GuidePedagogiqueController::class,'create'])->name('admin.guide_pedagogique.create');
+        Route::post('store',[GuidePedagogiqueController::class,'store'])->name('admin.guide_pedagogique.store');
+        Route::get('edit/{id}',[GuidePedagogiqueController::class,'edit'])->name('admin.guide_pedagogique.edit');
+        Route::post('update/{id}',[GuidePedagogiqueController::class,'update'])->name('admin.guide_pedagogique.update');
+        Route::get('delete/{id}',[GuidePedagogiqueController::class,'destroy'])->name('admin.guide_pedagogique.delete');
+        Route::get('changeStatus/{uuid}',[GuidePedagogiqueController::class,'changeStatus'])->name('admin.guide_pedagogique.changeStatus');
+    });
+    ///niveaux books
+    Route::group(['prefix' => 'niveau_books'],function(){
+        Route::get('/',[NiveauBooksController::class,'index'])->name('admin.niveau_books');
+        Route::get('create',[NiveauBooksController::class,'create'])->name('admin.niveau_books.create');
+        Route::post('store',[NiveauBooksController::class,'store'])->name('admin.niveau_books.store');
+        Route::get('edit/{id}',[NiveauBooksController::class,'edit'])->name('admin.niveau_books.edit');
+        Route::post('update/{id}',[NiveauBooksController::class,'update'])->name('admin.niveau_books.update');
+        Route::get('delete/{id}',[NiveauBooksController::class,'destroy'])->name('admin.niveau_books.delete');
+        Route::get('changeStatus/{uuid}',[NiveauBooksController::class,'changeStatus'])->name('admin.niveau_books.changeStatus');
+    });
+    ///books_creche
+    Route::group(['prefix' => 'books_creche'],function(){
+        Route::get('/',[BookCrecheController::class,'index'])->name('admin.books_creche');
+        Route::get('create',[BookCrecheController::class,'create'])->name('admin.books_creche.create');
+        Route::post('store',[BookCrecheController::class,'store'])->name('admin.books_creche.store');
+        Route::get('edit/{id}',[BookCrecheController::class,'edit'])->name('admin.books_creche.edit');
+        Route::post('update/{id}',[BookCrecheController::class,'update'])->name('admin.books_creche.update');
+        Route::get('delete/{id}',[BookCrecheController::class,'destroy'])->name('admin.books_creche.delete');
+        Route::get('changeStatus/{uuid}',[BookCrecheController::class,'changeStatus'])->name('admin.books_creche.changeStatus');
+    });
+
 });
 

@@ -112,7 +112,7 @@ class RealisationController extends Controller
                 }
             } 
            DB::commit();
-           return redirect()->route('admin.settings.domaines')->with('success',"تمت عملية التعديل بنجاح");
+           return redirect()->route('admin.settings.realisations')->with('success',"تمت عملية التعديل بنجاح");
 
         } catch (\Throwable $th) {
             return redirect()->back()->with(['error' => $th->getMessage()]);
