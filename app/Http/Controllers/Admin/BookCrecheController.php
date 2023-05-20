@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookCreche;
+use App\Models\NiveauBook;
 use Illuminate\Http\Request;
 use DB;
 use Ramsey\Uuid\Uuid;
@@ -18,8 +19,10 @@ class BookCrecheController extends Controller
     }
 
     public function create()
-    {
-        return view('admin.books_creche.add');
+    {   
+        $data = [];
+        $data['niveaux'] = NiveauBook::all();
+        return view('admin.books_creche.add',$data);
     }
 
     public function store(Request $request, BookCreche $book)
@@ -38,21 +41,22 @@ class BookCrecheController extends Controller
            $book->slug = Str::slug($request->name);
            $book->name = $request->name;
            $book->niveau_id = $request->niveau; 
-           $book->save();
+          
             if($request->has('pdf_file')){
                 $filename = '';
                 $file = $request->file('pdf_file');
                 $filename = UploadFile('books_creche',$file);
                 $book->pdf_file = $filename;
-                $book->save();
+                //$book->save();
             }
             if($request->has('image')){
                 $filename = '';
                 $file = $request->file('image');
                 $filename = UploadFile('books_creche',$file);
                 $book->image = $filename;
-                $book->save();
+                //$book->save();
             }
+            $book->save();
             
            DB::commit();
            return redirect()->route('admin.books_creche')->with('success',"تمت عملية الاضافة بنجاح");
@@ -70,6 +74,7 @@ class BookCrecheController extends Controller
         if(!$data['book']){
            return redirect()->route('admin.books_creche')->with('error',"هذا الكتاب غير موجود في قاعدة البيانات");
         }
+        $data['niveaux'] = NiveauBook::all();
         return view('admin.books_creche.edit',$data);
     }
     public function update(Request $request,$uuid)
@@ -82,21 +87,22 @@ class BookCrecheController extends Controller
            $book->slug = Str::slug($request->name);
            $book->name = $request->name;
            $book->niveau_id = $request->niveau; 
-           $book->save();
+           
             if($request->has('pdf_file')){
                 $filename = '';
                 $file = $request->file('pdf_file');
                 $filename = UploadFile('books_creche',$file);
                 $book->pdf_file = $filename;
-                $book->save();
+               // $book->save();
             }
             if($request->has('image')){
                 $filename = '';
                 $file = $request->file('image');
                 $filename = UploadFile('books_creche',$file);
                 $book->image = $filename;
-                $book->save();
+                //$book->save();
             }
+            $book->save();
            DB::commit();
            return redirect()->route('admin.books_creche')->with('success',"تمت عملية التعديل بنجاح");
 

@@ -55,7 +55,18 @@ return [
             'url'    => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
-
+        'guide_pedagogique' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/guide_pedagogique',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
+        'books_creche' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/books_creche',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
         
         's3' => [
             'driver' => 's3',

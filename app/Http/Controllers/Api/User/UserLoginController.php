@@ -22,7 +22,9 @@ class UserLoginController extends Controller
         }
         if(Auth::attempt($request->all())){
             $user = Auth::user(); 
-    
+            if($user->is_active == 0){
+                return Response(['message' => "votre session n'est pas activer par les administrateur de la plateform, veuillez contactez le support"],401);
+            }
             $success =  $user->createToken('crechAdmin')->plainTextToken; 
         
             return Response(['token' => $success],200);
@@ -37,7 +39,9 @@ class UserLoginController extends Controller
         if($request->user()) {
 
             $user = $request->user();
-
+            if($user->is_active == 0){
+                return Response(['message' => "votre session n'est pas activer par les administrateur de la plateform, veuillez contactez le support"],401);
+            }
             return Response(['data' => $user],200);
         }
 

@@ -15,8 +15,10 @@ use App\Http\Controllers\Admin\DomaineConseilController;
 use App\Http\Controllers\Admin\GuidePedagogiqueController;
 use App\Http\Controllers\Admin\NiveauBooksController;
 use App\Http\Controllers\Admin\BookCrecheController;
-
-
+use App\Http\Controllers\Admin\CategoryFaqController;
+use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\VideoController;
+use App\Http\Controllers\Admin\ContactController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -145,6 +147,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::post('update/{id}',[GuidePedagogiqueController::class,'update'])->name('admin.guide_pedagogique.update');
         Route::get('delete/{id}',[GuidePedagogiqueController::class,'destroy'])->name('admin.guide_pedagogique.delete');
         Route::get('changeStatus/{uuid}',[GuidePedagogiqueController::class,'changeStatus'])->name('admin.guide_pedagogique.changeStatus');
+        Route::get('deleteImage/{uuid}',[GuidePedagogiqueController::class,'deleteImage'])->name('admin.guide_pedagogique.deleteImage');
+    
     });
     ///niveaux books
     Route::group(['prefix' => 'niveau_books'],function(){
@@ -165,6 +169,70 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::post('update/{id}',[BookCrecheController::class,'update'])->name('admin.books_creche.update');
         Route::get('delete/{id}',[BookCrecheController::class,'destroy'])->name('admin.books_creche.delete');
         Route::get('changeStatus/{uuid}',[BookCrecheController::class,'changeStatus'])->name('admin.books_creche.changeStatus');
+    });
+
+    ///category_faq
+    Route::group(['prefix' => 'categories_faqs'],function(){
+        Route::get('/',[CategoryFaqController::class,'index'])->name('admin.categories_faqs');
+        Route::get('create',[CategoryFaqController::class,'create'])->name('admin.categories_faqs.create');
+        Route::post('store',[CategoryFaqController::class,'store'])->name('admin.categories_faqs.store');
+        Route::get('edit/{id}',[CategoryFaqController::class,'edit'])->name('admin.categories_faqs.edit');
+        Route::post('update/{id}',[CategoryFaqController::class,'update'])->name('admin.categories_faqs.update');
+        Route::get('delete/{id}',[CategoryFaqController::class,'destroy'])->name('admin.categories_faqs.delete');
+        Route::get('changeStatus/{uuid}',[CategoryFaqController::class,'changeStatus'])->name('admin.categories_faqs.changeStatus');
+    });
+    ///faq
+    Route::group(['prefix' => 'faqs'],function(){
+        Route::get('/',[FaqController::class,'index'])->name('admin.faqs');
+        Route::get('create',[FaqController::class,'create'])->name('admin.faqs.create');
+        Route::post('store',[FaqController::class,'store'])->name('admin.faqs.store');
+        Route::get('show/{uuid}',[FaqController::class,'show'])->name('admin.faqs.show');
+        Route::get('edit/{uuid}',[FaqController::class,'edit'])->name('admin.faqs.edit');
+        Route::post('update/{uuid}',[FaqController::class,'update'])->name('admin.faqs.update');
+        Route::get('delete/{uuid}',[FaqController::class,'destroy'])->name('admin.faqs.delete');
+        Route::get('changeStatus/{uuid}',[FaqController::class,'changeStatus'])->name('admin.faqs.changeStatus');
+    });
+    ///videos
+    Route::group(['prefix' => 'videos'],function(){
+        Route::get('/',[VideoController::class,'index'])->name('admin.videos');
+        Route::get('create',[VideoController::class,'create'])->name('admin.videos.create');
+        Route::post('store',[VideoController::class,'store'])->name('admin.videos.store');
+        Route::get('show/{uuid}',[VideoController::class,'show'])->name('admin.videos.show');
+        Route::get('edit/{uuid}',[VideoController::class,'edit'])->name('admin.videos.edit');
+        Route::post('update/{uuid}',[VideoController::class,'update'])->name('admin.videos.update');
+        Route::get('delete/{uuid}',[VideoController::class,'destroy'])->name('admin.videos.delete');
+        Route::get('changeStatus/{uuid}',[VideoController::class,'changeStatus'])->name('admin.videos.changeStatus');
+    });
+    ///contacts
+    Route::group(['prefix' => 'contacts'],function(){
+        Route::get('/',[ContactController::class,'index'])->name('admin.contacts');
+        Route::get('show/{uuid}',[ContactController::class,'show'])->name('admin.contacts.show');
+        Route::get('delete/{uuid}',[ContactController::class,'destroy'])->name('admin.contacts.delete');
+    });
+
+    ///Users routes
+    Route::group(['prefix' => 'users'],function(){
+        Route::get('/',[UserController::class,'index'])->name('admin.users');
+        Route::post('store',[UserController::class,'store'])->name('admin.users.store');
+        Route::get('show/{id}',[UserController::class,'show'])->name('admin.users.show');
+        Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.users.delete');
+        Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.users.changeStatus');
+    });
+    ///vendeurs routes
+    Route::group(['prefix' => 'vendeurs'],function(){
+        Route::get('/',[UserController::class,'index'])->name('admin.vendeurs');
+        Route::post('store',[UserController::class,'store'])->name('admin.vendeurs.store');
+        Route::get('show/{id}',[UserController::class,'show'])->name('admin.vendeurs.show');
+        Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.vendeurs.delete');
+        Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.vendeurs.changeStatus');
+    });
+    ///creches routes
+    Route::group(['prefix' => 'creches'],function(){
+        Route::get('/',[UserController::class,'index'])->name('admin.creches');
+        Route::post('store',[UserController::class,'store'])->name('admin.creches.store');
+        Route::get('show/{id}',[UserController::class,'show'])->name('admin.creches.show');
+        Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.creches.delete');
+        Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.creches.changeStatus');
     });
 
 });

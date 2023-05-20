@@ -12,6 +12,6 @@ class GuidePedagogique extends Model
     protected $guarded = [];
 
     public function images(){
-        return $this->hasMany(ImagesGuide::class);
+        return $this->hasMany(ImagesGuide::class,'guide_id');
     }
 }

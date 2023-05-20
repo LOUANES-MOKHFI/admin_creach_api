@@ -54,30 +54,30 @@
 					
 				</div>
 				@endcan
-				@if(auth('admins')->user()->is_notified == 1)
+				@if(auth('admins')->user())
 				<div class="dropdown nav-item main-header-notification">
 					<a class="new nav-link ico-item notifications ico-item-notif notice-alarm js__toggle_open" data-target="#message-popup">
 		        		<i class="fa fa-calendar notice-alarm" ></i>
-		        		<span class="num demande_rdv" data-count="{{DemandeRDV()->count()}}">{{DemandeRDV()->count()}}</span>
+		        		<span class="num demande_rdv" data-count="{{\App\Models\Contact::where('is_viewed',0)->count()}}">{{\App\Models\Contact::where('is_viewed',0)->count()}}</span>
 		        	</a>
 		        	<div class="dropdown-menu">
 	
 						<div class="menu-header-content bg-primary text-right">
 							<div class="d-flex">
-								<h6 class="dropdown-title mb-1 tx-15 text-white font-weight-semibold">Demandes des RDV</h6>
+								<h6 class="dropdown-title mb-1 tx-15 text-white font-weight-semibold">الرسائل</h6>
 							</div>
-							<p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">Nouvelle demandes</p>
+							<p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">الرسائل الجديدة</p>
 						</div>
 						<div class="main-message-list chat-scroll">
-							@if(DemandeRDV()->count() > 0)
-							@foreach(DemandeRDV() as $key => $demande)
-							<a href="{{route('admin.reservations.show',$demande->id)}}" class="p-3 d-flex border-bottom">
+							@if(\App\Models\Contact::where('is_viewed',0)->count() > 0)
+							@foreach(Messages() as $key => $message)
+							<a href="{{route('admin.contacts.show',$message->uuid)}}" class="p-3 d-flex border-bottom">
 								<div class="wd-90p">
 									<div class="d-flex">
-										<h5 class="mb-1 name">{{$demande->Fname.' '.$demande->Lname}}</h5>
+										<h5 class="mb-1 name">{{$message->name}}</h5>
 									</div>
-									<p class="mb-0 desc">{{$demande->email}}</p>
-									<p class="time mb-0 text-left float-right mr-2 mt-2">{{$demande->created_at}}</p>
+									<p class="mb-0 desc">{{$message->email}}</p>
+									<p class="time mb-0 text-left float-right mr-2 mt-2">{{$message->created_at}}</p>
 								</div>
 							</a>
 							@endforeach
@@ -85,18 +85,43 @@
 							
 						</div>
 						<div class="text-center dropdown-footer">
-							<a href="{{route('admin.reservations')}}" class="text-center">Voir toutes les demandes</a>
+							<a href="{{route('admin.contacts')}}" class="text-center">عرض كل الرسائل</a>
 						</div>
 					</div>
 					
 				</div>
-
-				<div class="nav-item main-header-notification">
-					<a class="new nav-link url_notify ico-item notifications ico-item-notif" href="">
+				
+				<div class="dropdown nav-item main-header-notification">
+					<a class="new nav-link url_notify ico-item notifications ico-item-notif notice-alarm js__toggle_open" data-target="#message-popup">
 							<i class="fa fa-bell notice-alarm" ></i>
-						<span class="num notif_admin" data-count="0">0</span>
+						<span class="num notif_admin" data-count="{{count(Notifications())}}">{{count(Notifications())}}</span>
 					</a>
-					
+
+					<div class="dropdown-menu">
+	
+						<div class="menu-header-content bg-primary text-right">
+							<div class="d-flex">
+								<h6 class="dropdown-title mb-1 tx-15 text-white font-weight-semibold">الإشعارات</h6>
+							</div>
+							<p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">الإشعارات الجديدة</p>
+						</div>
+						<div class="main-message-list chat-scroll notif_list">
+							@if(count(Notifications()) > 0)
+							@foreach(Notifications() as $key => $notification)
+							<a href="{{$notification->link}}" class="p-3 d-flex border-bottom">
+								<div class="wd-90p">
+									<div class="d-flex">
+										<h5 class="mb-1 name">sss</h5>
+									</div>
+									<p class="mb-0 desc">sss</p>
+									<p class="time mb-0 text-left float-right mr-2 mt-2">{{$notification->created_at}}</p>
+								</div>
+							</a>
+							@endforeach
+							@endif
+							
+						</div>
+					</div>
 				</div>
 				@endif
 				<audio id="audioNotify" src="/admin/assets/beep/beep2.mp3" type="audio/wav">
@@ -126,5 +151,24 @@
 		</div>
 	</div>
 </div>
-<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+<script>
+	function sound(){
+		let sound = document.getElementById("audioNotify");
+		sound.play()
+	}
 
+    // Enable pusher logging - don't include this in production
+	Pusher.logToConsole = true;
+
+	var pusher = new Pusher('896d5c9b154c69b02817', {
+		cluster: 'eu'
+	});
+
+    var channel = pusher.subscribe('new-user-register');
+    channel.bind('new-user-event', function(data) {
+		alert(JSON.stringify(data));
+		
+	
+    });
+  </script>

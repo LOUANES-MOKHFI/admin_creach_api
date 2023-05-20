@@ -14,4 +14,8 @@ class Category extends Model
     public function admin(){
         return $this->belongsTo(Admin::class,'admin_id');
     }
+
+    public function faqs(){
+        return $this->hasMany(Faq::class)->where('type','faq');
+    }
 }

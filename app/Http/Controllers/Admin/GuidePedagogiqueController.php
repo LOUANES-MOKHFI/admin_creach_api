@@ -35,14 +35,15 @@ class GuidePedagogiqueController extends Controller
            $guide->uuid = (string) Uuid::uuid4();
            $guide->slug = Str::slug($request->name);
            $guide->name = $request->name;
-           $guide->save();
-            if($request->has('pdf_file')){
+           if($request->has('pdf_file')){
                 $filename = '';
                 $file = $request->file('pdf_file');
                 $filename = UploadFile('guide_pedagogique',$file);
                 $guide->pdf_file = $filename;
-                $guide->save();
+                //$guide->save();
             }
+           $guide->save();
+            
             if($request->has('images')){
                 foreach($request->images as $image){
                     $guideImages = new ImagesGuide();
@@ -82,14 +83,15 @@ class GuidePedagogiqueController extends Controller
            
            $guide->slug = Str::slug($request->name);
            $guide->name = $request->name;
-           $guide->save();
-            if($request->has('pdf_file')){
+           if($request->has('pdf_file')){
                 $filename = '';
                 $file = $request->file('pdf_file');
                 $filename = UploadFile('guide_pedagogique',$file);
                 $guide->pdf_file = $filename;
-                $guide->save();
+                //$guide->save();
             }
+           $guide->save();
+           
             if($request->has('images')){
                 foreach($request->images as $image){
                     $guideImages = new ImagesGuide();

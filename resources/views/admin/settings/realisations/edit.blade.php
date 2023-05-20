@@ -95,7 +95,7 @@
                                     @foreach($realisation->images as $image)
                                     <div class="col-md-3">
                                         <img src="{{asset('files/realisations/'.$image->image)}}"  alt="">
-                                        <a href="{{route('admin.settings.realisations.deleteImage',$image->id)}}"><i class="fa fa-trash"></i> </a>
+                                        <a href="{{route('admin.settings.realisations.deleteImage',$image->id)}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> </a>
                                     </div>
                                     @endforeach
                                 </div>

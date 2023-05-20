@@ -21,6 +21,23 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
+        'type_user',
+        'domaine_vendeur',
+        'store_name',
+        'type_creche',
+        'creche_name',
+        'programme_id',
+        'livraison',
+        'phone',
+        'facebook',
+        'instagram',
+        'tiktok',
+        'youtube',
+        'pays_id',
+        'wilaya_id',
+        'commune_id',
+        'is_active'
     ];
 
     /**

@@ -176,7 +176,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+                {{-- <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-warning-gradient">
                         <a href="{{route('admin.settings.domaines_conseils')}}">
                         <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
@@ -194,7 +194,7 @@
                         </div>
                         </a>
                     </div>
-                </div>
+                </div> --}}
                 
             </div>
         </div>

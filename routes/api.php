@@ -27,12 +27,25 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
  */
 
  
-use App\Http\Controllers\Api\User\UserLoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\User\UserLoginController;
+use App\Http\Controllers\Api\RegisterController;
+
+use App\Http\Controllers\Api\ContactController;
+
+Route::post('user/register',[RegisterController::class,'UserRegister'])->name('user.register');
+Route::post('vendeur/register',[RegisterController::class,'VendeurRegister'])->name('vendeur.register');
+Route::post('creche/register',[RegisterController::class,'CrecheRegister'])->name('creche.register');
 
 Route::post('login',[UserLoginController::class,'login']);
+
+
+Route::group(['prefix' => 'contact'],function(){
+    Route::post('store',[ContactController::class,'store'])->name('contact.store');
+});
 
 Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('profile',[UserLoginController::class,'UserDetails']);
     Route::get('logout',[UserLoginController::class,'logout']);
 });
+
