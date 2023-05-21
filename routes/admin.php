@@ -19,6 +19,9 @@ use App\Http\Controllers\Admin\CategoryFaqController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\CrecheController;
+use App\Http\Controllers\Admin\VendeurController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -215,24 +218,35 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('/',[UserController::class,'index'])->name('admin.users');
         Route::post('store',[UserController::class,'store'])->name('admin.users.store');
         Route::get('show/{id}',[UserController::class,'show'])->name('admin.users.show');
+        Route::get('edit/{id}',[UserController::class,'edit'])->name('admin.users.edit');
         Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.users.delete');
         Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.users.changeStatus');
     });
     ///vendeurs routes
     Route::group(['prefix' => 'vendeurs'],function(){
-        Route::get('/',[UserController::class,'index'])->name('admin.vendeurs');
-        Route::post('store',[UserController::class,'store'])->name('admin.vendeurs.store');
-        Route::get('show/{id}',[UserController::class,'show'])->name('admin.vendeurs.show');
-        Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.vendeurs.delete');
-        Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.vendeurs.changeStatus');
+        Route::get('/',[VendeurController::class,'index'])->name('admin.vendeurs');
+        Route::post('store',[VendeurController::class,'store'])->name('admin.vendeurs.store');
+        Route::get('show/{id}',[VendeurController::class,'show'])->name('admin.vendeurs.show');
+        Route::get('edit/{id}',[VendeurController::class,'edit'])->name('admin.vendeurs.edit');
+        Route::get('delete/{id}',[VendeurController::class,'destroy'])->name('admin.vendeurs.delete');
+        Route::get('changeStatus/{uuid}',[VendeurController::class,'changeStatus'])->name('admin.vendeurs.changeStatus');
     });
     ///creches routes
     Route::group(['prefix' => 'creches'],function(){
-        Route::get('/',[UserController::class,'index'])->name('admin.creches');
-        Route::post('store',[UserController::class,'store'])->name('admin.creches.store');
-        Route::get('show/{id}',[UserController::class,'show'])->name('admin.creches.show');
-        Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.creches.delete');
-        Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.creches.changeStatus');
+        Route::get('/',[CrecheController::class,'index'])->name('admin.creches');
+        Route::post('store',[CrecheController::class,'store'])->name('admin.creches.store');
+        Route::get('edit/{id}',[CrecheController::class,'edit'])->name('admin.creches.edit');
+        Route::get('show/{id}',[CrecheController::class,'show'])->name('admin.creches.show');
+        Route::get('delete/{id}',[CrecheController::class,'destroy'])->name('admin.creches.delete');
+        Route::get('changeStatus/{uuid}',[CrecheController::class,'changeStatus'])->name('admin.creches.changeStatus');
+    });
+    ///notifications routes
+    Route::group(['prefix' => 'notifications'],function(){
+        Route::get('/',[NotificationController::class,'index'])->name('admin.notifications');
+        Route::post('store',[NotificationController::class,'store'])->name('admin.notifications.store');
+        Route::get('show/{id}',[NotificationController::class,'show'])->name('admin.notifications.show');
+        Route::get('delete/{id}',[NotificationController::class,'destroy'])->name('admin.notifications.delete');
+        Route::get('changeStatus/{uuid}',[NotificationController::class,'changeStatus'])->name('admin.notifications.changeStatus');
     });
 
 });

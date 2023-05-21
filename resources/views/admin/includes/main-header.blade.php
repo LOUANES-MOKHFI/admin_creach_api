@@ -45,30 +45,56 @@
 		<div class="main-header-right">
 			
 			<div class="nav nav-item  navbar-nav-right ml-auto">
-				@can('Myintervention')
-				<div class=" nav-item main-header-notification">
-					<a href="{{route('admin.Myintervention')}}" class="new nav-link notifications ico-item-notif">
-				        <i class="fa fa-bell notice-alarm"></i>
-				        <span class="num notif_user" data-count="{{Count_notification()->count_notify}}">{{Count_notification()->count_notify}}</span>
-				    </a>
+				@if(auth('admins')->user())
+				<div class="dropdown nav-item main-header-notification">
+					<a class="new nav-link url_notify ico-item notifications ico-item-notif notice-alarm js__toggle_open" data-target="#message-popup1">
+							<i class="fa fa-bell notice-alarm" ></i>
+						<span class="num notif_admin" data-count="{{count(Notifications())}}">{{count(Notifications())}}</span>
+					</a>
+					<div class="dropdown-menu">
+	
+						<div class="menu-header-content bg-primary text-right">
+							<div class="d-flex">
+								<h6 class="dropdown-title mb-1 tx-15 text-white font-weight-semibold">الإشعارات</h6>
+							</div>
+							<p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">الإشعارات الجديدة</p>
+						</div>
+						<div class="main-message-list chat-scroll ">
+							@if(count(Notifications()) > 0)
+							@foreach(Notifications() as $key => $notification)
+							<a href="{{$notification->link}}" class="p-3 d-flex border-bottom">
+								<div class="wd-90p">
+									<div class="d-flex">
+										<h5 class="mb-1 name">name</h5>
+									</div>
+									<p class="mb-0 desc">email</p>
+									<p class="time mb-0 text-left float-right mr-2 mt-2">{{$notification->created_at}}</p>
+								</div>
+							</a>
+							@endforeach
+							@endif
+							
+						</div>
+						<div class="text-center dropdown-footer">
+							<a href="{{route('admin.notifications')}}" class="text-center">عرض كل الإشعارات</a>
+						</div>
+					</div>
 					
 				</div>
-				@endcan
-				@if(auth('admins')->user())
 				<div class="dropdown nav-item main-header-notification">
 					<a class="new nav-link ico-item notifications ico-item-notif notice-alarm js__toggle_open" data-target="#message-popup">
 		        		<i class="fa fa-calendar notice-alarm" ></i>
 		        		<span class="num demande_rdv" data-count="{{\App\Models\Contact::where('is_viewed',0)->count()}}">{{\App\Models\Contact::where('is_viewed',0)->count()}}</span>
 		        	</a>
 		        	<div class="dropdown-menu">
-	
+						
 						<div class="menu-header-content bg-primary text-right">
 							<div class="d-flex">
 								<h6 class="dropdown-title mb-1 tx-15 text-white font-weight-semibold">الرسائل</h6>
 							</div>
 							<p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">الرسائل الجديدة</p>
 						</div>
-						<div class="main-message-list chat-scroll">
+						<div class="main-message-list chat-scroll ps ps--active-y">
 							@if(\App\Models\Contact::where('is_viewed',0)->count() > 0)
 							@foreach(Messages() as $key => $message)
 							<a href="{{route('admin.contacts.show',$message->uuid)}}" class="p-3 d-flex border-bottom">
@@ -81,8 +107,7 @@
 								</div>
 							</a>
 							@endforeach
-							@endif
-							
+							@endif	
 						</div>
 						<div class="text-center dropdown-footer">
 							<a href="{{route('admin.contacts')}}" class="text-center">عرض كل الرسائل</a>
@@ -91,38 +116,7 @@
 					
 				</div>
 				
-				<div class="dropdown nav-item main-header-notification">
-					<a class="new nav-link url_notify ico-item notifications ico-item-notif notice-alarm js__toggle_open" data-target="#message-popup">
-							<i class="fa fa-bell notice-alarm" ></i>
-						<span class="num notif_admin" data-count="{{count(Notifications())}}">{{count(Notifications())}}</span>
-					</a>
-
-					<div class="dropdown-menu">
-	
-						<div class="menu-header-content bg-primary text-right">
-							<div class="d-flex">
-								<h6 class="dropdown-title mb-1 tx-15 text-white font-weight-semibold">الإشعارات</h6>
-							</div>
-							<p class="dropdown-title-text subtext mb-0 text-white op-6 pb-0 tx-12 ">الإشعارات الجديدة</p>
-						</div>
-						<div class="main-message-list chat-scroll notif_list">
-							@if(count(Notifications()) > 0)
-							@foreach(Notifications() as $key => $notification)
-							<a href="{{$notification->link}}" class="p-3 d-flex border-bottom">
-								<div class="wd-90p">
-									<div class="d-flex">
-										<h5 class="mb-1 name">sss</h5>
-									</div>
-									<p class="mb-0 desc">sss</p>
-									<p class="time mb-0 text-left float-right mr-2 mt-2">{{$notification->created_at}}</p>
-								</div>
-							</a>
-							@endforeach
-							@endif
-							
-						</div>
-					</div>
-				</div>
+				
 				@endif
 				<audio id="audioNotify" src="/admin/assets/beep/beep2.mp3" type="audio/wav">
 
@@ -151,24 +145,48 @@
 		</div>
 	</div>
 </div>
-<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+{{-- <script src="https://js.pusher.com/7.2/pusher.min.js"></script> --}}
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
 	function sound(){
 		let sound = document.getElementById("audioNotify");
 		sound.play()
 	}
+		Pusher.logToConsole = true;
+        var pusher = new Pusher('896d5c9b154c69b02817', {
+        cluster: 'eu'
+        });
 
-    // Enable pusher logging - don't include this in production
-	Pusher.logToConsole = true;
+        ////new demande RDV
+        var channel = pusher.subscribe('new-user-register');
+        channel.bind('new-user-event', function(data) {
+            console.log(data);
+            //console.log(JSON.stringify(data));
 
-	var pusher = new Pusher('896d5c9b154c69b02817', {
-		cluster: 'eu'
-	});
+            var UserNotified = "{{auth('admins')->user()->is_notified}}"
+            if(UserNotified == 1){
+                sound1();
+                var count_notif = parseInt(1);
+                count_notif = count_notif + parseInt($('.notif_admin').attr('data-count'));
+                $(".notif_admin").attr('data-count',count_notif);
+                $(".notif_admin").html(count_notif);
+                //$(".rdv_list").html()
+                var notification = `
+                    <a href="`+data.link+`">
+                        <span class="avatar"><img src="" alt=""></span>
+                        <span class="name" style="color:red">rr</span>
+                        <span class="email" style="color:red">rrrrrrrr</span>
+                        <span class="time" style="color:red">`+data.date+`</span>
+                    </a>`;
 
-    var channel = pusher.subscribe('new-user-register');
-    channel.bind('new-user-event', function(data) {
-		alert(JSON.stringify(data));
-		
-	
-    });
+
+                $(".notif_list").append(notification);
+                /*var url = href='/admin/patient/dossier_medical/'+data.uuid;
+                $(".url_notify").attr('href',url);*/
+
+            }
+        });
+
+
+
   </script>

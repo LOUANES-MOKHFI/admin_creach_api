@@ -58,4 +58,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function programme(){
+        return $this->belongsTo(ProgrammesCreche::class,'programme_id');
+    }
+    public function domaine(){
+        return $this->belongsTo(DomaineVendeur::class,'domaine_vendeur');
+    }
+    public function typeUser(){
+        return $this->belongsTo(TypesUsers::class,'type_user');
+    }
 }

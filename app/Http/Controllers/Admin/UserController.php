@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Hash;
 class UserController extends Controller
 {
     public function index(){
-        $users = Admin::where('id','>',1)->latest()->get();
-
-        return view('admin.users.index',compact('users'));
+        $data = [];
+        $data['users'] = User::where('type','user')->get();
+        return view('admin.users.index',$data);
     }
 
     public function create(){
