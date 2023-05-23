@@ -63,6 +63,11 @@
                                         <td>{{$creche->programme->name}}</td>
                                         <td>{{$creche->email}}</td>
                                         <td>
+                                        @if($creche->is_active == 0)
+                                        <a href="{{route('admin.creches.confirmeAccount',$creche->uuid)}}"class="btn btn-success waves-effect waves-light">
+                                            <i class="fa fa-check"></i> تأكيد الحساب
+                                        </a>
+                                        @endif
                                         <a href="{{route('admin.creches.show',$creche->uuid)}}"class="btn btn-info waves-effect waves-light" title="تعديل">
                                             <i class="fa fa-eye"></i>
                                         </a>

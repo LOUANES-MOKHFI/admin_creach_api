@@ -232,6 +232,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('edit/{id}',[VendeurController::class,'edit'])->name('admin.vendeurs.edit');
         Route::get('delete/{id}',[VendeurController::class,'destroy'])->name('admin.vendeurs.delete');
         Route::get('changeStatus/{uuid}',[VendeurController::class,'changeStatus'])->name('admin.vendeurs.changeStatus');
+        Route::get('confirmeAccount/{uuid}',[VendeurController::class,'confirmeAccount'])->name('admin.vendeurs.confirmeAccount');
     });
     ///creches routes
     Route::group(['prefix' => 'creches'],function(){
@@ -241,6 +242,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('show/{id}',[CrecheController::class,'show'])->name('admin.creches.show');
         Route::get('delete/{id}',[CrecheController::class,'destroy'])->name('admin.creches.delete');
         Route::get('changeStatus/{uuid}',[CrecheController::class,'changeStatus'])->name('admin.creches.changeStatus');
+        Route::get('confirmeAccount/{uuid}',[CrecheController::class,'confirmeAccount'])->name('admin.creches.confirmeAccount');
     });
     ///notifications routes
     Route::group(['prefix' => 'notifications'],function(){

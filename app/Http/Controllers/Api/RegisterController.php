@@ -181,7 +181,7 @@ class RegisterController extends Controller
 
     function sendMailUser($client_name,$client_email,$type_user){
         $to_email = 'louanes.mokhfi@gmail.com';
-        $data = array('name'=>$client_name, "header" => "لقد قمت بالتسجيل في منصة روضتي ديزاد, ستتلقى رسالة عندما يتم تأكيد حسابك.  : ",);
+        $data = array('name'=>$client_name, "header" => "لقد قمت بالتسجيل في منصة روضتي ديزاد, ستتلقى رسالة عندما يتم تأكيد حسابك.");
         Mail::send('admin.emails.email_user', $data, function($message) use ($client_name, $client_email) {
         $message->to($client_email, $client_name)
         ->subject(' التسجيل في روضتي');

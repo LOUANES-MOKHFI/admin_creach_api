@@ -16,6 +16,17 @@ class UserController extends Controller
         return view('admin.users.index',$data);
     }
 
+    public function show($uuid){
+        try {
+            $data['user'] = User::where('type','user')->where('uuid',$uuid)->first();
+            if(!$data['user']){
+                return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            return view('admin.users.show',$data);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
     public function confirmeAccount($uuid){
         try {
             $user = User::where('type','user')->where('uuid',$uuid)->first();
@@ -31,9 +42,6 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
-        
-
-
     }
     public function create(){
 
