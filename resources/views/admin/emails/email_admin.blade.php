@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html dir="rtl">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -334,7 +334,7 @@
   </head>
   <body>
     <!-- <span class="preheader">This is preheader text. Some clients will show this text as a preview.</span> -->
-    <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body" dir="rtl" style="direction:rtl">
       <tr>
         <td>&nbsp;</td>
         <td class="container">
@@ -349,8 +349,13 @@
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>سلام سيد {{$Name}}</p>
+
+                       
                         <p>{{$header}}</p>
+                        <p> اسم الحساب : {{$Name}}</p>
+                        <p> البريد الالكتروني : {{$Email}}</p>
+                        <p> نوع الحساب : {{$typeUser}}</p>
+                        <p>يمكنك تسجيل الدخول و تأكيد الحساب</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>
@@ -358,7 +363,7 @@
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a href="https://creche.g-clinique.com" target="_blank">تسجيل الدخول</a> </td>
+                                      <td> <a href="https://admin-creche.g-clinique.com" target="_blank">تسجيل الدخول</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -366,7 +371,6 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p>{{$Footer}}</p>
                       </td>
                     </tr>
                   </table>

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Ramsey\Uuid\Uuid;
 use App\Events\RegisterEvent;
+use Illuminate\Support\Facades\Mail;
+
 class RegisterController extends Controller
 {
     public function UserRegister(Request $request)
@@ -47,6 +49,8 @@ class RegisterController extends Controller
             'link' => 'admin.users.show',
             'is_viewed' => 0,
         ]);
+        $this->sendMailUser($user->name,$user->email,$user->type);
+        $this->sendMailAdmin($user->name,$user->email,$user->type);
         return $this->sendResponse($success, 'User register successfully.');
     }
     public function VendeurRegister(Request $request)
@@ -85,6 +89,8 @@ class RegisterController extends Controller
             'link' => 'admin.vendeurs.show',
             'is_viewed' => 0,
         ]);
+        $this->sendMailUser($user->name,$user->email,$user->type);
+        $this->sendMailAdmin($user->name,$user->email,$user->type);
         return $this->sendResponse($success, 'User register successfully.');
     }
 
@@ -126,7 +132,8 @@ class RegisterController extends Controller
             'is_viewed' => 0,
         ]);
         event(new RegisterEvent($notification->uuid_model,$notification->link,$notification->model,$notification->created_at));
-
+        $this->sendMailUser($user->name,$user->email,$user->type);
+        $this->sendMailAdmin($user->name,$user->email,$user->type);
         return $this->sendResponse($success, 'User register successfully.');
     }
 
@@ -155,5 +162,31 @@ class RegisterController extends Controller
 
 
         return response()->json($response, $code);
+    }
+
+    function sendMailAdmin($client_name,$client_email,$type_user){
+        $to_email = 'louanes.mokhfi@gmail.com';
+        $data = array('name'=>$client_name, "header" => "لديك حساب جديد في منصة روضتي : ",
+        "Email" =>$client_email,
+        "Name" => $client_name,
+        "typeUser" => $type_user,
+        );
+        Mail::send('admin.emails.email_admin', $data, function($message) use ($client_name, $to_email) {
+        $message->to($to_email, $client_name)
+        ->subject('حساب جديد');
+        $message->from('louanes.mokhfi@gmail.com','RawdatiDZ');
+        });
+        
+    }
+
+    function sendMailUser($client_name,$client_email,$type_user){
+        $to_email = 'louanes.mokhfi@gmail.com';
+        $data = array('name'=>$client_name, "header" => "لقد قمت بالتسجيل في منصة روضتي ديزاد, ستتلقى رسالة عندما يتم تأكيد حسابك.  : ",);
+        Mail::send('admin.emails.email_user', $data, function($message) use ($client_name, $client_email) {
+        $message->to($client_email, $client_name)
+        ->subject(' التسجيل في روضتي');
+        $message->from('louanes.mokhfi@gmail.com','RawdatiDZ');
+        });
+        
     }
 }

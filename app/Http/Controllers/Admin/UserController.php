@@ -24,6 +24,7 @@ class UserController extends Controller
             }
             $user->is_active = 1;
             $user->save();
+            
             $this->sendMail($user->name,$user->email,$user->type);
 
             return redirect()->back()->with('success','تم تأكيد عضوية الحساب بنحاح');

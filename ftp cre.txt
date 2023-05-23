@@ -1,0 +1,4 @@
+user : crecheadmin@admin-creche.g-clinique.com
+pass : crecheadmin1234
+
+host : ftp.g-clinique.com
