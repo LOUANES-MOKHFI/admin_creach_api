@@ -57,6 +57,9 @@
                                         <td>{{$user->typeUser->name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>
+                                        <a href="{{route('admin.users.confirmeAccount',$user->uuid)}}"class="btn btn-success waves-effect waves-light">
+                                            <i class="fa fa-check"></i> تأكيد الحساب
+                                        </a>
                                         <a href="{{route('admin.users.show',$user->uuid)}}"class="btn btn-info waves-effect waves-light" title="تعديل">
                                             <i class="fa fa-eye"></i>
                                         </a>

@@ -221,6 +221,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('edit/{id}',[UserController::class,'edit'])->name('admin.users.edit');
         Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.users.delete');
         Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.users.changeStatus');
+        Route::get('confirmeAccount/{uuid}',[UserController::class,'confirmeAccount'])->name('admin.users.confirmeAccount');
+        
     });
     ///vendeurs routes
     Route::group(['prefix' => 'vendeurs'],function(){

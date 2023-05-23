@@ -18,16 +18,16 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        /* \App\Models\Admin::create([
+         \App\Models\Admin::create([
             'name' => 'louanes mokhfi',
             'email' => 'louanes.mokhfi@gmail.com',
             'password' => bcrypt(123456789)
-        ]); */
-        /* \App\Models\User::create([
+        ]); 
+         /* \App\Models\User::create([
             'name' => 'Creche test',
             'email' => 'creche@gmail.com',
             'password' => bcrypt(123456789)
-        ]); */
+        ]);  */
 
         \App\Models\About::create([
             'site_name' => 'Rawdati',
