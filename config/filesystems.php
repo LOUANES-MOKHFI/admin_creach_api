@@ -49,6 +49,12 @@ return [
             'url'    => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
+        'logo' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/logo',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
         'realisations' => [
             'driver' => 'local',
             'root'   => public_path().'/files/realisations',

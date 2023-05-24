@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
 @section('title')
-قائمة الزوار المسجلين
+قائمة المستخدمين المسجلين
 @endsection
 @section('style')
     <link href="{{ asset('admin/assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
@@ -17,7 +17,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة الزوار المسجلين</span>
+                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة المستخدمين المسجلين</span>
             </div>
         </div>
 

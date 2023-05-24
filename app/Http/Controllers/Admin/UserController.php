@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\TypesUsers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Hash;
@@ -27,6 +28,47 @@ class UserController extends Controller
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
+    public function edit($uuid){
+        try {
+            $data['user'] = User::where('type','user')->where('uuid',$uuid)->first();
+            if(!$data['user']){
+                return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $data['types'] = TypesUsers::all();
+
+            return view('admin.users.edit',$data);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
+    public function update(Request $request,$uuid){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'wilaya_id' => 'required',
+            'type_user' => 'required',
+        ]);
+        try {
+            $user = User::where('type','user')->where('uuid',$uuid)->first();
+            if(!$user){
+                return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->wilaya_id = $request->wilaya_id;
+            $user->pays_id = $request->pays_id;
+            $user->commune_id = $request->commune_id;
+            $user->type_user = $request->type_user;
+            $user->save();
+            return redirect()->route('admin.users')->with('success','تمت عملية التحديث بنجاح');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
+
+    
     public function confirmeAccount($uuid){
         try {
             $user = User::where('type','user')->where('uuid',$uuid)->first();
@@ -63,39 +105,6 @@ class UserController extends Controller
 
         if($user->save()){
             return redirect()->route('admin.users')->with(['success' => 'L\'utilisateur est ajoutée avec succées']);
-        }
-        else{
-            return redirect()->route('admin.users')->with(['error' => 's\'il vous plait, verifier vos informations']);
-        }
-    }
-
-    public function edit($id){
-        
-        $user = Admin::where('id',$id)->first();
-        if(!$user){
-            return redirect()->route('admin.users')->with(['error' => "L'utilisateur  n'existe pas"]);
-
-        }
-        return view('admin.users.edit',compact('user'));
-    }
-
-    public function update(Request $request,$id){
-        $request->validate([
-            'email' => 'required|email',
-            'name' => 'required',
-            'password' => 'required',
-        ]);
-        $user = Admin::where('id',$id)->first();
-        if(!$user){
-            return redirect()->route('admin.users')->with(['error' => "L'utilisateur  n'existe pas"]);
-        }
-        
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-       
-        if($user->save()){
-            return redirect()->route('admin.users')->with(['success' => 'L\'utilisateur est modifiée avec succées']);
         }
         else{
             return redirect()->route('admin.users')->with(['error' => 's\'il vous plait, verifier vos informations']);

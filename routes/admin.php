@@ -35,16 +35,16 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
     //Logout
     Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
     ///Admin routes
-    Route::group(['prefix' => 'users'],function(){
+    /* Route::group(['prefix' => 'users'],function(){
         Route::get('/',[UserController::class,'index'])->name('admin.users');
         Route::get('create',[UserController::class,'create'])->name('admin.users.create');
         Route::post('store',[UserController::class,'store'])->name('admin.users.store');
         Route::get('edit/{id}',[UserController::class,'edit'])->name('admin.users.edit');
-        Route::post('update/{id}',[UserController::class,'update'])->name('admin.users.update');
+       
         Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.users.delete');
         Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.users.changeStatus');
        // Route::get('changeStatusExit/{uuid}',[UserController::class,'changeStatusExit'])->name('admin.users.changeStatusExit');
-    });
+    }); */
 
     ////Settings Routes
     Route::group(['prefix' => 'settings'],function(){
@@ -219,6 +219,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::post('store',[UserController::class,'store'])->name('admin.users.store');
         Route::get('show/{id}',[UserController::class,'show'])->name('admin.users.show');
         Route::get('edit/{id}',[UserController::class,'edit'])->name('admin.users.edit');
+        Route::post('update/{id}',[UserController::class,'update'])->name('admin.users.update');
         Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.users.delete');
         Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.users.changeStatus');
         Route::get('confirmeAccount/{uuid}',[UserController::class,'confirmeAccount'])->name('admin.users.confirmeAccount');
@@ -230,6 +231,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::post('store',[VendeurController::class,'store'])->name('admin.vendeurs.store');
         Route::get('show/{id}',[VendeurController::class,'show'])->name('admin.vendeurs.show');
         Route::get('edit/{id}',[VendeurController::class,'edit'])->name('admin.vendeurs.edit');
+        Route::post('update/{id}',[VendeurController::class,'update'])->name('admin.vendeurs.update');
         Route::get('delete/{id}',[VendeurController::class,'destroy'])->name('admin.vendeurs.delete');
         Route::get('changeStatus/{uuid}',[VendeurController::class,'changeStatus'])->name('admin.vendeurs.changeStatus');
         Route::get('confirmeAccount/{uuid}',[VendeurController::class,'confirmeAccount'])->name('admin.vendeurs.confirmeAccount');
@@ -239,6 +241,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('/',[CrecheController::class,'index'])->name('admin.creches');
         Route::post('store',[CrecheController::class,'store'])->name('admin.creches.store');
         Route::get('edit/{id}',[CrecheController::class,'edit'])->name('admin.creches.edit');
+         Route::post('update/{id}',[CrecheController::class,'update'])->name('admin.creches.update');
         Route::get('show/{id}',[CrecheController::class,'show'])->name('admin.creches.show');
         Route::get('delete/{id}',[CrecheController::class,'destroy'])->name('admin.creches.delete');
         Route::get('changeStatus/{uuid}',[CrecheController::class,'changeStatus'])->name('admin.creches.changeStatus');

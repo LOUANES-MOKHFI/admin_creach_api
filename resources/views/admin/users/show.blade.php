@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <h5>نوع الحساب : <span class="badge badge-danger">حساب روضة</span> </h5>
+                                <h5>نوع الحساب : <span class="badge badge-danger">حساب مستخدم</span> </h5>
                             </div>
                         </div>
                         <div class="col-md-4">

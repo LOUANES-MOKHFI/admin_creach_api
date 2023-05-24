@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProgrammesCreche;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -21,6 +22,58 @@ class CrecheController extends Controller
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
             }
             return view('admin.creches.show',$data);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
+
+    public function edit($uuid){
+        try {
+            $data['creche'] = User::where('type','creche')->where('uuid',$uuid)->first();
+            if(!$data['creche']){
+                return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $data['programmes'] = ProgrammesCreche::all();
+            return view('admin.creches.edit',$data);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
+
+    public function update(Request $request,$uuid){
+        $request->validate([
+            'name' => 'required',
+            'type_creche' => 'required',
+            'creche_name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'wilaya_id' => 'required',
+            'commune_id' => 'required',
+            'programme_id' => 'required',
+            //'image_rc' => 'required',
+        ]);
+        try {
+            $creche = User::where('type','creche')->where('uuid',$uuid)->first();
+            if(!$creche){
+                return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $creche->name = $request->name;
+            $creche->type_creche = $request->type_creche;
+            $creche->creche_name = $request->creche_name;
+            $creche->email = $request->email;
+            $creche->phone = $request->phone;
+            $creche->wilaya_id = $request->wilaya_id;
+            $creche->commune_id = $request->commune_id;
+            $creche->programme_id = $request->programme_id;
+            if($request->has('logo')){
+                $filename = '';
+                $file = $request->file('logo');
+                $filename = UploadFile('logo',$file);
+               // $creche->logo = $filename;
+                //$book->save();
+            }
+            $creche->save();
+            return redirect()->route('admin.creches')->with('success','تمت عملية التحديث بنجاح');
         } catch (\Throwable $th) {
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }

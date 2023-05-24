@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DomaineVendeur;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -26,6 +27,51 @@ class VendeurController extends Controller
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
+    public function edit($uuid){
+        try {
+            $data['vendeur'] = User::where('type','vendeur')->where('uuid',$uuid)->first();
+            if(!$data['vendeur']){
+                return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $data['domaines'] = DomaineVendeur::all();
+            return view('admin.vendeurs.edit',$data);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
+
+    public function update(Request $request,$uuid){
+        $request->validate([
+            'name' => 'required',
+            'domaine_vendeur' => 'required',
+            'store_name' => 'required',
+            'livraison' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'wilaya_id' => 'required',
+            'commune_id' => 'required',
+        ]);
+        try {
+            $vendeur = User::where('type','vendeur')->where('uuid',$uuid)->first();
+            if(!$vendeur){
+                return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $vendeur->name = $request->name;
+            $vendeur->store_name = $request->store_name;
+            $vendeur->email = $request->email;
+            $vendeur->phone = $request->phone;
+            $vendeur->wilaya_id = $request->wilaya_id;
+            $vendeur->commune_id = $request->commune_id;
+            $vendeur->domaine_vendeur = $request->domaine_vendeur;
+            $vendeur->livraison = $request->livraison;
+            $vendeur->save();
+            return redirect()->route('admin.vendeurs')->with('success','تمت عملية التحديث بنجاح');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
+
+
     public function confirmeAccount($uuid){
         try {
             $user = User::where('type','vendeur')->where('uuid',$uuid)->first();
