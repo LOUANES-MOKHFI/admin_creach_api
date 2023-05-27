@@ -11,6 +11,9 @@ class Emploi extends Model
     protected $table = 'emplois';
     protected $guarded = [];
 
+    public function offres(){
+        return $this->hasMany(OffreEmploi::class);
+    }
     public function admin(){
         return $this->belongsTo(Admin::class,'admin_id');
     }

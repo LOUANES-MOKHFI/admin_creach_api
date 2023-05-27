@@ -65,6 +65,12 @@ class User extends Authenticatable
     public function domaine(){
         return $this->belongsTo(DomaineVendeur::class,'domaine_vendeur');
     }
+    public function wilaya(){
+        return $this->belongsTo(Wilaya::class,'wilaya_id');
+    }
+    public function commune(){
+        return $this->belongsTo(Commune::class,'commune_id');
+    }
     public function typeUser(){
         return $this->belongsTo(TypesUsers::class,'type_user');
     }

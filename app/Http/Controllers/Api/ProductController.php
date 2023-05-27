@@ -119,7 +119,7 @@ class ProductController extends Controller
                 }
             }
             $status = 200;
-            $message = "تمت اضافة المنتج بنجاح بنجاح";
+            $message = "تم تعديل المنتج بنجاح بنجاح";
 
             return $this->sendResponse($status, $message);
      } catch (\Throwable $th) {

@@ -85,6 +85,12 @@ return [
             'url'    => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
+        'blogs' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/blogs',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
         
         's3' => [
             'driver' => 's3',

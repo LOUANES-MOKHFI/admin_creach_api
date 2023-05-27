@@ -59,12 +59,12 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> الولاية : <span class="text-danger">{{$user->wilaya_id}}</span></h5>
+                                <h5> الولاية : <span class="text-danger">{{$user->wilaya->name}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> البلدية : <span class="text-danger">{{$user->commune_id}}</span></h5>
+                                <h5> البلدية : <span class="text-danger">{{$user->commune->name}}</span></h5>
                             </div>
                         </div>
                         <div class="form-actions">

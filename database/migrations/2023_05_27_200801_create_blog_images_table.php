@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('communes', function (Blueprint $table) {
+        Schema::create('blog_images', function (Blueprint $table) {
             $table->id();
-            $table->string('code_postal');
-            $table->string('name_fr');
-            $table->string('name');
-            $table->unsignedBigInteger('wilaya_id');
-            $table->string('longitude');
-            $table->string('latitude');
-
+            $table->unsignedBigInteger('blog_id');
+            $table->string('image');
+            $table->foreign('blog_id')->references('id')->on('blogs');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('communes');
+        Schema::dropIfExists('blog_images');
     }
 };

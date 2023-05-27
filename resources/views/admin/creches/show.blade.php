@@ -80,12 +80,12 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> الولاية : <span class="text-danger">{{$creche->wilaya_id}}</span></h5>
+                                <h5> الولاية : <span class="text-danger">{{$creche->wilaya->name}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> البلدية : <span class="text-danger">{{$creche->commune_id}}</span></h5>
+                                <h5> البلدية : <span class="text-danger">{{$creche->commune->name}}</span></h5>
                             </div>
                         </div>
                     </div>

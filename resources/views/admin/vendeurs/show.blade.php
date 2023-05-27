@@ -195,12 +195,12 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> الولاية : <span class="text-danger">{{$vendeur->wilaya_id}}</span></h5>
+                                <h5> الولاية : <span class="text-danger">{{$vendeur->wilaya->name}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> البلدية : <span class="text-danger">{{$vendeur->commune_id}}</span></h5>
+                                <h5> البلدية : <span class="text-danger">{{$vendeur->commune->name}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
