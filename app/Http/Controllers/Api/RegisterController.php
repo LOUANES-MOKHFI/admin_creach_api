@@ -46,7 +46,7 @@ class RegisterController extends Controller
             'uuid' => (string) Uuid::uuid4(),
             'uuid_model'=> $user->uuid,
             'model' => '\App\Models\User',
-            'link' => 'admin.users.show',
+            'link' => '/admin/users/show/'.$user->uuid,
             'is_viewed' => 0,
         ]);
         $this->sendMailUser($user->name,$user->email,$user->type);
@@ -81,12 +81,18 @@ class RegisterController extends Controller
         $success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         $success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
+        /* if($request->has('logo')){
+            $filename = '';
+            $file = $request->file('logo');
+            $filename = UploadFile('logo',$file);
+           // $creche->logo = $filename;
+        } */
         $user->save();
         $notification = Notification::create([
             'uuid' => (string) Uuid::uuid4(),
             'uuid_model'=> $user->uuid,
             'model' => '\App\Models\User',
-            'link' => 'admin.vendeurs.show',
+            'link' => '/admin/vendeurs/show/'.$user->uuid,
             'is_viewed' => 0,
         ]);
         $this->sendMailUser($user->name,$user->email,$user->type);
@@ -123,6 +129,18 @@ class RegisterController extends Controller
         $success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         $success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
+        /* if($request->has('logo')){
+            $filename = '';
+            $file = $request->file('logo');
+            $filename = UploadFile('logo',$file);
+           // $creche->logo = $filename;
+        }
+        if($request->has('image_rc')){
+            $filename = '';
+            $file = $request->file('image_rc');
+            $filename = UploadFile('image_rc',$file);
+           // $creche->logo = $filename;
+        } */
         $user->save();
         $notification = Notification::create([
             'uuid' => (string) Uuid::uuid4(),

@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->integer('role_id')->default(1);
+            $table->string('uuid');
             $table->string('name');
-            $table->string('email');
-            $table->string('password');
+            $table->string('slug');
+            $table->decimal('price',10,2);
+            $table->decimal('gros_price',10,2)->nullable();
+            $table->text('description');
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('products');
     }
 };

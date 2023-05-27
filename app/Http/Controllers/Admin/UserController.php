@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Notification;
 use App\Models\TypesUsers;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,6 +23,11 @@ class UserController extends Controller
             $data['user'] = User::where('type','user')->where('uuid',$uuid)->first();
             if(!$data['user']){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $notification = Notification::where('uuid_model',$data['user']->uuid)->first();
+            if($notification){
+                $notification->is_viewed = 1;
+                $notification->save();
             }
             return view('admin.users.show',$data);
         } catch (\Throwable $th) {

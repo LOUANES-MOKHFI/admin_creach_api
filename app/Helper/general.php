@@ -25,3 +25,7 @@ function getNotificationType($model){
         return "<span class='text-danger'>مدونة جديدة</span>";
     }
 }
+
+function Account($uuid){
+    return \App\Models\User::where('uuid',$uuid)->first();
+}

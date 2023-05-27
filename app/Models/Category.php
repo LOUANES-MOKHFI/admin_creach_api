@@ -18,4 +18,8 @@ class Category extends Model
     public function faqs(){
         return $this->hasMany(Faq::class)->where('type','faq');
     }
+
+    public function products(){
+        return $this->belongsToMany(Product::class,'category_products');
+    }
 }

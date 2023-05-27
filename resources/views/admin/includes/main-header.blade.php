@@ -64,10 +64,21 @@
 							@foreach(Notifications() as $key => $notification)
 							<a href="{{$notification->link}}" class="p-3 d-flex border-bottom">
 								<div class="wd-90p">
+									@if($notification->model == "\App\Models\User")
 									<div class="d-flex">
-										<h5 class="mb-1 name">name</h5>
+										<h6 class="mb-1 name">
+											@if(Account($notification->uuid_model)->type =="user")
+												<span class="badge badge-danger">مستخدم</span>
+											@elseif(Account($notification->uuid_model)->type == "creche")
+												<span class="badge badge-success">روضة</span>
+											@elseif(Account($notification->uuid_model)->type == "vendeur")
+												<span class="badge badge-info">متجر</span>
+											@endif
+										</h6>
+										<h5 class="mb-1 name">{{Account($notification->uuid_model)->name}}</h5>
 									</div>
-									<p class="mb-0 desc">email</p>
+									<p class="mb-0 desc">{{Account($notification->uuid_model)->email}}</p>
+									@endif
 									<p class="time mb-0 text-left float-right mr-2 mt-2">{{$notification->created_at}}</p>
 								</div>
 							</a>

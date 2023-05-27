@@ -55,6 +55,12 @@ return [
             'url'    => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
+        'image_rc' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/image_rc',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
         'realisations' => [
             'driver' => 'local',
             'root'   => public_path().'/files/realisations',
@@ -70,6 +76,12 @@ return [
         'books_creche' => [
             'driver' => 'local',
             'root'   => public_path().'/files/books_creche',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
+        'products' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/products',
             'url'    => env('APP_URL').'/public',
             'visibility' => 'public',
         ],

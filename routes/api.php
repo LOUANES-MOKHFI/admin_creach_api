@@ -1,35 +1,11 @@
 <?php
 
-/* use App\Http\Controllers\Api\Admin\AdminLoginController;
-use App\Http\Controllers\Api\Admin\AboutController;
-use Illuminate\Support\Facades\Route;
-
-
-Route::post('login',[AdminLoginController::class,'login']);
-
-Route::group(['middleware' => 'auth:sanctum'],function(){
-    Route::get('admin',[AdminLoginController::class,'AdminDetails']);
-    Route::get('logout',[AdminLoginController::class,'logout']);
-
-    /////Settings
-    Route::group(['prefix' => 'settings'],function(){
-
-        ////About
-        Route::group(['prefix' => 'about'],function(){
-            Route::get('edit',[AboutController::class,'edit']);
-            Route::post('update',[AboutController::class,'update']);
-        });
-
-
-
-    });
-});
- */
-
- 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\UserLoginController;
 use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\ProfilController;
+
+use App\Http\Controllers\Api\ProductController;
 
 use App\Http\Controllers\Api\ContactController;
 
@@ -40,12 +16,32 @@ Route::post('creche/register',[RegisterController::class,'CrecheRegister'])->nam
 Route::post('login',[UserLoginController::class,'login']);
 
 
-Route::group(['prefix' => 'contact'],function(){
-    Route::post('store',[ContactController::class,'store'])->name('contact.store');
-});
 
 Route::group(['middleware' => 'auth:sanctum'],function(){
-    Route::get('profile',[UserLoginController::class,'UserDetails']);
+    Route::get('profile',[ProfilController::class,'Profile']);
+    Route::post('changePassword',[ProfilController::class,'ChangePassword']);
+    Route::post('changeInformation',[ProfilController::class,'ChangeInformation']);
+    Route::post('changeInformationVendor',[ProfilController::class,'ChangeInformationVendor']);
+    Route::post('changeInformationCreche',[ProfilController::class,'ChangeInformationCreche']);
     Route::get('logout',[UserLoginController::class,'logout']);
+
+    
+    //blogs route api
+    Route::group(['prefix' => 'blogs'],function(){
+        Route::get('/',[ContactController::class,'getAllBlogs'])->name('blogs');
+        Route::post('/add_blog',[ContactController::class,'addBlogs'])->name('blogs.add');
+    });
+
+    //products route api
+    Route::group(['prefix' => 'products'],function(){
+        Route::get('/',[ProductController::class,'GetAllProducts'])->name('products');
+        Route::post('/add-product',[ProductController::class,'AddProduct'])->name('products.add');
+        Route::post('/update-product/{uuid}',[ProductController::class,'UpdateProduct'])->name('products.update');
+        Route::post('/show-product/{uuid}',[ProductController::class,'ShowProduct'])->name('products.show');
+    });
+});
+
+Route::group(['prefix' => 'contact'],function(){
+    Route::post('store',[ContactController::class,'store'])->name('contact.store');
 });
 

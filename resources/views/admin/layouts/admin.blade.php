@@ -43,7 +43,12 @@
     <link href="{{ asset('admin/assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
 
 
-  
+	<style>
+		.badge {
+			padding: 0.25em 0.4em !important;
+			font-size: 75% !important;
+		}
+	</style>
     @yield('style')
 
 

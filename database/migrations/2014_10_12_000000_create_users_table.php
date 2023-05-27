@@ -36,6 +36,7 @@ return new class extends Migration
             $table->integer('commune_id')->nullable();
             $table->string('is_active')->default(0);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

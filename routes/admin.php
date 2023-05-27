@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\CrecheController;
 use App\Http\Controllers\Admin\VendeurController;
+use App\Http\Controllers\Admin\ProductController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -235,6 +236,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('delete/{id}',[VendeurController::class,'destroy'])->name('admin.vendeurs.delete');
         Route::get('changeStatus/{uuid}',[VendeurController::class,'changeStatus'])->name('admin.vendeurs.changeStatus');
         Route::get('confirmeAccount/{uuid}',[VendeurController::class,'confirmeAccount'])->name('admin.vendeurs.confirmeAccount');
+        Route::get('{uuid}/products',[VendeurController::class,'ProductForVendor'])->name('admin.vendeurs.products');
     });
     ///creches routes
     Route::group(['prefix' => 'creches'],function(){
@@ -254,6 +256,13 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('show/{id}',[NotificationController::class,'show'])->name('admin.notifications.show');
         Route::get('delete/{id}',[NotificationController::class,'destroy'])->name('admin.notifications.delete');
         Route::get('changeStatus/{uuid}',[NotificationController::class,'changeStatus'])->name('admin.notifications.changeStatus');
+    });
+
+    ///products routes
+    Route::group(['prefix' => 'products'],function(){
+        Route::get('/',[ProductController::class,'index'])->name('admin.products');
+        Route::get('show/{id}',[ProductController::class,'show'])->name('admin.products.show');
+        Route::get('changeStatus/{uuid}',[ProductController::class,'changeStatus'])->name('admin.products.changeStatus');
     });
 
 });

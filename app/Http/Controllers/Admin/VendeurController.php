@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DomaineVendeur;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -16,11 +17,17 @@ class VendeurController extends Controller
         return view('admin.vendeurs.index',$data);
     }
 
+
     public function show($uuid){
         try {
             $data['vendeur'] = User::where('type','vendeur')->where('uuid',$uuid)->first();
             if(!$data['vendeur']){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $notification = Notification::where('uuid_model',$data['vendeur']->uuid)->first();
+            if($notification){
+                $notification->is_viewed = 1;
+                $notification->save();
             }
             return view('admin.vendeurs.show',$data);
         } catch (\Throwable $th) {
@@ -88,6 +95,7 @@ class VendeurController extends Controller
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
+
 
     function sendMail($client_name,$client_email,$type_user){
         //$to_email = 'louanes.mokhfi@gmail.com';

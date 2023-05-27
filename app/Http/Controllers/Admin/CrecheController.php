@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\ProgrammesCreche;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ class CrecheController extends Controller
             $data['creche'] = User::where('type','creche')->where('uuid',$uuid)->first();
             if(!$data['creche']){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $notification = Notification::where('uuid_model',$data['creche']->uuid)->first();
+            if($notification){
+                $notification->is_viewed = 1;
+                $notification->save();
             }
             return view('admin.creches.show',$data);
         } catch (\Throwable $th) {
