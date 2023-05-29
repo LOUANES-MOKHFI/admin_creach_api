@@ -22,4 +22,8 @@ class Blog extends Model
     public function comments(){
         return $this->hasMany(BlogComment::class);
     }
+
+    public function heart_users(){
+        return $this->belongsToMany(User::class,'heart_users');
+    }
 }

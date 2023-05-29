@@ -5,20 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BlogComment extends Model
+class HeartUser extends Model
 {
     use HasFactory;
-
-    protected $table = 'blog_comments';
+    protected $table = 'heart_users';
     protected $guarded = [];
+
     public function blog(){
         return $this->belongsTo(Blog::class,'blog_id');
     }
-    public function user(){
-        return $this->belongsTo(User::class,'user_id');
-    }
 
-    public function reponses(){
-        return $this->hasMany(self::class,'parent_id');
-    }
 }

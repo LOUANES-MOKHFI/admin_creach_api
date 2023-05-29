@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\CrecheController;
 use App\Http\Controllers\Admin\VendeurController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\BlogController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -263,6 +264,15 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('/',[ProductController::class,'index'])->name('admin.products');
         Route::get('show/{id}',[ProductController::class,'show'])->name('admin.products.show');
         Route::get('changeStatus/{uuid}',[ProductController::class,'changeStatus'])->name('admin.products.changeStatus');
+    });
+
+    ///blogs routes
+    Route::group(['prefix' => 'blogs'],function(){
+        Route::get('/',[BlogController::class,'index'])->name('admin.blogs');
+        Route::get('show/{uuid}',[BlogController::class,'show'])->name('admin.blogs.show');
+        Route::get('changeStatus/{uuid}',[BlogController::class,'changeStatus'])->name('admin.blogs.changeStatus');
+        Route::get('deleteComment/{id}',[BlogController::class,'deleteComment'])->name('admin.blogs.deleteComment');
+
     });
 
 });

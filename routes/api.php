@@ -60,6 +60,8 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
         Route::post('/add-blog',[BlogController::class,'AddBlog'])->name('blogs.add');
         Route::post('/update-blog/{uuid}',[BlogController::class,'UpdateBlog'])->name('blogs.update');
         Route::get('/show-blog/{uuid}',[BlogController::class,'ShowBlog'])->name('blogs.show');
+        Route::post('/add-heart',[BlogController::class,'AddHeartToBlog'])->name('blogs.addHeart');
+        
     });
 
     //Comment route api

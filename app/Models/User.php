@@ -77,4 +77,8 @@ class User extends Authenticatable
     public function products(){
         return $this->hasMany(Product::class,'vendor_id');
     }
+
+    public function blogs(){
+        return $this->belongsToMany(Blog::class,'heart_users');
+    }
 }

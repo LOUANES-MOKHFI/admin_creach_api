@@ -40,6 +40,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card mg-b-20">
+                <div class="card-body">
                     <h4 class="form-section text-danger"><i class="ft-home"></i>معلومات المنتج</h4>
                     <div class="row">
                         <div class="col-md-4">
@@ -70,8 +74,6 @@
                             </div>
                         </div>
                     </div>
-                   
-                    
                     
                     <div class="row">
                         <div class="col-md-12">
