@@ -70,6 +70,13 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
         Route::post('/add-comment',[CommentController::class,'AddComment'])->name('comments.add');
         Route::post('/update-comment/{uuid}',[CommentController::class,'UpdateComment'])->name('comments.update');
     });
+
+    //Orders Product route api
+    Route::group(['prefix' => 'orders'],function(){
+        Route::get('/',[CommentController::class,'GetAllMyOrders'])->name('orders');
+        Route::post('/add-order',[CommentController::class,'AddOrder'])->name('orders.add');
+        //Route::post('/update-comment/{uuid}',[CommentController::class,'UpdateOrder'])->name('orders.update');
+    });
 });
 
 Route::group(['prefix' => 'contact'],function(){

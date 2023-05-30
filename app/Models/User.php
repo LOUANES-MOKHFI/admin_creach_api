@@ -81,4 +81,8 @@ class User extends Authenticatable
     public function blogs(){
         return $this->belongsToMany(Blog::class,'heart_users');
     }
+
+    public function orders(){
+        return $this->hasMany(Order::class,'user_id');
+    }
 }
