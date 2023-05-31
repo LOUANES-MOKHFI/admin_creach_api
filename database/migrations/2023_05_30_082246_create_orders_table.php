@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('vendor_id');
             $table->integer('qty')->default(0);
             $table->string('name');
             $table->string('phone');
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->text('note')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('vendor_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

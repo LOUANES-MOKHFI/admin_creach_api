@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\ProfilController;
 
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\OrderController;
 
 
 use App\Http\Controllers\Api\OffreController;
@@ -44,6 +45,7 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
         Route::post('/update-offre/{uuid}',[OffreController::class,'UpdateOffre'])->name('offres_emplois.update');
         Route::get('/show-offre/{uuid}',[OffreController::class,'ShowOffre'])->name('offres_emplois.show');
         Route::get('/stop-offre/{uuid}',[OffreController::class,'StopOffre'])->name('offres_emplois.stop_offre');
+        Route::get('/show-all-offres',[OffreController::class,'ShowAllOffres'])->name('offres_emplois.show_all_offres');
         
     });
 
@@ -73,13 +75,25 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
 
     //Orders Product route api
     Route::group(['prefix' => 'orders'],function(){
-        Route::get('/',[CommentController::class,'GetAllMyOrders'])->name('orders');
-        Route::post('/add-order',[CommentController::class,'AddOrder'])->name('orders.add');
-        //Route::post('/update-comment/{uuid}',[CommentController::class,'UpdateOrder'])->name('orders.update');
+        Route::get('/',[OrderController::class,'GetAllMyOrders'])->name('orders');
+        Route::post('/add-order',[OrderController::class,'AddOrder'])->name('orders.add');
+        //Route::post('/update-comment/{uuid}',[OrderController::class,'UpdateOrder'])->name('orders.update');
     });
+
+    //my_orders Product route api
+    Route::group(['prefix' => 'my_orders'],function(){
+        Route::get('/',[OrderController::class,'GetAllMyStoreOrders'])->name('my_orders');
+        Route::get('/show/{id}',[OrderController::class,'ShowStoreOrders'])->name('my_orders.show');
+    });
+
 });
 
 Route::group(['prefix' => 'contact'],function(){
     Route::post('store',[ContactController::class,'store'])->name('contact.store');
+});
+
+Route::group(['prefix' => 'offres_emplois'],function(){
+    Route::get('/show-all-offres',[OffreController::class,'ShowAllOffres'])->name('offres_emplois.show_all_offres');
+    
 });
 

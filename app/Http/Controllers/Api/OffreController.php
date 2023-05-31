@@ -127,7 +127,14 @@ class OffreController extends Controller
     }
 
 
-
+    public function ShowAllOffres(){
+        $offres = OffreEmploi::where('is_active',1)->with('creche')->with('emploi')->get();
+        if($offres->count() <1){
+            $message = "قائمة عروض العمل فارغة";
+            return $this->sendError($message);
+        }
+        return Response(['data' => $offres],200);
+    }
     public function sendError($error, $errorMessages = [], $code = 404)
     {
     	$response = [
