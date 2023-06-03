@@ -12,7 +12,7 @@ class NiveauBook extends Model
     protected $guarded = [];
 
     public function books(){
-        return $this->hasMany(BookCreche::class);
+        return $this->hasMany(BookCreche::class,'niveau_id');
     }
 
 }

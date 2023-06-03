@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Controllers\Api\OffreController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -80,6 +81,12 @@ class User extends Authenticatable
 
     public function blogs(){
         return $this->belongsToMany(Blog::class,'heart_users');
+    }
+    public function offres(){
+        return $this->hasMany(OffreController::class);
+    }
+    public function blogs_creche(){
+        return $this->hasMany(Blog::class);
     }
 
     public function orders(){

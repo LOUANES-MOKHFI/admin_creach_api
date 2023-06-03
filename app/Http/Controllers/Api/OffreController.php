@@ -74,7 +74,7 @@ class OffreController extends Controller
             
             
             $status = 200;
-            $message = "تمت اضافة عرض العمل بنجاح بنجاح";
+            $message = "تمت اضافة عرض العمل بنجاح";
 
             return $this->sendResponse($status, $message);
      } catch (\Throwable $th) {
@@ -116,7 +116,7 @@ class OffreController extends Controller
             
             
             $status = 200;
-            $message = "تم تعديل عرض العمل بنجاح بنجاح";
+            $message = "تم تعديل عرض العمل بنجاح";
 
             return $this->sendResponse($status, $message);
      } catch (\Throwable $th) {
@@ -135,6 +135,18 @@ class OffreController extends Controller
         }
         return Response(['data' => $offres],200);
     }
+    public function ShowOffreToUser(Request $request,$uuid){
+        $offre = OffreEmploi::where('uuid',$uuid)->with('emploi')->first();
+        if(!$offre){
+            $message = "هذا العرض غير موجود ";
+            return $this->sendError($message);
+        }
+        return Response(['data' => $offre],200);
+    }
+
+    
+
+    
     public function sendError($error, $errorMessages = [], $code = 404)
     {
     	$response = [
