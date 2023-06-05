@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\CrecheController;
 use App\Http\Controllers\Admin\VendeurController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\ContributionBlogController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -272,6 +273,15 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('show/{uuid}',[BlogController::class,'show'])->name('admin.blogs.show');
         Route::get('changeStatus/{uuid}',[BlogController::class,'changeStatus'])->name('admin.blogs.changeStatus');
         Route::get('deleteComment/{id}',[BlogController::class,'deleteComment'])->name('admin.blogs.deleteComment');
+
+    });
+
+    ///blogs routes
+    Route::group(['prefix' => 'contributions'],function(){
+        Route::get('/',[ContributionBlogController::class,'index'])->name('admin.contributions');
+        Route::get('show/{uuid}',[ContributionBlogController::class,'show'])->name('admin.contributions.show');
+        Route::get('changeStatus/{uuid}',[ContributionBlogController::class,'ChangeStatus'])->name('admin.contributions.changeStatus');
+        Route::get('deleteComment/{id}',[ContributionBlogController::class,'deleteComment'])->name('admin.contributions.deleteComment');
 
     });
 

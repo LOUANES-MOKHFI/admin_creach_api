@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('creche_id');
+            
             $table->string('uuid');
             $table->string('title');
             $table->string('slug');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->integer('nbr_heart')->default(0);
             $table->integer('nbr_view')->default(0);
             $table->foreign('creche_id')->references('id')->on('users');
+            
             $table->softDeletes();
             $table->timestamps();
         });

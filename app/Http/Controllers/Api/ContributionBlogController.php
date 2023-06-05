@@ -3,30 +3,34 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\BlogImages;
 use App\Models\HeartUser;
-use Illuminate\Http\Request;
 use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
-class BlogController extends Controller
+
+class ContributionBlogController extends Controller
 {
-    public function GetAllBlogs(Request $request){
+    
+
+    
+    public function GetAllContributions(Request $request){
         $user = $request->user();
-        $blogs = Blog::where('creche_id',$user->id)->where('type','blog')->get();
+        $blogs = Blog::where('user_id',$user->id)->where('type','contribution')->get();
         if($blogs->count() < 1){
-            $message = "قائمة مقالات فارغة";
+            $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);
         }
         return Response(['data' => $blogs],200);
     }
-    public function ShowBlog(Request $request,$uuid){
+    public function ShowContribution(Request $request,$uuid){
         $user = $request->user();
-        $blog = Blog::where('uuid',$uuid)->where('creche_id',$user->id)->where('type','blog')->with('images')->with('comments')->with('heart_users')->first();
+        $blog = Blog::where('uuid',$uuid)->where('user_id',$user->id)->where('type','contribution')->with('images')->with('comments')->with('heart_users')->first();
         if(!$blog){
-            $message = "هذا المقال غير موجود ";
+            $message = "هذه المساهمة غير موجود ";
             return $this->sendError($message);
         }
         $blog->nbr_view++;
@@ -34,11 +38,12 @@ class BlogController extends Controller
         return Response(['data' => $blog],200);
     }
 
-    public function AddBlog(Request $request){
+    public function AddContribution(Request $request){
         //dd($request->has('images'));
         $user = $request->user();
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'category' => 'required',
         ]);
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
@@ -49,8 +54,9 @@ class BlogController extends Controller
                 'title' => $request->title,
                 'slug' => Str::slug($request->title),
                 'content' => $request->content,
-                'creche_id'  => $user->id,
-                'type'  => 'blog'
+                'user_id'  => $user->id,
+                'category_id'  => $request->category,
+                'type'  => 'contribution'
             ]);
             
             if($request->has('images')){
@@ -72,7 +78,7 @@ class BlogController extends Controller
                 $blog->save();
             }
             $status = 200;
-            $message = "تمت اضافة المقال بنجاح";
+            $message = "تمت اضافة المساهمة بنجاح";
 
             return $this->sendResponse($status, $message);
       } catch (\Throwable $th) {
@@ -82,7 +88,7 @@ class BlogController extends Controller
 
     }
 
-    public function UpdateBlog(Request $request,$uuid){
+    public function UpdateContribution(Request $request,$uuid){
         $user = $request->user();
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -91,16 +97,17 @@ class BlogController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());       
         }
         try {
-            $blog = Blog::where('uuid',$uuid)->where('creche_id',$user->id)->where('type','blog')->first();
+            $blog = Blog::where('uuid',$uuid)->where('user_id',$user->id)->where('type','contribution')->first();
 
             if(!$blog){
-                $message = "هذا المقال غير موجود ";
+                $message = "هذه المساهمة غير موجود ";
                 return $this->sendError($message);
             }
             $blog->update([
                 'title' => $request->title,
                 'slug' => Str::slug($request->title),
                 'content' => $request->content,
+                'category_id'  => $request->category,
             ]);
             
             if($request->has('images')){
@@ -122,7 +129,7 @@ class BlogController extends Controller
                 $blog->save();
             }
             $status = 200;
-            $message = "تم تعديل المقال بنجاح";
+            $message = "تم تعديل المساهمة بنجاح";
 
             return $this->sendResponse($status, $message);
      } catch (\Throwable $th) {
@@ -132,11 +139,11 @@ class BlogController extends Controller
 
     }
     
-    public function AddHeartToBlog(Request $request){
+    public function AddHeartToContribution(Request $request){
         $user = $request->user();
-        $blog = Blog::where('uuid',$request->blog_id)->first();
+        $blog = Blog::where('uuid',$request->blog_id)->where('type','contribution')->first();
         if(!$blog){
-            $message = "هذا المقال غير موجود ";
+            $message = "هذه المساهمة غير موجود ";
             return $this->sendError($message);
         }
         $heart_user = HeartUser::where('user_id',$user->id)->where('blog_id',$blog->id)->first();
@@ -160,6 +167,28 @@ class BlogController extends Controller
 
         return $this->sendResponse($status, $message);
     }
+
+    public function GetAllContributionsUser(Request $request){
+        $user = $request->user();
+        $blogs = Blog::where('is_active',1)->where('type','contribution')->get();
+        if($blogs->count() < 1){
+            $message = "قائمة المساهمات فارغة";
+            return $this->sendError($message);
+        }
+        return Response(['data' => $blogs],200);
+    }
+    public function ShowContributionUser(Request $request,$uuid){
+        $user = $request->user();
+        $blog = Blog::where('uuid',$uuid)->where('is_active',1)->where('type','contribution')->with('images')->with('comments')->with('heart_users')->first();
+        if(!$blog){
+            $message = "هذه المساهمة غير موجود ";
+            return $this->sendError($message);
+        }
+        $blog->nbr_view++;
+        $blog->save();
+        return Response(['data' => $blog],200);
+    }
+    
     public function sendError($error, $errorMessages = [], $code = 404)
     {
     	$response = [

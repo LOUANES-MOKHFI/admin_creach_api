@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\OrderController;
 
 use App\Http\Controllers\Api\OffreController;
 use App\Http\Controllers\Api\BlogController;
+use App\Http\Controllers\Api\ContributionBlogController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\DemandeEmploiController;
 
@@ -20,6 +21,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\CrecheController;
 use App\Http\Controllers\Api\VendorController;
 use App\Http\Controllers\Api\ProgrammeCrecheController;
+use App\Http\Controllers\Api\FaqController;
 
 Route::post('user/register',[RegisterController::class,'UserRegister'])->name('user.register');
 Route::post('vendeur/register',[RegisterController::class,'VendeurRegister'])->name('vendeur.register');
@@ -75,6 +77,16 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
         
     });
 
+    //contributions route api
+    Route::group(['prefix' => 'contributions'],function(){
+        Route::get('/',[ContributionBlogController::class,'GetAllContributions'])->name('contributions');
+        Route::post('/add-contribution',[ContributionBlogController::class,'AddContribution'])->name('contributions.add');
+        Route::post('/update-contribution/{uuid}',[ContributionBlogController::class,'UpdateContribution'])->name('contributions.update');
+        Route::get('/show-contribution/{uuid}',[ContributionBlogController::class,'ShowContribution'])->name('contributions.show');
+        Route::post('/add-heart',[ContributionBlogController::class,'AddHeartToContribution'])->name('contributions.addHeart');
+        
+    });
+
     //Comment route api
     Route::group(['prefix' => 'comments'],function(){
         Route::get('/',[CommentController::class,'GetAllComments'])->name('comments');
@@ -125,6 +137,11 @@ Route::group(['prefix' => 'creches'],function(){
     Route::get('/blogs/show/{slug}',[CrecheController::class,'ShowBlog'])->name('creches.blogs.show');
 });
 
+Route::group(['prefix' => 'all_contributions'],function(){
+    Route::get('/',[ContributionBlogController::class,'GetAllContributionsUser'])->name('all_contributions');
+    Route::get('/show/{slug}',[ContributionBlogController::class,'ShowContributionUser'])->name('all_contributions.show');
+});
+
 Route::group(['prefix' => 'offres_emplois'],function(){
     Route::get('/show-all-offres',[OffreController::class,'ShowAllOffres'])->name('offres_emplois.show_all_offres');
     Route::get('/show_offre/{uuid}',[OffreController::class,'ShowOffreToUser'])->name('offres_emplois.show_offre');    
@@ -141,6 +158,17 @@ Route::group(['prefix' => 'vendors'],function(){
 Route::group(['prefix' => 'programme_creche'],function(){
     Route::get('/guide-pedagogique',[ProgrammeCrecheController::class,'ShowGuidePedagogique'])->name('programme_creche.guide_pedagogique');
     Route::get('/show-programme',[ProgrammeCrecheController::class,'ShowProgramme'])->name('programme_creche.show_programme');    
+});
+
+///faq
+Route::group(['prefix' => 'faqs'],function(){
+    Route::get('/',[FaqController::class,'GetAllFaqs'])->name('faqs');
+    Route::get('/categories',[FaqController::class,'GetAllCategoryFaqs'])->name('faqs.categories');
+    Route::get('/categories/{category}',[FaqController::class,'GetAllFaqsInCategory'])->name('faqs.categories.all_faqs');
+});
+///videos
+Route::group(['prefix' => 'videos'],function(){
+    Route::get('/',[VideosController::class,'GetAllVideos'])->name('videos');
 });
 
 

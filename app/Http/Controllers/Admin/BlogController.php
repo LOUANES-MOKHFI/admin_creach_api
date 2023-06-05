@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 class BlogController extends Controller
 {
     public function index(){
-        $blogs = Blog::all();
+        $blogs = Blog::where('type','blog')->get();
         return view('admin.blogs.index',compact('blogs'));
     }
 
     public function show($uuid){
-        $blog = Blog::where('uuid',$uuid)->first();
+        $blog = Blog::where('uuid',$uuid)->where('type','blog')->first();
         if(!$blog){
             return redirect()->back()->with('error','هذا المقال غير موجود');
         }
