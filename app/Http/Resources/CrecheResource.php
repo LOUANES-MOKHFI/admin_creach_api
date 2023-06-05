@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ProgrammeCrecheResource;
+use App\Http\Resources\BlogResource;
 
 class CrecheResource extends JsonResource
 {
@@ -22,7 +23,7 @@ class CrecheResource extends JsonResource
             'phone' => $this->phone,
             'type_creche' => $this->type_creche,
             'creche_name' => $this->creche_name,
-            'programme_id' => new ProgrammeCrecheResource($this->programme_id),
+            'programme_id' => $this->programme_id,
             'facebook' => $this->facebook,
             'instagram' => $this->instagram,
             'tiktok' => $this->tiktok,
