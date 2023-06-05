@@ -10,6 +10,9 @@ use App\Models\Blog;
 use App\Models\OffreEmploi;
 use App\Models\ProgrammesCreche;
 use Illuminate\Foundation\Auth\User;
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\VendorResource;
+use App\Http\Resources\DomaineVendorResource;
 
 class VendorController extends Controller
 {
@@ -19,29 +22,32 @@ class VendorController extends Controller
             $message = "قائمة البائعين فارغة";
             return $this->sendError($message);
         }
+        $vendors = VendorResource::collection($vendors);
         return Response(['data' => $vendors],200);
     }   
 
     public function ShowVendor($uuid){
-        $data['vendor'] = User::where('type','vendeur')->where('is_active',1)->where('uuid',$uuid)->first();
+        $vendor = User::where('type','vendeur')->where('is_active',1)->where('uuid',$uuid)->first();
        
         //->with('programme')->with('blogs_vendor')->with('offres')
-        if(!$data['vendor']){
+        if(!$vendor){
             $message = "هذه الروضة غير موجود ";
             return $this->sendError($message);
         }
-        $data['domaine'] = DomaineVendeur::where('id',$data['vendor']->domaine_vendeur)->first();
-        $data['products'] = Product::where('vendor_id',$data['vendor']->id)->get();
+        $data['vendor'] = new VendorResource($vendor);
+        $data['domaine'] = new DomaineVendorResource(DomaineVendeur::where('id',$data['vendor']->domaine_vendeur)->first());
+        $data['products'] = ProductResource::collection(Product::where('vendor_id',$data['vendor']->id)->get());
         return Response(['data' => $data],200);
     }
 
     public function SearchVendor($keyword){
-        $vendors = User::where('type','vendeur')->where('is_active',1)->where('store_name','LIKE','%'.$keyword.'%')->first();
+        $vendors = User::where('type','vendeur')->where('is_active',1)->where('store_name','LIKE','%'.$keyword.'%')->get();
         
         if(!$vendors || $vendors->count() <1){
             $message = "قائمة البائعين فارغة";
             return $this->sendError($message);
         }
+        $vendors = VendorResource::collection($vendors);
         return Response(['data' => $vendors],200);
     }
     public function GetAllProducts(Request $request){
@@ -51,17 +57,19 @@ class VendorController extends Controller
             $message = "قائمة المنتجات فارغة";
             return $this->sendError($message);
         }
+        $products = ProductResource::collection($products);
         return Response(['data' => $products],200);
     }  
     
     public function ShowProduct($slug){
-        $product = Product::where('slug',$slug)->With('categories')->with('images')->with('vendor')->first();
+        $product = Product::where('slug',$slug)->with('categories')->with('images')->with('vendor')->first();
 
         if(!$product){
             $message = "هذا المنتج غير موجود ";
             return $this->sendError($message);
         }
        
+        $product = new ProductResource($product);
         return Response(['data' => $product],200);
     }
 

@@ -11,6 +11,7 @@ use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
+
 class ProductController extends Controller
 {
     public function GetAllProducts(Request $request){
