@@ -9,7 +9,7 @@ use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
-
+use App\Http\Resources\OffreEmploiResource;
 class OffreController extends Controller
 {
     public function GetAllOffres(Request $request){
@@ -19,6 +19,7 @@ class OffreController extends Controller
             $message = "قائمة عروض العمل فارغة";
             return $this->sendError($message);
         }
+        $offres = OffreEmploiResource::collection($offres);
         return Response(['data' => $offres],200);
     }   
 
@@ -29,6 +30,7 @@ class OffreController extends Controller
             $message = "هذا العرض غير موجود ";
             return $this->sendError($message);
         }
+        $offre = new OffreEmploiResource($offre);
         return Response(['data' => $offre],200);
     }
     public function StopOffre(Request $request,$uuid){
@@ -133,6 +135,7 @@ class OffreController extends Controller
             $message = "قائمة عروض العمل فارغة";
             return $this->sendError($message);
         }
+        $offres = OffreEmploiResource::collection($offres);
         return Response(['data' => $offres],200);
     }
     public function ShowOffreToUser(Request $request,$uuid){
@@ -141,6 +144,7 @@ class OffreController extends Controller
             $message = "هذا العرض غير موجود ";
             return $this->sendError($message);
         }
+        $offre = new OffreEmploiResource($offre);
         return Response(['data' => $offre],200);
     }
 

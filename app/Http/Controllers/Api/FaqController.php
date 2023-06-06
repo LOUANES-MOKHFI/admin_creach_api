@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Faq;
 use App\Models\Category;
-
+use App\Http\Resources\FaqResource;
 class FaqController extends Controller
 {
     public function GetAllFaqs(){
@@ -16,6 +16,7 @@ class FaqController extends Controller
             $message = "قائمة الاستشارات فارغة";
             return $this->sendError($message);
         }
+        $faqs = FaqResource::collection($faqs);
         return Response(['data' => $faqs],200);
     }  
 
@@ -37,11 +38,12 @@ class FaqController extends Controller
             $message = "لا يوجد هذا القسم";
             return $this->sendError($message);
         }
-        $data['faqs'] = Faq::where('category_id',$category->id)->get();
-        if($faqs->count() <1){
+        $faqs = Faq::where('category_id',$category->id)->get();
+        if(!$faqs || $faqs->count() <1){
             $message = "لا توجد استشارات في هذا القسم";
             return $this->sendError($message);
         }
+        $data['faqs'] = FaqResource::collection($faqs);
         return Response(['data' => $data],200);
     }  
 }

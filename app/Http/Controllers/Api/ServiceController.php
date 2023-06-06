@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Realisation;
 use Illuminate\Http\Request;
+use App\Http\Resources\RealisationResource;
 
 class ServiceController extends Controller
 {
     public function GetAllServices(){
         $services = Realisation::orderBy('id','DESC')->get();
+        $services = RealisationResource::collection($services);
         return Response(['data' => $services],200);
     }
 
@@ -19,6 +21,7 @@ class ServiceController extends Controller
             $message = "هذا العمل غير موجود ";
             return $this->sendError($message);
         }
+        $service = new RealisationResource($service);
         return Response(['data' => $service],200);
     }
 
