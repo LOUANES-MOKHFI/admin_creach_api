@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\VendeurController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ContributionBlogController;
+use App\Http\Controllers\Admin\PubliciteController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -139,6 +140,17 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
             Route::post('update/{id}',[DomaineConseilController::class,'update'])->name('admin.settings.domaines_conseils.update');
             Route::get('delete/{id}',[DomaineConseilController::class,'destroy'])->name('admin.settings.domaines_conseils.delete');
             Route::get('changeStatus/{uuid}',[DomaineConseilController::class,'changeStatus'])->name('admin.settings.domaines_conseils.changeStatus');
+        });
+
+        ///publicite
+        Route::group(['prefix' => 'publicite'],function(){
+            Route::get('/',[PubliciteController::class,'index'])->name('admin.settings.publicite');
+            Route::get('create',[PubliciteController::class,'create'])->name('admin.settings.publicite.create');
+            Route::post('store',[PubliciteController::class,'store'])->name('admin.settings.publicite.store');
+            Route::get('edit/{id}',[PubliciteController::class,'edit'])->name('admin.settings.publicite.edit');
+            Route::post('update/{id}',[PubliciteController::class,'update'])->name('admin.settings.publicite.update');
+            Route::get('delete/{id}',[PubliciteController::class,'destroy'])->name('admin.settings.publicite.delete');
+            Route::get('changeStatus/{uuid}',[PubliciteController::class,'changeStatus'])->name('admin.settings.publicite.changeStatus');
         });
     });
 
