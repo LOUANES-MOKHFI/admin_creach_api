@@ -7,16 +7,19 @@ use App\Models\NiveauBook;
 use Illuminate\Http\Request;
 use App\Models\GuidePedagogique;
 use App\Models\ImagesGuide;
+use App\Http\Resources\GuidePedagogiqueResource;
+use App\Http\Resources\NiveauBookResource;
 
 class ProgrammeCrecheController extends Controller
 {
     public function ShowGuidePedagogique(){
-        $guide = GuidePedagogique::where('id',1)->with('images')->first();
+        $guide = GuidePedagogique::where('id',1)->first();
 
         if(!$guide){
             $message = "لا يوجد أي دليل بيداغوجي";
             return $this->sendError($message);
         }
+        $guide = new GuidePedagogiqueResource($guide);
         return Response(['data' => $guide],200);
     }
 
@@ -27,6 +30,7 @@ class ProgrammeCrecheController extends Controller
             $message = "قائمة الكتب فارغة";
             return $this->sendError($message);
         }
+        $niveaux = NiveauBookResource::collection($niveaux);
         return Response(['data' => $niveaux],200);
     }
 

@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\About;
-
+use App\Http\Resources\AboutResource;
 class AboutController extends Controller
 {
     public function About(){
-        $about = About::where('id',1)->first();
+        $about = new AboutResource(About::where('id',1)->first());
+        
         return Response(['data' => $about],200);
 
     }

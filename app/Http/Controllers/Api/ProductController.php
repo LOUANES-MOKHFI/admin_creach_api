@@ -11,6 +11,7 @@ use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -21,6 +22,7 @@ class ProductController extends Controller
             $message = "قائمة منتجاتك فارغة";
             return $this->sendError($message);
         }
+        $products = ProductResource::collection($products);
         return Response(['data' => $products],200);
     }
     public function ShowProduct(Request $request,$uuid){
@@ -30,6 +32,7 @@ class ProductController extends Controller
             $message = "هذا المنتج غير موجود ";
             return $this->sendError($message);
         }
+        $product = new ProductResource($product);
         return Response(['data' => $product],200);
     }
 

@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
 use Validator;
-
+use App\Http\Resources\DemandeEmploiResource;
 class DemandeEmploiController extends Controller
 {
     public function Postuler(Request $request){
@@ -56,6 +56,7 @@ class DemandeEmploiController extends Controller
             $message = "قائمة طلبات العمل فارغة";
             return $this->sendError($message);
         }
+        $demandes = DemandeEmploiResource::collection($demandes);
         return Response(['data' => $demandes],200);
     }   
 
@@ -66,6 +67,7 @@ class DemandeEmploiController extends Controller
             $message = "هذا الطلب غير موجود ";
             return $this->sendError($message);
         }
+        $demande = new DemandeEmploiResource($demande);
         return Response(['data' => $demande],200);
     }
 

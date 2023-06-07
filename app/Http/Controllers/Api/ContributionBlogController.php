@@ -11,6 +11,7 @@ use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
+use App\Http\Resources\BlogResource;
 
 class ContributionBlogController extends Controller
 {
@@ -24,6 +25,7 @@ class ContributionBlogController extends Controller
             $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);
         }
+        $blogs = BlogResource::collection($blogs);
         return Response(['data' => $blogs],200);
     }
     public function ShowContribution(Request $request,$uuid){
@@ -35,6 +37,7 @@ class ContributionBlogController extends Controller
         }
         $blog->nbr_view++;
         $blog->save();
+        $blog = new BlogResource($blog);
         return Response(['data' => $blog],200);
     }
 
@@ -175,6 +178,7 @@ class ContributionBlogController extends Controller
             $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);
         }
+        $blogs = BlogResource::collection($blogs);
         return Response(['data' => $blogs],200);
     }
     public function ShowContributionUser(Request $request,$uuid){
@@ -186,6 +190,7 @@ class ContributionBlogController extends Controller
         }
         $blog->nbr_view++;
         $blog->save();
+        $blog = new BlogResource($blog);
         return Response(['data' => $blog],200);
     }
     

@@ -11,6 +11,8 @@ use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
+use App\Http\Resources\BlogResource;
+
 class BlogController extends Controller
 {
     public function GetAllBlogs(Request $request){
@@ -20,6 +22,7 @@ class BlogController extends Controller
             $message = "قائمة مقالات فارغة";
             return $this->sendError($message);
         }
+        $blogs = BlogResource::collection($blogs);
         return Response(['data' => $blogs],200);
     }
     public function ShowBlog(Request $request,$uuid){
@@ -31,6 +34,7 @@ class BlogController extends Controller
         }
         $blog->nbr_view++;
         $blog->save();
+        $blog = new BlogResource($blog);
         return Response(['data' => $blog],200);
     }
 

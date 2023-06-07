@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\CrecheController;
 use App\Http\Controllers\Api\VendorController;
 use App\Http\Controllers\Api\ProgrammeCrecheController;
 use App\Http\Controllers\Api\FaqController;
+use App\Http\Controllers\Api\VideosController;
 
 Route::post('user/register',[RegisterController::class,'UserRegister'])->name('user.register');
 Route::post('vendeur/register',[RegisterController::class,'VendeurRegister'])->name('vendeur.register');

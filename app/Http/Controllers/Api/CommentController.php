@@ -8,6 +8,7 @@ use App\Models\BlogComment;
 use DB;
 use Validator;
 use Ramsey\Uuid\Uuid;
+use App\Http\Resources\CommentBlogResource;
 class CommentController extends Controller
 {
 
@@ -19,6 +20,7 @@ class CommentController extends Controller
             $message = "قائمة التعليقات فارغة";
             return $this->sendError($message);
         }
+        $comments = CommentBlogResource::collection($comments);
         return Response(['data' => $comments],200);
     }
     public function AddComment(Request $request){

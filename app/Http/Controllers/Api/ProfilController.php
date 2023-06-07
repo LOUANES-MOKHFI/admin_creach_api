@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\CrecheResource;
+use App\Http\Resources\VendorResource;
 class ProfilController extends Controller
 {
     public function Profile(Request $request)
@@ -16,6 +19,15 @@ class ProfilController extends Controller
             if($user->is_active == 0){
                 $message = "votre session n'est pas activer par les administrateur de la plateform, veuillez contactez le support ";
                 return $this->sendError($message);
+            }
+            if($user->type == 'user'){
+                $user = new UserResource($user);
+            }elseif($user->type == 'creche'){
+                $user = new CrecheResource($user);
+                
+            }elseif($user->type == 'vendeur'){
+                $user = new VendorResource($user);
+                
             }
             return Response(['data' => $user],200);
         }

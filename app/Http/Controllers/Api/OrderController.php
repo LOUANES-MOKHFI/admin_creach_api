@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use Validator;
 use Ramsey\Uuid\Uuid;
+use App\Http\Resources\OrderResource;
 
 class OrderController extends Controller
 {
@@ -18,6 +19,7 @@ class OrderController extends Controller
             $message = "قائمة طلبياتك فارغة";
             return $this->sendError($message);
         }
+        $orders = OrderResource::collection($orders);
         return Response(['data' => $orders],200);
     }
 
@@ -69,6 +71,7 @@ class OrderController extends Controller
             $message = "قائمة طلبياتك فارغة";
             return $this->sendError($message);
         }
+        $orders = OrderResource::collection($orders);
         return Response(['data' => $orders],200);
     }
 
@@ -79,6 +82,7 @@ class OrderController extends Controller
             $message = "هذه الطلبية غير موجودة";
             return $this->sendError($message);
         }
+        $order = new OrderResource($order);
         return Response(['data' => $order],200);
     }
 
