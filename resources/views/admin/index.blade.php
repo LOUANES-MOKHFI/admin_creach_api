@@ -16,7 +16,7 @@
 <div class="row">
     <!--div-->
     <div class="col-xl-12">
-        <div class="card mg-b-20 ">
+        <div class="card mg-b-20 " style="padding:10px">
             <div class="row">
                 <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-primary-gradient">
@@ -34,48 +34,41 @@
                                     </div>
                                 </div>
                             </div>
-                            </a>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
+                    <div class="card overflow-hidden sales-card bg-primary-gradient">
+                        <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                            <div class="">
+                                <h6 class="mb-3 tx-12 text-white"> الروضات المؤكدة</h6>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <span class="float-right my-auto mr-auto">
+                                        <i class="fas fa-arrow-circle-up text-white"></i>
+                                        <span class="text-white op-7">عرض ({{\App\Models\User::where('type','creche')->where('is_active',1)->count()}})</span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-primary-gradient">
-                        
-                            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
-                                <div class="">
-                                    <h6 class="mb-3 tx-12 text-white"> الروضات المؤكدة</h6>
-                                </div>
-                                <div class="pb-0 mt-0">
-                                    <div class="d-flex">
-                                        <span class="float-right my-auto mr-auto">
-                                            <i class="fas fa-arrow-circle-up text-white"></i>
-                                            <span class="text-white op-7">عرض ({{\App\Models\User::where('type','creche')->where('is_active',1)->count()}})</span>
-                                        </span>
-                                    </div>
+                        <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                            <div class="">
+                                <h6 class="mb-3 tx-12 text-white"> الروضات الغير مؤكدة</h6>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <span class="float-right my-auto mr-auto">
+                                        <i class="fas fa-arrow-circle-up text-white"></i>
+                                        <span class="text-white op-7">عرض ({{\App\Models\User::where('type','creche')->where('is_active',0)->count()}})</span>
+                                    </span>
                                 </div>
                             </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
-                    <div class="card overflow-hidden sales-card bg-primary-gradient">
-                    
-                            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
-                                <div class="">
-                                    <h6 class="mb-3 tx-12 text-white"> الروضات الغير مؤكدة</h6>
-                                </div>
-                                <div class="pb-0 mt-0">
-                                    <div class="d-flex">
-                                        <span class="float-right my-auto mr-auto">
-                                            <i class="fas fa-arrow-circle-up text-white"></i>
-                                            <span class="text-white op-7">عرض ({{\App\Models\User::where('type','creche')->where('is_active',0)->count()}})</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        </div>  
                     </div>
                 </div>
             </div>
@@ -96,54 +89,47 @@
                                     </div>
                                 </div>
                             </div>
-                            </a>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
+                    <div class="card overflow-hidden sales-card bg-success-gradient">
+                        <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                            <div class="">
+                                <h6 class="mb-3 tx-12 text-white"> المتاجر المؤكدة</h6>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <span class="float-right my-auto mr-auto">
+                                        <i class="fas fa-arrow-circle-up text-white"></i>
+                                        <span class="text-white op-7">عرض ({{\App\Models\User::where('type','vendeur')->where('is_active',1)->count()}})</span>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-success-gradient">
-                        
-                            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
-                                <div class="">
-                                    <h6 class="mb-3 tx-12 text-white"> المتاجر المؤكدة</h6>
-                                </div>
-                                <div class="pb-0 mt-0">
-                                    <div class="d-flex">
-                                        <span class="float-right my-auto mr-auto">
-                                            <i class="fas fa-arrow-circle-up text-white"></i>
-                                            <span class="text-white op-7">عرض ({{\App\Models\User::where('type','vendeur')->where('is_active',1)->count()}})</span>
-                                        </span>
-                                    </div>
+                        <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                            <div class="">
+                                <h6 class="mb-3 tx-12 text-white"> المتاجر الغير مؤكدة</h6>
+                            </div>
+                            <div class="pb-0 mt-0">
+                                <div class="d-flex">
+                                    <span class="float-right my-auto mr-auto">
+                                        <i class="fas fa-arrow-circle-up text-white"></i>
+                                        <span class="text-white op-7">عرض ({{\App\Models\User::where('type','vendeur')->where('is_active',0)->count()}})</span>
+                                    </span>
                                 </div>
                             </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
-                    <div class="card overflow-hidden sales-card bg-success-gradient">
-                    
-                            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
-                                <div class="">
-                                    <h6 class="mb-3 tx-12 text-white"> المتاجر الغير مؤكدة</h6>
-                                </div>
-                                <div class="pb-0 mt-0">
-                                    <div class="d-flex">
-                                        <span class="float-right my-auto mr-auto">
-                                            <i class="fas fa-arrow-circle-up text-white"></i>
-                                            <span class="text-white op-7">عرض ({{\App\Models\User::where('type','vendeur')->where('is_active',0)->count()}})</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
-                    <div class="card overflow-hidden sales-card bg-success-gradient">
+                    <div class="card overflow-hidden sales-card bg-warning-gradient">
                         <a href="{{route('admin.blogs')}}">
                             <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                                 <div class="">
@@ -158,8 +144,7 @@
                                     </div>
                                 </div>
                             </div>
-                            </a>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
@@ -178,8 +163,7 @@
                                     </div>
                                 </div>
                             </div>
-                            </a>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
@@ -198,12 +182,9 @@
                                     </div>
                                 </div>
                             </div>
-                            </a>
-                        </div>
+                        </a>
                     </div>
-                </div>
-                
-                
+                </div> 
             </div>
         </div>
     </div>

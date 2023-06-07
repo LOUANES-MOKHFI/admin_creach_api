@@ -40,16 +40,13 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
     //Logout
     Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
     ///Admin routes
-    /* Route::group(['prefix' => 'users'],function(){
-        Route::get('/',[UserController::class,'index'])->name('admin.users');
-        Route::get('create',[UserController::class,'create'])->name('admin.users.create');
-        Route::post('store',[UserController::class,'store'])->name('admin.users.store');
-        Route::get('edit/{id}',[UserController::class,'edit'])->name('admin.users.edit');
-       
-        Route::get('delete/{id}',[UserController::class,'destroy'])->name('admin.users.delete');
-        Route::get('changeStatus/{uuid}',[UserController::class,'changeStatus'])->name('admin.users.changeStatus');
-       // Route::get('changeStatusExit/{uuid}',[UserController::class,'changeStatusExit'])->name('admin.users.changeStatusExit');
-    }); */
+     Route::group(['prefix' => 'admins'],function(){
+        Route::get('/',[AdminController::class,'index'])->name('admin.admins');
+        Route::get('create',[AdminController::class,'create'])->name('admin.admins.create');
+        Route::post('store',[AdminController::class,'store'])->name('admin.admins.store');
+        Route::get('edit/{id}',[AdminController::class,'edit'])->name('admin.admins.edit');
+        Route::get('delete/{id}',[AdminController::class,'destroy'])->name('admin.admins.delete');
+    }); 
 
     ////Settings Routes
     Route::group(['prefix' => 'settings'],function(){
