@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ContributionBlogController;
 use App\Http\Controllers\Admin\PubliciteController;
+use App\Http\Controllers\Admin\OffreEmploiController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -287,8 +288,13 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('deleteComment/{id}',[BlogController::class,'deleteComment'])->name('admin.blogs.deleteComment');
 
     });
+    ///offre_emplois routes
+    Route::group(['prefix' => 'offre_emplois'],function(){
+        Route::get('/',[OffreEmploiController::class,'index'])->name('admin.offre_emplois');
 
-    ///blogs routes
+    });
+
+    ///contributions routes
     Route::group(['prefix' => 'contributions'],function(){
         Route::get('/',[ContributionBlogController::class,'index'])->name('admin.contributions');
         Route::get('show/{uuid}',[ContributionBlogController::class,'show'])->name('admin.contributions.show');
