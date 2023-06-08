@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\HomeController;
@@ -39,17 +40,29 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
 
     //Logout
     Route::get('/logout',[AdminController::class,'logout'])->name('admin.logout');
+    //Roles routes
+    //Route::resource('roles', RoleController::class);
+    Route::group(['prefix' => 'roles','middleware' => 'can:role-list'],function(){
+        Route::get('/',[RoleController::class,'index'])->name('admin.roles');
+        Route::get('create',[RoleController::class,'create'])->name('admin.roles.create');
+        Route::post('store',[RoleController::class,'store'])->name('admin.roles.store');
+        Route::get('edit/{id}',[RoleController::class,'edit'])->name('admin.roles.edit');
+        Route::post('update/{id}',[RoleController::class,'update'])->name('admin.roles.update');
+        Route::get('show/{id}',[RoleController::class,'show'])->name('admin.roles.show');
+        Route::get('destroy/{id}',[RoleController::class,'destroy'])->name('admin.roles.destroy');
+    }); 
     ///Admin routes
-     Route::group(['prefix' => 'admins'],function(){
+     Route::group(['prefix' => 'admins','middleware' => 'can:role-list'],function(){
         Route::get('/',[AdminController::class,'index'])->name('admin.admins');
         Route::get('create',[AdminController::class,'create'])->name('admin.admins.create');
         Route::post('store',[AdminController::class,'store'])->name('admin.admins.store');
         Route::get('edit/{id}',[AdminController::class,'edit'])->name('admin.admins.edit');
+        Route::post('update/{id}',[AdminController::class,'update'])->name('admin.admins.update');
         Route::get('delete/{id}',[AdminController::class,'destroy'])->name('admin.admins.delete');
     }); 
 
     ////Settings Routes
-    Route::group(['prefix' => 'settings'],function(){
+    Route::group(['prefix' => 'settings','middleware' => 'can:setting-list'],function(){
         Route::get('/',[HomeController::class,'settings'])->name('admin.settings');
         
         ////About
@@ -142,13 +155,13 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
 
         ///publicite
         Route::group(['prefix' => 'publicite'],function(){
-            Route::get('/',[PubliciteController::class,'index'])->name('admin.settings.publicite');
-            Route::get('create',[PubliciteController::class,'create'])->name('admin.settings.publicite.create');
-            Route::post('store',[PubliciteController::class,'store'])->name('admin.settings.publicite.store');
-            Route::get('edit/{id}',[PubliciteController::class,'edit'])->name('admin.settings.publicite.edit');
-            Route::post('update/{id}',[PubliciteController::class,'update'])->name('admin.settings.publicite.update');
-            Route::get('delete/{id}',[PubliciteController::class,'destroy'])->name('admin.settings.publicite.delete');
-            Route::get('changeStatus/{uuid}',[PubliciteController::class,'changeStatus'])->name('admin.settings.publicite.changeStatus');
+            Route::get('/',[PubliciteController::class,'index'])->name('admin.settings.publicites');
+            Route::get('create',[PubliciteController::class,'create'])->name('admin.settings.publicites.create');
+            Route::post('store',[PubliciteController::class,'store'])->name('admin.settings.publicites.store');
+            Route::get('edit/{id}',[PubliciteController::class,'edit'])->name('admin.settings.publicites.edit');
+            Route::post('update/{id}',[PubliciteController::class,'update'])->name('admin.settings.publicites.update');
+            Route::get('delete/{id}',[PubliciteController::class,'destroy'])->name('admin.settings.publicites.delete');
+            Route::get('changeStatus/{uuid}',[PubliciteController::class,'changeStatus'])->name('admin.settings.publicites.changeStatus');
         });
     });
 
@@ -227,7 +240,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
     });
 
     ///Users routes
-    Route::group(['prefix' => 'users'],function(){
+    Route::group(['prefix' => 'users','middleware' => 'can:user-list'],function(){
         Route::get('/',[UserController::class,'index'])->name('admin.users');
         Route::post('store',[UserController::class,'store'])->name('admin.users.store');
         Route::get('show/{id}',[UserController::class,'show'])->name('admin.users.show');
@@ -239,7 +252,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         
     });
     ///vendeurs routes
-    Route::group(['prefix' => 'vendeurs'],function(){
+    Route::group(['prefix' => 'vendeurs','middleware' => 'can:vendeur-list'],function(){
         Route::get('/',[VendeurController::class,'index'])->name('admin.vendeurs');
         Route::post('store',[VendeurController::class,'store'])->name('admin.vendeurs.store');
         Route::get('show/{id}',[VendeurController::class,'show'])->name('admin.vendeurs.show');
@@ -251,7 +264,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('{uuid}/products',[VendeurController::class,'ProductForVendor'])->name('admin.vendeurs.products');
     });
     ///creches routes
-    Route::group(['prefix' => 'creches'],function(){
+    Route::group(['prefix' => 'creches','middleware' => 'can:creche-list'],function(){
         Route::get('/',[CrecheController::class,'index'])->name('admin.creches');
         Route::post('store',[CrecheController::class,'store'])->name('admin.creches.store');
         Route::get('edit/{id}',[CrecheController::class,'edit'])->name('admin.creches.edit');
@@ -271,14 +284,14 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
     });
 
     ///products routes
-    Route::group(['prefix' => 'products'],function(){
+    Route::group(['prefix' => 'products','middleware' => 'can:product-list'],function(){
         Route::get('/',[ProductController::class,'index'])->name('admin.products');
         Route::get('show/{id}',[ProductController::class,'show'])->name('admin.products.show');
         Route::get('changeStatus/{uuid}',[ProductController::class,'changeStatus'])->name('admin.products.changeStatus');
     });
 
     ///blogs routes
-    Route::group(['prefix' => 'blogs'],function(){
+    Route::group(['prefix' => 'blogs','middleware' => 'can:blog-list'],function(){
         Route::get('/',[BlogController::class,'index'])->name('admin.blogs');
         Route::get('show/{uuid}',[BlogController::class,'show'])->name('admin.blogs.show');
         Route::get('changeStatus/{uuid}',[BlogController::class,'changeStatus'])->name('admin.blogs.changeStatus');
@@ -286,13 +299,13 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
 
     });
     ///offre_emplois routes
-    Route::group(['prefix' => 'offre_emplois'],function(){
+    Route::group(['prefix' => 'offre_emplois','middleware' => 'can:offre-list'],function(){
         Route::get('/',[OffreEmploiController::class,'index'])->name('admin.offre_emplois');
 
     });
 
     ///contributions routes
-    Route::group(['prefix' => 'contributions'],function(){
+    Route::group(['prefix' => 'contributions','middleware' => 'can:contribution-list'],function(){
         Route::get('/',[ContributionBlogController::class,'index'])->name('admin.contributions');
         Route::get('show/{uuid}',[ContributionBlogController::class,'show'])->name('admin.contributions.show');
         Route::get('changeStatus/{uuid}',[ContributionBlogController::class,'ChangeStatus'])->name('admin.contributions.changeStatus');

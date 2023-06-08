@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use Spatie\Permission\Models\Role;
+use DB;
+
 class AdminController extends Controller
 {
     public function login(){
@@ -45,9 +48,38 @@ class AdminController extends Controller
         return view('admin.admins.index',$data);
     }
 
-    public function show($uuid){
+   
+    
+
+    public function create()
+    {
+        $roles = Role::pluck('name','name')->all();
+        return view('admin.admins.add',compact('roles'));
+    }
+    public function store(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|',
+            'roles' => 'required'
+        ]);
+        $admin = new Admin();
+        
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        $admin->password = bcrypt($request->password);
+        $admin->assignRole($request->input('roles'));
+
+        if($admin->save()){
+            return redirect()->route('admin.admins')->with(['success' => 'تمت عملية الاضافة بنجاح']);
+        }
+        else{
+            return redirect()->route('admin.admins')->with(['error' => 'هناك خلل في النظام, يرجى الاتصال بمدير الموقع']);
+        }
+    }
+    public function show($id){
         try {
-            $data['admin'] = Admin::where('uuid',$uuid)->first();
+            $data['admin'] = Admin::where('id',$id)->first();
             if(!$data['admin']){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
             }
@@ -57,32 +89,11 @@ class AdminController extends Controller
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
-    
-
-
-    public function store(Request $request){
-        $request->validate([
-            'email' => 'required|email',
-            'name' => 'required',
-            'password' => 'required',
-        ]);
-        $admin = new Admin();
-        
-        $admin->name = $request->name;
-        $admin->email = $request->email;
-        $admin->password = Hash::make($request->password);
-
-
-        if($admin->save()){
-            return redirect()->route('admin.admins')->with(['success' => 'تمت عملية الاضافة بنجاح']);
-        }
-        else{
-            return redirect()->route('admin.admins')->with(['error' => 'هناك خلل في النظام, يرجى الاتصال بمدير الموقع']);
-        }
-    }
-    public function edit($uuid){
+    public function edit($id){
         try {
-            $data['admin'] = Admin::where('uuid',$uuid)->first();
+            $data['admin'] = Admin::where('id',$id)->first();
+            $data['roles'] = Role::pluck('name','name')->all();
+            $data['userRole'] = $data['admin']->roles->pluck('name','name')->all();
             if(!$data['admin']){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
             }
@@ -92,22 +103,27 @@ class AdminController extends Controller
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
-    public function update(Request $request,$uuid){
+    public function update(Request $request,$id){
         $request->validate([
-            'email' => 'required|email',
             'name' => 'required',
+            'email' => 'required|email|unique:admins,email,'.$id,
+
+            'roles' => 'required'
         ]);
         try {
-            $admin = Admin::where('uuid',$uuid)->first();
+            $admin = Admin::where('id',$id)->first();
             if(!$admin){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
             }
             $admin->name = $request->name;
             $admin->email = $request->email;
             if($request->password != null){
-                $admin->password = Hash::make($request->password);
+                $admin->password = bcrypt($request->password);
             }
             $admin->save();
+            DB::table('model_has_roles')->where('model_id',$id)->delete();
+    
+            $admin->assignRole($request->input('roles'));
             return redirect()->route('admin.admins')->with('success','تمت عملية التحديث بنجاح');
         } catch (\Throwable $th) {
             return redirect()->back()->with(['error' => $th->getMessage()]);
@@ -116,7 +132,7 @@ class AdminController extends Controller
     public function destroy($id){
         $admin = Admin::where('id',$id)->first();
         if(!$admin){
-            return redirect()->route('admin.admins')->with(['error' => "هذا المدير غير موجود"]);
+            return redirect()->route('admin.admins')->with(['error' => "هذا الحساب غير موجود"]);
 
         }
         else{

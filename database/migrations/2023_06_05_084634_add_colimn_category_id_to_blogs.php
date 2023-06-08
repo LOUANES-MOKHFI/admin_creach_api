@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('blogs', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id')->nullable()->after('creche_id');
-            $table->string('type')->after('category_id');
+            //$table->string('type')->after('category_id');
             $table->integer('is_active')->default(0);
             $table->foreign('category_id')->references('id')->on('categories');
         });

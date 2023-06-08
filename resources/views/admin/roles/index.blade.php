@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
 @section('title')
-قائمة مدراء المنصة
+الأدوار
 @endsection
 @section('style')
     <link href="{{ asset('admin/assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
@@ -17,7 +17,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة مدراء المنصة</span>
+                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ الأدوار</span>
             </div>
         </div>
 
@@ -26,11 +26,13 @@
         <!--div-->
         <div class="col-xl-12">
             <div class="card mg-b-20">
+                @can('role-create')
                 <div class="card-header pb-0">
-                        <a href="{{route('admin.admins.create')}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
-                                class="fas fa-plus"></i>&nbsp; أضف حساب مدير
-                        </a>
+                    <a href="{{route('admin.roles.create')}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
+                            class="fas fa-plus"></i>&nbsp; أضف دور
+                    </a>
                 </div>
+                @endcan
                 <div class="card-body">
                     @include('admin.includes.alerts.alerts')
                     <div class="table-responsive">
@@ -38,42 +40,37 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>الإسم </th>
-                                    <th>البريد الالكتروني</th>
-                                    <th>الدور</th>
+                                    <th> الدور</th>
                                     <th>العمليات</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>الإسم </th>
-                                    <th>البريد الالكتروني</th>
-                                    <th>الدور</th>
+                                    <th> الدور</th>
                                     <th>العمليات</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                            @isset($admins)
-                                @foreach($admins as $key=>$admin)
+                            @isset($roles)
+                                @foreach($roles as $key=>$role)
                                     <tr>
                                         <td>{{$key+1}}</td>
-                                        <td>{{$admin->name}}</td>
-                                        <td>{{$admin->email}}</td>
+                                        <td>{{ $role->name }}</td>
                                         <td>
-                                        @if(!empty($admin->getRoleNames()))
-                                            @foreach($admin->getRoleNames() as $v)
-                                                <label class="badge badge-success">{{ $v }}</label>
-                                            @endforeach
-                                        @endif
-                                        </td>
-                                        <td>
-                                        <a href="{{route('admin.admins.edit',$admin->id)}}"class="btn btn-warning waves-effect waves-light" title="تعديل">
+                                        <a href="{{ route('admin.roles.show',$role->id) }}"class="btn btn-info waves-effect waves-light" title="عرض">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        @can('role-edit')
+                                        <a href="{{route('admin.roles.edit',$role->id)}}"class="btn btn-warning waves-effect waves-light" title="تعديل">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="{{route('admin.admins.delete',$admin->id)}}" class="btn btn-danger waves-effect waves-light" title="حذف">
+                                        @endcan
+                                        @can('role-edit')
+                                        <a href="{{route('admin.roles.destroy',$role->id)}}" class="btn btn-danger waves-effect waves-light" title="حذف">
                                             <i class="fa fa-trash"></i>
                                         </a>
+                                        @endcan
 
                                         </td>
                                     </tr>

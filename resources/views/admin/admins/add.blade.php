@@ -24,7 +24,6 @@
                       enctype='multipart/form-data'>
                     @csrf
                     <div class="form-body">
-                        <input type="hidden" name="id" value="{{$user->id}}">
                         <h4 class="form-section"><i class="ft-home"></i>معلومات الحساب </h4>
 
                         <div class="row">
@@ -69,12 +68,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="projectinput1"> الدور</label>
-                                    <select name="role_id" id="" class="form-control">
-                                        <option value="">-- اختر من القائمة --</option>
-                                        <option value="1">--  دور 1 --</option>
-                                        <option value="2">--  دور 2 --</option>
-                                    </select>
-                                    @error("role_id")
+                                    {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
+
+                                    @error("roles")
                                     <span class="text-danger"> {{$message}}  </span>
                                     @enderror
                                 </div>

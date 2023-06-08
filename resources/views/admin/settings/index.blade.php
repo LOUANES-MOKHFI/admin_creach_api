@@ -18,7 +18,25 @@
     <div class="col-xl-12">
         <div class="card mg-b-20 ">
             <div class="row">
-               
+                <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+                    <div class="card overflow-hidden sales-card bg-primary-gradient">
+                        <a href="{{route('admin.roles')}}">
+                            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                                <div class="">
+                                    <h6 class="mb-3 tx-12 text-white">الأدوار</h6>
+                                </div>
+                                <div class="pb-0 mt-0">
+                                    <div class="d-flex">
+                                        <span class="float-right my-auto mr-auto">
+                                            <i class="fas fa-arrow-circle-up text-white"></i>
+                                            <span class="text-white op-7">عرض </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a> 
+                    </div>
+                </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-primary-gradient">
                         <a href="{{route('admin.settings.about')}}">
