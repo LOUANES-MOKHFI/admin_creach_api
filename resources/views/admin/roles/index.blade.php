@@ -26,13 +26,12 @@
         <!--div-->
         <div class="col-xl-12">
             <div class="card mg-b-20">
-                @can('role-create')
+              
                 <div class="card-header pb-0">
                     <a href="{{route('admin.roles.create')}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
                             class="fas fa-plus"></i>&nbsp; أضف دور
                     </a>
                 </div>
-                @endcan
                 <div class="card-body">
                     @include('admin.includes.alerts.alerts')
                     <div class="table-responsive">
@@ -61,16 +60,14 @@
                                         <a href="{{ route('admin.roles.show',$role->id) }}"class="btn btn-info waves-effect waves-light" title="عرض">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        @can('role-edit')
+                                       
                                         <a href="{{route('admin.roles.edit',$role->id)}}"class="btn btn-warning waves-effect waves-light" title="تعديل">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        @endcan
-                                        @can('role-edit')
+                                        
                                         <a href="{{route('admin.roles.destroy',$role->id)}}" class="btn btn-danger waves-effect waves-light" title="حذف">
                                             <i class="fa fa-trash"></i>
                                         </a>
-                                        @endcan
 
                                         </td>
                                     </tr>

@@ -187,6 +187,72 @@
                 </div> 
             </div>
         </div>
+        <div class="card mg-b-20 " style="padding:10px">
+            @include('admin.includes.alerts.alerts')
+            <h4 class="form-section"><i class="ft-home"></i>آخر التسجيلات</h4>
+            <div class="table-responsive">
+                <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'style="text-align: center">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>نوع الحساب</th>
+                            <th>الاسم</th>
+                            <th>البريد الالكتروني</th>
+                            <th>رقم الهاتف</th>
+                            <th>حالة الحساب</th>
+                            <th>العمليات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(\App\Models\User::limit(10)->orderBy('id', 'DESC')->get() as $key=>$user)
+                            <tr>
+                                <td>{{$key+1}}</td>
+                                <td>
+                                    @if($user->type == "creche")
+                                        <span class="badge badge-success">روضة</span>
+                                    @elseif($user->type == "vendeur")
+                                        <span class="badge badge-info">متجر</span>
+                                    @else
+                                        <span class="badge badge-danger">مستخدم</span>
+                                    @endif
+                                </td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->email}}</td>
+                                <td>{{$user->phone}}</td>
+                                <td>
+                                    <span class="badge {{$user->is_active == 0 ? 'badge-danger' : 'badge-success' }}">{{$user->is_active == 0 ? 'غير مفعل' : 'مفعل'}}</span>
+                                </td>
+
+                                <td>
+                                @if($user->type == "creche")
+                                    <?php $link = 'admin.creches.'?>
+                                @elseif($user->type == "vendeur")
+                                    <?php $link = 'admin.vendeurs.'?>
+                                @else
+                                    <?php $link = 'admin.users.'?>
+                                @endif
+                                @if($user->is_active == 0)
+                                <a href="{{route($link.'confirmeAccount',$user->uuid)}}"class="btn btn-sm btn-success waves-effect waves-light">
+                                    <i class="fa fa-check"></i> تأكيد الحساب
+                                </a>
+                                @endif
+                                <a href="{{route($link.'show',$user->uuid)}}"class="btn btn-sm btn-info waves-effect waves-light" title="تعديل">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="{{route($link.'edit',$user->uuid)}}"class="btn btn-sm btn-warning waves-effect waves-light" title="تعديل">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="{{route($link.'delete',$user->uuid)}}" class="btn btn-sm btn-danger waves-effect waves-light" title="حذف">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

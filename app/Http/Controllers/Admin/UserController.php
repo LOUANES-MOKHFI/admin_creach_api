@@ -83,7 +83,11 @@ class UserController extends Controller
             }
             $user->is_active = 1;
             $user->save();
-            
+            $notification = Notification::where('uuid_model',$user->uuid)->first();
+            if($notification){
+                $notification->is_viewed = 1;
+                $notification->save();
+            }
             $this->sendMail($user->name,$user->email,$user->type);
 
             return redirect()->back()->with('success','تم تأكيد عضوية الحساب بنحاح');
