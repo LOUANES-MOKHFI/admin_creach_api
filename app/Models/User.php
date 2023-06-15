@@ -66,6 +66,9 @@ class User extends Authenticatable
     public function domaine(){
         return $this->belongsTo(DomaineVendeur::class,'domaine_vendeur');
     }
+    public function countrie(){
+        return $this->belongsTo(Countrie::class,'pays_id');
+    }
     public function wilaya(){
         return $this->belongsTo(Wilaya::class,'wilaya_id');
     }

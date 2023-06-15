@@ -193,17 +193,22 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <h5> الولاية : <span class="text-danger">{{$vendeur->wilaya->name}}</span></h5>
+                                <h5> البلد : <span class="text-danger">{{$vendeur->countrie ? $vendeur->countrie->name : ''}}</span></h5>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <h5> البلدية : <span class="text-danger">{{$vendeur->commune->name}}</span></h5>
+                                <h5> الولاية : <span class="text-danger">{{$vendeur->wilaya ? $vendeur->wilaya->name : ''}}</span></h5>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <h5> البلدية : <span class="text-danger">{{$vendeur->commune ? $vendeur->commune->name : ''}}</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <h5> التوصيل : <span class="text-danger">{{$vendeur->livraison}}</span></h5>
                             </div>

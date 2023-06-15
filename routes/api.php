@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\VendorController;
 use App\Http\Controllers\Api\ProgrammeCrecheController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\VideosController;
+use App\Http\Controllers\Api\SettingController;
 
 Route::post('user/register',[RegisterController::class,'UserRegister'])->name('user.register');
 Route::post('vendeur/register',[RegisterController::class,'VendeurRegister'])->name('vendeur.register');
@@ -173,5 +174,8 @@ Route::group(['prefix' => 'videos'],function(){
 });
 
 
+Route::get('/countries',[SettingController::class,'GetAllCountries'])->name('countries');
+Route::get('/countrie/{countrie_id}',[SettingController::class,'GetWilayasCountrie'])->name('countries.wilayas');
+Route::get('/wilaya/{wilaya_id}',[SettingController::class,'GetCommunesWilaya'])->name('countries.wilayas.communes');
 
 

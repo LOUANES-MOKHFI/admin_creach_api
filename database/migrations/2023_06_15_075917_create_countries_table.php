@@ -11,17 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('communes', function (Blueprint $table) {
+        Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->string('code_postal');
-            $table->string('name_fr');
             $table->string('name');
-            $table->unsignedBigInteger('wilaya_id');
-            $table->unsignedBigInteger('country_id');
-
-            $table->string('longitude');
-            $table->string('latitude');
-
+            $table->string('code');
             $table->timestamps();
         });
     }
@@ -31,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('communes');
+        Schema::dropIfExists('countries');
     }
 };

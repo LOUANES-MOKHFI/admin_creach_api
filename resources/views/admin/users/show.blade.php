@@ -54,17 +54,17 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> البلد: <span class="text-danger">{{$user->pays_id}}</span></h5>
+                                <h5> البلد : <span class="text-danger">{{$user->countrie ? $user->countrie->name : ''}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> الولاية : <span class="text-danger">{{$user->wilaya->name}}</span></h5>
+                                <h5> الولاية : <span class="text-danger">{{$user->wilaya ? $user->wilaya->name : ''}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> البلدية : <span class="text-danger">{{$user->commune->name}}</span></h5>
+                                <h5> البلدية : <span class="text-danger">{{$user->commune ? $user->commune->name : ''}}</span></h5>
                             </div>
                         </div>
                         <div class="form-actions">

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('wilayas', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('country_id');
             $table->string('code_postal');
             $table->string('name');
             $table->timestamps();

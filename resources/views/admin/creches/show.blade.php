@@ -75,17 +75,17 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> البلد: <span class="text-danger">{{$creche->pays_id}}</span></h5>
+                                <h5> البلد : <span class="text-danger">{{$creche->countrie ? $creche->countrie->name : ''}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> الولاية : <span class="text-danger">{{$creche->wilaya->name}}</span></h5>
+                                <h5> الولاية : <span class="text-danger">{{$creche->wilaya ? $creche->wilaya->name : ''}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> البلدية : <span class="text-danger">{{$creche->commune->name}}</span></h5>
+                                <h5> البلدية : <span class="text-danger">{{$creche->commune ? $creche->commune->name : ''}}</span></h5>
                             </div>
                         </div>
                     </div>

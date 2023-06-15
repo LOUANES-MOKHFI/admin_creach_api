@@ -9,7 +9,12 @@ class Wilaya extends Model
 {
     use HasFactory;
 
+    public function countrie(){
+        return $this->belongsTo(Countrie::class,'country_id');
+    }
+    
     public function communes(){
         return $this->hasMany(Wilaya::class);
     }
+    
 }
