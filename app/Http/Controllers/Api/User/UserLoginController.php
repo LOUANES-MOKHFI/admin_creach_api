@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Auth;
 use Validator;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\CrecheResource;
+use App\Http\Resources\VendorResource;
 class UserLoginController extends Controller
 {
     public function login(Request $request) : Response{
@@ -26,8 +29,16 @@ class UserLoginController extends Controller
                 return Response(['message' => "votre session n'est pas activer par les administrateur de la plateform, veuillez contactez le support"],401);
             }
             $success =  $user->createToken('crechAdmin')->plainTextToken; 
-        
-            return Response(['token' => $success],200);
+            if($user->type == 'user'){
+                $user = new UserResource($user);
+            }elseif($user->type == 'creche'){
+                $user = new CrecheResource($user);
+                
+            }elseif($user->type == 'vendeur'){
+                $user = new VendorResource($user);
+                
+            }
+            return Response(['token' => $success,'user'=>$user],200);
         }
 
         return Response(['message' => 'email or password wrong'],401);

@@ -15,6 +15,9 @@ class DemandeEmploi extends Model
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }
+    public function creche(){
+        return $this->belongsTo(User::class,'creche_id');
+    }
     public function offre(){
         return $this->belongsTo(OffreEmploi::class,'offre_id');
     }

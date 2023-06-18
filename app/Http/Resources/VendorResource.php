@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\DomaineVendorResource;
+use  App\Http\Resources\CommuneResource;
+use  App\Http\Resources\PaysResource;
+use  App\Http\Resources\WilayasResource;
 class VendorResource extends JsonResource
 {
     /**
@@ -26,9 +29,9 @@ class VendorResource extends JsonResource
             'instagram' => $this->instagram,
             'tiktok' => $this->tiktok,
             'youtube' => $this->youtube,
-            'pays_id' => $this->pays_id,
-            'wilaya_id' => $this->wilaya_id,
-            'commune_id' => $this->commune_id,
+            'countrie'   => new PaysResource($this->countrie),
+            'wilaya' => new WilayasResource($this->wilaya),
+            'commune'=> new CommuneResource($this->commune),
         ];
     }
 }

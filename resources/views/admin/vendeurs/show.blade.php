@@ -228,7 +228,7 @@
                                 <div class="wsk-cp-product">
                                     <div class="wsk-cp-img">
                                         @if(count($product->images)>0)
-                                        <img src="{{asset('files/products/'.$product->images[1]->image)}}" alt="Product" class="img-responsive" style="height: 200px;"/>
+                                        <img src="{{asset('files/products/'.$product->images[0]->image)}}" alt="Product" class="img-responsive" style="height: 200px;"/>
                                         @endif
                                     </div>
                                     <div class="wsk-cp-text">

@@ -4,7 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use  App\Http\Resources\TypeUserResource;
+use  App\Http\Resources\CommuneResource;
+use  App\Http\Resources\PaysResource;
+use  App\Http\Resources\WilayasResource;
 class UserResource extends JsonResource
 {
     /**
@@ -19,10 +22,10 @@ class UserResource extends JsonResource
             'name'  => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'type_user' => $this->type_user,
-            'pays_id'   => $this->pays_id,
-            'wilaya_id' => $this->wilaya_id,
-            'commune_id'=> $this->commune_id,
+            'type_user' => new TypeUserResource($this->typeUser),
+            'countrie'   => new PaysResource($this->countrie),
+            'wilaya' => new WilayasResource($this->wilaya),
+            'commune'=> new CommuneResource($this->commune),
         ];
     }
 }

@@ -18,7 +18,7 @@ class BlogResource extends JsonResource
     {
         return [
             'uuid'  => $this->uuid,
-            'creche_id'  => $this->creche_id,
+            'creche_id'  => new CrecheResource($this->creche),
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ProgrammeCrecheResource;
 use App\Http\Resources\BlogResource;
-
+use  App\Http\Resources\CommuneResource;
+use  App\Http\Resources\PaysResource;
+use  App\Http\Resources\WilayasResource;
 class CrecheResource extends JsonResource
 {
     /**
@@ -23,14 +25,14 @@ class CrecheResource extends JsonResource
             'phone' => $this->phone,
             'type_creche' => $this->type_creche,
             'creche_name' => $this->creche_name,
-            'programme_id' => $this->programme_id,
+            'programme' => new ProgrammeCrecheResource($this->programme),
             'facebook' => $this->facebook,
             'instagram' => $this->instagram,
             'tiktok' => $this->tiktok,
             'youtube' => $this->youtube,
-            'pays_id'   => $this->pays_id,
-            'wilaya_id' => $this->wilaya_id,
-            'commune_id'=> $this->commune_id,
+            'countrie'   => new PaysResource($this->countrie),
+            'wilaya' => new WilayasResource($this->wilaya),
+            'commune'=> new CommuneResource($this->commune),
         ];
     }
 }

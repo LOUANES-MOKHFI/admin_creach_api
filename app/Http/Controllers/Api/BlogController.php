@@ -32,8 +32,7 @@ class BlogController extends Controller
             $message = "هذا المقال غير موجود ";
             return $this->sendError($message);
         }
-        $blog->nbr_view++;
-        $blog->save();
+        
         $blog = new BlogResource($blog);
         return Response(['data' => $blog],200);
     }

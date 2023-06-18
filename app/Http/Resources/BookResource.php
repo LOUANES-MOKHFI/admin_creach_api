@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\NiveauBookResource;
 class BookResource extends JsonResource
 {
     /**
@@ -20,7 +20,7 @@ class BookResource extends JsonResource
             'slug'  => $this->slug,
             'pdf_file'  => $this->pdf_file,
             'image'  => $this->image,
-            'niveau_id'  => $this->niveau_id,
+            'niveau_id'  => new NiveauBookResource($this->niveau),
         ];
     }
 }

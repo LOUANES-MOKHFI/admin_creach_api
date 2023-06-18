@@ -67,6 +67,8 @@ class CrecheController extends Controller
             $message = "هذه المقالة غير موجود ";
             return $this->sendError($message);
         }
+        $blog->nbr_view++;
+        $blog->save();
         $blog = new BlogResource($blog);
         return Response(['data' => $blog],200);
     }

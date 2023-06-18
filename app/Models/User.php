@@ -86,10 +86,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Blog::class,'heart_users');
     }
     public function offres(){
-        return $this->hasMany(OffreController::class);
+        return $this->hasMany(OffreEmploi::class,'creche_id');
     }
     public function blogs_creche(){
-        return $this->hasMany(Blog::class);
+        return $this->hasMany(Blog::class,'creche_id');
     }
 
     public function orders(){

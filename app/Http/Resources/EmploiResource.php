@@ -4,8 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\CategoryResource;
-class FaqResource extends JsonResource
+
+class EmploiResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,8 @@ class FaqResource extends JsonResource
     {
         return [
             'uuid'  => $this->uuid,
-            'title'  => $this->title,
+            'name'  => $this->name,
             'slug'  => $this->slug,
-            'question'  => $this->question,
-            'response'  => $this->response,
-            'category_id' => new CategoryResource($this->category),
         ];
     }
 }
