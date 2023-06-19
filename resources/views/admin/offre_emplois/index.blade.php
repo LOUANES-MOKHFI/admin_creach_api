@@ -65,6 +65,7 @@
                                         <td>{{$offre->experience}}</td>
                                         <td>{{$offre->phone}}</td>
                                         <td>{{$offre->wilaya ? $offre->wilaya->name : ''}} - {{$offre->commune ? $offre->commune->name : ''}}</td>
+                                        <td></td>
                                     </tr>
                                 @endforeach
                             @endisset

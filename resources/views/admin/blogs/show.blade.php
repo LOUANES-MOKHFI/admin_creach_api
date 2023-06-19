@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5>  اسم الروضة: <span class="badge badge-success">{{$blog->creche->store_name}}</span></h5>
+                                <h5>  اسم الروضة: <span class="badge badge-success">{{$blog->creche->creche_name}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -107,36 +107,6 @@
             </div>
             <div class="card mg-b-20">
                 <div class="card-body">
-                    <h4 class="form-section text-danger"><i class="ft-home"></i>قائمة الاعجابات بالمقال</h4>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'style="text-align: center">
-                                    <thead>
-                                        <tr>
-                                            <th>المقال</th>
-                                            <th>المستخدم</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @isset($blog->heart_users)
-                                        @foreach($blog->heart_users as $key=>$heart_user)
-                                            <tr>
-                                              
-                                                <td>{{$blog->title}}</td>
-                                                <td>{{$heart_user->name}}</td>
-                                            </tr>
-                                        @endforeach
-                                    @endisset
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mg-b-20">
-                <div class="card-body">
                     <h4 class="form-section text-danger"><i class="ft-home"></i>قائمة التعليقات في المقال</h4>
                     <div class="row">
                         <div class="col-md-12">
@@ -147,6 +117,7 @@
                                             <th>المقال</th>
                                             <th>المستخدم</th>
                                             <th>التعليق</th>
+                                            <th>العمليات</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -172,6 +143,37 @@
                     </div>
                 </div>
             </div>
+            <div class="card mg-b-20">
+                <div class="card-body">
+                    <h4 class="form-section text-danger"><i class="ft-home"></i>قائمة الاعجابات بالمقال</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table id="example2" class="table key-buttons text-md-nowrap" data-page-length='50'style="text-align: center">
+                                    <thead>
+                                        <tr>
+                                            <th>المقال</th>
+                                            <th>المستخدم</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @isset($blog->heart_users)
+                                        @foreach($blog->heart_users as $key=>$heart_user)
+                                            <tr>
+                                              
+                                                <td>{{$blog->title}}</td>
+                                                <td>{{$heart_user->name}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endisset
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
 
         </div>
     </div>

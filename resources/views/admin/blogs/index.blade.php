@@ -33,6 +33,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>صورة المقال</th>
                                     <th>عنوان المقال</th>
                                     <th>اسم الروضة</th>
                                     <th>عدد الاعجابات</th>
@@ -43,6 +44,7 @@
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
+                                    <th>صورة المقال</th>
                                     <th>عنوان المقال</th>
                                     <th>اسم الروضة</th>
                                     <th>عدد الاعجابات</th>
@@ -55,6 +57,7 @@
                                 @foreach($blogs as $key=>$blog)
                                     <tr>
                                         <td>{{$key+1}}</td>
+                                        <td>@if(count($blog->images)>0)<img  width="100" src="{{asset('files/blogs/'.$blog->images[0]->image)}}" alt="">@else / @endif</td>
                                         <td>{{$blog->title}}</td>
                                         <td>{{$blog->creche->creche_name}}</td>
                                         <td><span class="badge badge-primary">{{$blog->nbr_heart}}</span></td>

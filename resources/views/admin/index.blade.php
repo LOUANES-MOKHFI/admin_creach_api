@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-warning-gradient">
                         <a href="{{route('admin.blogs')}}">
                             <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
@@ -147,12 +147,31 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-info-gradient">
-                        <a href="{{route('admin.blogs')}}">
+                        <a href="{{route('admin.products')}}">
                             <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                                 <div class="">
-                                    <h6 class="mb-3 tx-12 text-white">كل المقالات</h6>
+                                    <h6 class="mb-3 tx-12 text-white">كل المنتجات</h6>
+                                </div>
+                                <div class="pb-0 mt-0">
+                                    <div class="d-flex">
+                                        <span class="float-right my-auto mr-auto">
+                                            <i class="fas fa-arrow-circle-up text-white"></i>
+                                            <span class="text-white op-7">عرض ({{\App\Models\Product::count()}})</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+                    <div class="card overflow-hidden sales-card bg-success-gradient">
+                        <a href="{{route('admin.contributions')}}">
+                            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                                <div class="">
+                                    <h6 class="mb-3 tx-12 text-white">كل المساهمات</h6>
                                 </div>
                                 <div class="pb-0 mt-0">
                                     <div class="d-flex">
@@ -166,7 +185,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                     <div class="card overflow-hidden sales-card bg-danger-gradient">
                         <a href="{{route('admin.offre_emplois')}}">
                             <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
@@ -253,10 +272,96 @@
                 </table>
             </div>
         </div>
+        <div class="card mg-b-20 " style="padding:10px">
+            <h4>المنحنى البياني للتسجيلات (روضة, متجر, مستخدم)</h4>
+            <div class="col-lg-12">
+                <div class="box-content">
+                    <canvas id="allUsers" width="400" height="100"></canvas>
+                </div>
+            </div>
+ 
+        </div>
     </div>
 </div>
 @endsection
 
 @section('script')
+ <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
+<script>
+ var xMonth = JSON.parse('{!! json_encode($usersmonth)!!}');
+ var yusers = JSON.parse('{!! json_encode($users)!!}');
+ var ycreches = JSON.parse('{!! json_encode($creches)!!}');
+ var yvendors = JSON.parse('{!! json_encode($vendors)!!}');
+const ctxtestPcr = document.getElementById('allUsers');
+const allUsers = new Chart(ctxtestPcr, {
+    type: 'bar',
+    data: {
+        labels: xMonth,
+        
+        datasets: [
+        {
+            label: '# المستخدمين',
+            data: yusers,
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+                
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: '# الروضات',
+            data: ycreches,
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.2)',
+                
+            ],
+            borderColor: [
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: '# المتاجر',
+            data: yvendors,
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.2)',
+                
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+            ],
+            borderWidth: 1
+        },
+        ]
+    },
+     options: {
+    transitions: {
+      show: {
+        animations: {
+          x: {
+            from: 0
+          },
+          y: {
+            from: 0
+          }
+        }
+      },
+      hide: {
+        animations: {
+          x: {
+            to: 0
+          },
+          y: {
+            to: 0
+          }
+        }
+      }
+    }
+    }
+});
+</script>
 @endsection
