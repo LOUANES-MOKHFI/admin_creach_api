@@ -69,8 +69,10 @@ class User extends Authenticatable
     public function countrie(){
         return $this->belongsTo(Countrie::class,'pays_id');
     }
-    public function wilaya(){
-        return $this->belongsTo(Wilaya::class,'wilaya_id');
+
+    public function wilaya()
+    {
+        return $this->belongsTo(Wilaya::class);
     }
     public function commune(){
         return $this->belongsTo(Commune::class,'commune_id');

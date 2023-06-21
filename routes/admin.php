@@ -313,5 +313,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
 
     });
 
+
+    
 });
 
+Route::get('get_communes_by_wilaya',[HomeController::class,'getCommunesByWilaya'])->name('admin.get_communes_by_wilaya');

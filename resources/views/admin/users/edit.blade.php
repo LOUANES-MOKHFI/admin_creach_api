@@ -69,33 +69,45 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="projectinput1"> البلد</label>
-                                    <select name="pays_id" id="" class="form-control">
+                                    <select name="pays_id" id="pays" class="form-control">
                                         <option value="">-- اختر من القائمة --</option>
-                                        <option value="1">--  بلد 1 --</option>
+                                        @isset($countries)
+                                        @foreach($countries as $countrie)
+                                            <option value="{{$countrie->id}}" {{$countrie->id == $user->pays_id ? 'selected' : ''}}>{{$countrie->name}}</option>
+                                        @endforeach
+                                        @endisset
                                     </select>
                                     @error("pays_id")
                                     <span class="text-danger"> {{$message}}  </span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="wilayaBlock" @if($user->pays_id != 62) style="display:none" @endif>
                                 <div class="form-group">
                                     <label for="projectinput1"> الولاية</label>
-                                    <select name="wilaya_id" id="" class="form-control">
+                                    <select name="wilaya_id" id="wilaya" class="form-control">
                                         <option value="">-- اختر من القائمة --</option>
-                                        <option value="1">--  ولاية 1 --</option>
+                                        @isset($wilayas)
+                                        @foreach($wilayas as $wilaya)
+                                            <option value="{{$wilaya->id}}" {{$wilaya->id == $user->wilaya_id ? 'selected' : ''}}>{{$wilaya->name}}</option>
+                                        @endforeach
+                                        @endisset
                                     </select>
                                     @error("wilaya_id")
                                     <span class="text-danger"> {{$message}}  </span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="CommuneBlock" @if($user->pays_id != 62) style="display:none" @endif>
                                 <div class="form-group">
                                     <label for="projectinput1"> البلدية</label>
-                                    <select name="commune_id" id="" class="form-control">
+                                    <select name="commune_id" id="commune" class="form-control">
                                         <option value="">-- اختر من القائمة --</option>
-                                        <option value="1">--  بلدية 1 --</option>
+                                        @isset($communes)
+                                        @foreach($communes as $commune)
+                                            <option value="{{$commune->id}}" {{$commune->id == $user->commune_id ? 'selected' : ''}}>{{$commune->name}}</option>
+                                        @endforeach
+                                        @endisset
                                     </select>
                                     @error("commune_id")
                                     <span class="text-danger"> {{$message}}  </span>
@@ -109,7 +121,7 @@
                                         <option value="">-- اختر من القائمة --</option>
                                         @isset($types)
                                         @foreach($types as $type)
-                                            <option value="{{$type->id}}">{{$type->name}}</option>
+                                            <option value="{{$type->id}}" {{$type->id == $user->type_user ? 'selected' : ''}}>{{$type->name}}</option>
                                         @endforeach
                                         @endisset
                                     </select>
@@ -141,5 +153,28 @@
 @endsection
 
 @section('script')
-
+    <script>
+        $(document).on('change', '#wilaya', function () {
+            wilaya = this.value;
+            $.ajax({
+                url: "{{route('admin.get_communes_by_wilaya')}}",
+                method:"get",
+                dataType:'json',
+                data:{
+                    wilaya:wilaya,
+                },
+                success: function(result){
+                    //console.log(result.communes);
+                    communes = result.communes;
+                    $('#commune').empty();
+                    var options = '';
+                    $.each(communes, function(key, value) {
+                        options += '<option value='+value.id+'>'+value.name+'</option>';
+                    });
+                    $('#commune').append(`<option value="">-- اختر من القائمة --</option>`);
+                    $('#commune').append(options);
+                }
+            });
+        });
+    </script>
 @endsection

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\ProgrammesCreche;
 use App\Models\User;
+use App\Models\Wilaya;
+use App\Models\Commune;
+use App\Models\Countrie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,6 +39,9 @@ class CrecheController extends Controller
     public function edit($uuid){
         try {
             $data['creche'] = User::where('type','creche')->where('uuid',$uuid)->first();
+            $data['countries'] = Countrie::all();
+            $data['wilayas'] = Wilaya::all();
+            $data['communes'] = Commune::all();
             if(!$data['creche']){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
             }

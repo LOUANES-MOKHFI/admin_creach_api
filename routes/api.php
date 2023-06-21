@@ -134,7 +134,7 @@ Route::group(['prefix' => 'services'],function(){
 Route::group(['prefix' => 'creches'],function(){
     Route::get('/',[CrecheController::class,'GetAllCreches'])->name('creches');
     Route::get('/show-creche/{uuid}',[CrecheController::class,'ShowCreche'])->name('creches.show');
-    Route::get('/search-creche/{keyword}',[CrecheController::class,'SearchCreche'])->name('creches.search');
+    Route::get('/search-creche',[CrecheController::class,'SearchCreche'])->name('creches.search');
     Route::get('/blogs',[CrecheController::class,'GetAllBlogs'])->name('creches.blogs');
     Route::get('/blogs/show/{slug}',[CrecheController::class,'ShowBlog'])->name('creches.blogs.show');
 });
@@ -152,7 +152,7 @@ Route::group(['prefix' => 'offres_emplois'],function(){
 Route::group(['prefix' => 'vendors'],function(){
     Route::get('/',[VendorController::class,'GetAllVendors'])->name('vendors');
     Route::get('/show-vendor/{uuid}',[VendorController::class,'ShowVendor'])->name('vendors.show');
-    Route::get('/search-vendor/{keyword}',[VendorController::class,'SearchVendor'])->name('vendors.search');
+    Route::get('/search-vendor',[VendorController::class,'SearchVendor'])->name('vendors.search');
     Route::get('/products',[VendorController::class,'GetAllProducts'])->name('vendors.products');
     Route::get('/products/show/{slug}',[VendorController::class,'ShowProduct'])->name('vendors.products.show');
 });

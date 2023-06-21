@@ -30,7 +30,7 @@ class VendorResource extends JsonResource
             'instagram' => $this->instagram,
             'tiktok' => $this->tiktok,
             'youtube' => $this->youtube,
-            'countrie'   => new PaysResource($this->countrie),
+            //'countrie'   => new PaysResource($this->countrie),
             'wilaya' => new WilayasResource($this->wilaya),
             'commune'=> new CommuneResource($this->commune),
         ];

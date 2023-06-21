@@ -40,9 +40,26 @@ class CrecheController extends Controller
         return Response(['data' => $data],200);
     }
 
-    public function SearchCreche($keyword){
-        $creches = User::where('type','creche')->where('is_active',1)->where('creche_name','LIKE','%'.$keyword.'%')->get();
-        if(!$creches){
+    public function SearchCreche(Request $request){
+        $keyword = $request->keyword;
+        $wilaya = $request->wilaya;
+        $commune = $request->commune;
+        $query = User::query();
+        $query->where('type','creche')->where('is_active',1);
+        
+        if (!empty($keyword)) {
+            $query->where('creche_name', 'LIKE', '%' . $keyword . '%');
+                    
+        }
+        if (!empty($wilaya)) {
+            $query->where('wilaya_id', $wilaya);
+        }
+        if (!empty($commune)) {
+            $query->where('commune_id', $commune);
+        }
+        $creches = $query->get();
+        
+        if(!$creches || count($creches) < 1){
             $message = "قائمة الروضات فارغة";
             return $this->sendError($message);
         }

@@ -105,7 +105,7 @@
 
 
 
-
+<script src="{{asset('js/wilayas.js')}}"></script>
 
 	@yield('script')
 

@@ -7,6 +7,9 @@ use App\Models\Admin;
 use App\Models\Notification;
 use App\Models\TypesUsers;
 use App\Models\User;
+use App\Models\Wilaya;
+use App\Models\Commune;
+use App\Models\Countrie;
 use Illuminate\Http\Request;
 use Hash;
 use Illuminate\Support\Facades\Mail;
@@ -37,6 +40,9 @@ class UserController extends Controller
     public function edit($uuid){
         try {
             $data['user'] = User::where('type','user')->where('uuid',$uuid)->first();
+            $data['countries'] = Countrie::all();
+            $data['wilayas'] = Wilaya::all();
+            $data['communes'] = Commune::all();
             if(!$data['user']){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
             }

@@ -40,14 +40,31 @@ class VendorController extends Controller
         return Response(['data' => $data],200);
     }
 
-    public function SearchVendor($keyword){
-        $vendors = User::where('type','vendeur')->where('is_active',1)->where('store_name','LIKE','%'.$keyword.'%')->get();
+    public function SearchVendor(Request $request){
+        $keyword = $request->keyword;
+        $wilaya = $request->wilaya;
+        $commune = $request->commune;
+        $query = User::query();
+        $query->where('type','vendeur')->where('is_active',1);
+        if (!empty($keyword)) {
+            $query->where('store_name', 'LIKE', '%' . $keyword . '%');
+                    
+        }
+        if (!empty($wilaya)) {
+            $query->where('wilaya_id', $wilaya);
+        }
+        if (!empty($commune)) {
+            $query->where('commune_id', $commune);
+        }        
+
+        $vendors = $query->get();
         
-        if(!$vendors || $vendors->count() <1){
+        if(!$vendors || count($vendors) < 1){
             $message = "قائمة البائعين فارغة";
             return $this->sendError($message);
         }
         $vendors = VendorResource::collection($vendors);
+        
         return Response(['data' => $vendors],200);
     }
     public function GetAllProducts(Request $request){

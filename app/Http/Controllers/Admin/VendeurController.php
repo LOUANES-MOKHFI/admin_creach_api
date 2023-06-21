@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\DomaineVendeur;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Wilaya;
+use App\Models\Commune;
+use App\Models\Countrie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -37,6 +40,9 @@ class VendeurController extends Controller
     public function edit($uuid){
         try {
             $data['vendeur'] = User::where('type','vendeur')->where('uuid',$uuid)->first();
+            $data['countries'] = Countrie::all();
+            $data['wilayas'] = Wilaya::all();
+            $data['communes'] = Commune::all();
             if(!$data['vendeur']){
                 return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
             }

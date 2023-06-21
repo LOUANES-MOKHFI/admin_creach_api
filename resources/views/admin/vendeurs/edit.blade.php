@@ -66,24 +66,32 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="wilayaBlock">
                                 <div class="form-group">
                                     <label for="projectinput1"> الولاية</label>
-                                    <select name="wilaya_id" id="" class="form-control">
+                                    <select name="wilaya_id" id="wilaya" class="form-control">
                                         <option value="">-- اختر من القائمة --</option>
-                                        <option value="1">--  ولاية 1 --</option>
+                                        @isset($wilayas)
+                                        @foreach($wilayas as $wilaya)
+                                            <option value="{{$wilaya->id}}" {{$wilaya->id == $vendeur->wilaya_id ? 'selected' : ''}}>{{$wilaya->name}}</option>
+                                        @endforeach
+                                        @endisset
                                     </select>
                                     @error("wilaya_id")
                                     <span class="text-danger"> {{$message}}  </span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="CommuneBlock">
                                 <div class="form-group">
                                     <label for="projectinput1"> البلدية</label>
-                                    <select name="commune_id" id="" class="form-control">
+                                    <select name="commune_id" id="commune" class="form-control">
                                         <option value="">-- اختر من القائمة --</option>
-                                        <option value="1">--  بلدية 1 --</option>
+                                        @isset($communes)
+                                        @foreach($communes as $commune)
+                                            <option value="{{$commune->id}}" {{$commune->id == $vendeur->commune_id ? 'selected' : ''}}>{{$commune->name}}</option>
+                                        @endforeach
+                                        @endisset
                                     </select>
                                     @error("commune_id")
                                     <span class="text-danger"> {{$message}}  </span>
@@ -154,5 +162,28 @@
 @endsection
 
 @section('script')
-
+<script>
+    $(document).on('change', '#wilaya', function () {
+        wilaya = this.value;
+        $.ajax({
+            url: "{{route('admin.get_communes_by_wilaya')}}",
+            method:"get",
+            dataType:'json',
+            data:{
+                wilaya:wilaya,
+            },
+            success: function(result){
+                //console.log(result.communes);
+                communes = result.communes;
+                $('#commune').empty();
+                var options = '';
+                $.each(communes, function(key, value) {
+                    options += '<option value='+value.id+'>'+value.name+'</option>';
+                });
+                $('#commune').append(`<option value="">-- اختر من القائمة --</option>`);
+                $('#commune').append(options);
+            }
+        });
+    });
+</script>
 @endsection

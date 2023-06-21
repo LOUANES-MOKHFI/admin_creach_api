@@ -16,5 +16,9 @@ class Wilaya extends Model
     public function communes(){
         return $this->hasMany(Wilaya::class);
     }
+
+    public function users(){
+        return $this->hasMany(User::class);
+    }
     
 }
