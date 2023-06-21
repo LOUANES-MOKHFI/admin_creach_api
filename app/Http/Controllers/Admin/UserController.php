@@ -101,40 +101,16 @@ class UserController extends Controller
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }
-    public function create(){
 
-        return view('admin.users.add');
-    }
-
-    public function store(Request $request){
-        $request->validate([
-            'email' => 'required|email',
-            'name' => 'required',
-            'password' => 'required',
-        ]);
-        $user = new Admin();
-        
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-
-
-        if($user->save()){
-            return redirect()->route('admin.users')->with(['success' => 'L\'utilisateur est ajoutée avec succées']);
-        }
-        else{
-            return redirect()->route('admin.users')->with(['error' => 's\'il vous plait, verifier vos informations']);
-        }
-    }
-    public function destroy($id){
-        $user = Admin::where('id',$id)->first();
+    public function destroy($uuid){
+        $user = User::where('uuid',$uuid)->first();
         if(!$user){
-            return redirect()->route('admin.users')->with(['error' => "L'utilisateur n'existe pas"]);
+            return redirect()->route('admin.users')->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
 
         }
         else{
             $user->delete();
-            return redirect()->route('admin.users')->with(['success' => 'L\'utilisateur est Supprimée avec succées']);
+            return redirect()->route('admin.users')->with('success','تم حذف الحساب بنحاح');
 
         }
     }

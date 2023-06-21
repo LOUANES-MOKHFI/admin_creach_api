@@ -129,12 +129,10 @@
 				
 				
 				@endif
-				<audio id="audioNotify" src="/admin/assets/beep/beep2.mp3" type="audio/wav">
+				<audio id="audioNotify" src="/admin/assets/beep/beep1.mp3" type="audio/wav">
 
 		        </audio> 
-		        <audio id="audioNotify_billan" src="/admin/assets/beep/beep.mp3" type="audio/wav">
 
-		        </audio>
 				<div class="dropdown main-profile-menu nav nav-item nav-link">
 					<a class="profile-user d-flex" href=""><img alt="" src="{{asset('admin/assets/img/faces/6.jpg')}}"></a>
 					<div class="dropdown-menu">
@@ -168,34 +166,41 @@
         cluster: 'eu'
         });
 
-        ////new demande RDV
+        ////Notification new account
         var channel = pusher.subscribe('new-user-register');
         channel.bind('new-user-event', function(data) {
             console.log(data);
-            //console.log(JSON.stringify(data));
-
-            var UserNotified = "{{auth('admins')->user()->is_notified}}"
-            if(UserNotified == 1){
-                sound1();
+			if(data.type =="user"){
+				var type = `<span class="badge badge-danger">مستخدم</span>`
+			}
+			if(data.type == "creche"){
+				var type = `<span class="badge badge-success">روضة</span>`
+			}
+			if(data.type == "vendeur"){
+				var type = `<span class="badge badge-info">متجر</span>`
+			}
+											 
+                sound();
                 var count_notif = parseInt(1);
                 count_notif = count_notif + parseInt($('.notif_admin').attr('data-count'));
                 $(".notif_admin").attr('data-count',count_notif);
                 $(".notif_admin").html(count_notif);
                 //$(".rdv_list").html()
-                var notification = `
-                    <a href="`+data.link+`">
-                        <span class="avatar"><img src="" alt=""></span>
-                        <span class="name" style="color:red">rr</span>
-                        <span class="email" style="color:red">rrrrrrrr</span>
-                        <span class="time" style="color:red">`+data.date+`</span>
-                    </a>`;
+                var notification = 
+					`
+						<a href="`+data.link+`" class="p-3 d-flex border-bottom">
+							<div class="wd-90p">
+								<div class="d-flex">
+									<h6 class="mb-1 name">`+type+`</h6>
+									<h5 class="mb-1 name">`+data.name+`</h5>
+								</div>
+								<p class="mb-0 desc">`+data.email+`</p>
+								<p class="time mb-0 text-left float-right mr-2 mt-2">`+data.date+`</p>
+							</div>
+						</a>
+					`;
+                $(".main-message-list").prepend(notification);
 
-
-                $(".notif_list").append(notification);
-                /*var url = href='/admin/patient/dossier_medical/'+data.uuid;
-                $(".url_notify").attr('href',url);*/
-
-            }
         });
 
 

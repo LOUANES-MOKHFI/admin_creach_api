@@ -268,7 +268,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('/',[CrecheController::class,'index'])->name('admin.creches');
         Route::post('store',[CrecheController::class,'store'])->name('admin.creches.store');
         Route::get('edit/{id}',[CrecheController::class,'edit'])->name('admin.creches.edit');
-         Route::post('update/{id}',[CrecheController::class,'update'])->name('admin.creches.update');
+        Route::post('update/{id}',[CrecheController::class,'update'])->name('admin.creches.update');
         Route::get('show/{id}',[CrecheController::class,'show'])->name('admin.creches.show');
         Route::get('delete/{id}',[CrecheController::class,'destroy'])->name('admin.creches.delete');
         Route::get('changeStatus/{uuid}',[CrecheController::class,'changeStatus'])->name('admin.creches.changeStatus');

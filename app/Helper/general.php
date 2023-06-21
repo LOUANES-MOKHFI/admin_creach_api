@@ -13,7 +13,7 @@ function Messages(){
 }
 
 function Notifications(){
-    return \App\Models\Notification::where('is_viewed',0)->get();
+    return \App\Models\Notification::where('is_viewed',0)->orderBy('created_at','DESC')->get();
 }
 
 function getNotificationType($model){

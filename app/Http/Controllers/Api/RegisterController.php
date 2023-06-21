@@ -49,8 +49,9 @@ class RegisterController extends Controller
             'link' => '/admin/users/show/'.$user->uuid,
             'is_viewed' => 0,
         ]);
-        $this->sendMailUser($user->name,$user->email,$user->type);
-        $this->sendMailAdmin($user->name,$user->email,$user->type);
+        event(new RegisterEvent($notification->uuid_model,$notification->link,$user->name,$user->email,$user->type,$notification->created_at));
+        //$this->sendMailUser($user->name,$user->email,$user->type);
+        //$this->sendMailAdmin($user->name,$user->email,$user->type);
         return $this->sendResponse($success, 'User register successfully.');
     }
     public function VendeurRegister(Request $request)
@@ -95,6 +96,7 @@ class RegisterController extends Controller
             'link' => '/admin/vendeurs/show/'.$user->uuid,
             'is_viewed' => 0,
         ]);
+        event(new RegisterEvent($notification->uuid_model,$notification->link,$user->name,$user->email,$user->type,$notification->created_at));
         $this->sendMailUser($user->name,$user->email,$user->type);
         $this->sendMailAdmin($user->name,$user->email,$user->type);
         return $this->sendResponse($success, 'User register successfully.');
@@ -149,7 +151,7 @@ class RegisterController extends Controller
             'link' => '/admin/creches/show/'.$user->uuid,
             'is_viewed' => 0,
         ]);
-        event(new RegisterEvent($notification->uuid_model,$notification->link,$notification->model,$notification->created_at));
+        event(new RegisterEvent($notification->uuid_model,$notification->link,$user->name,$user->email,$user->type,$notification->created_at));
         $this->sendMailUser($user->name,$user->email,$user->type);
         $this->sendMailAdmin($user->name,$user->email,$user->type);
         return $this->sendResponse($success, 'User register successfully.');
