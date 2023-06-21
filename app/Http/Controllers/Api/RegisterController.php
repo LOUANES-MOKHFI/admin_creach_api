@@ -79,7 +79,7 @@ class RegisterController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         
-        $success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
+        //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         $success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
         /* if($request->has('logo')){
@@ -128,7 +128,7 @@ class RegisterController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         
-        $success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
+        //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         $success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
         /* if($request->has('logo')){
