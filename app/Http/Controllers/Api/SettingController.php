@@ -10,19 +10,18 @@ use App\Models\Commune;
 class SettingController extends Controller
 {
     public function GetAllCountries(){
-        $countries = Countrie::all();
+        $countries = Countrie::select('id','name')->get();
         return Response(['data' => $countries],200);
     }
 
     public function GetWilayasCountrie($countrie_id){
-        $wialays = Wilaya::where('country_id',$countrie_id)->get();
+        $wialays = Wilaya::select('id','name')->where('country_id',$countrie_id)->get();
         return Response(['data' => $wialays],200);
     }
 
     public function GetCommunesWilaya($wilaya_id){
-        $Communes = Commune::where('wilaya_id',$wilaya_id)->get();
+        $Communes = Commune::select('id','name')->where('wilaya_id',$wilaya_id)->get();
         return Response(['data' => $Communes],200);
-
     }
     
 }
