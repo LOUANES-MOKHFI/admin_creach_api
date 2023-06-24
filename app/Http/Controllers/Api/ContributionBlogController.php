@@ -20,12 +20,12 @@ class ContributionBlogController extends Controller
     
     public function GetAllContributions(Request $request){
         $user = $request->user();
-        $blogs = Blog::where('user_id',$user->id)->where('type','contribution')->get();
+        $blogs = Blog::where('user_id',$user->id)->where('type','contribution')->paginate(PAGINATE_COUNT);
         if($blogs->count() < 1){
             $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);
         }
-        $blogs = BlogResource::collection($blogs);
+        $blogs = BlogResource::collection($blogs)->response()->getData();;
         return Response(['data' => $blogs],200);
     }
     public function ShowContribution(Request $request,$uuid){
@@ -173,12 +173,12 @@ class ContributionBlogController extends Controller
 
     public function GetAllContributionsUser(Request $request){
         $user = $request->user();
-        $blogs = Blog::where('is_active',1)->where('type','contribution')->get();
+        $blogs = Blog::where('is_active',1)->where('type','contribution')->paginate(PAGINATE_COUNT);
         if($blogs->count() < 1){
             $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);
         }
-        $blogs = BlogResource::collection($blogs);
+        $blogs = BlogResource::collection($blogs)->response()->getData();
         return Response(['data' => $blogs],200);
     }
     public function ShowContributionUser(Request $request,$uuid){

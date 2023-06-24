@@ -17,12 +17,12 @@ class BlogController extends Controller
 {
     public function GetAllBlogs(Request $request){
         $user = $request->user();
-        $blogs = Blog::where('creche_id',$user->id)->where('type','blog')->get();
+        $blogs = Blog::where('creche_id',$user->id)->where('type','blog')->paginate(PAGINATE_COUNT);
         if($blogs->count() < 1){
             $message = "قائمة مقالات فارغة";
             return $this->sendError($message);
         }
-        $blogs = BlogResource::collection($blogs);
+        $blogs = BlogResource::collection($blogs)->response()->getData();
         return Response(['data' => $blogs],200);
     }
     public function ShowBlog(Request $request,$uuid){

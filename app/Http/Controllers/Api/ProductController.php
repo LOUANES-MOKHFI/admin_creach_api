@@ -17,12 +17,12 @@ class ProductController extends Controller
 {
     public function GetAllProducts(Request $request){
         $user = $request->user();
-        $products = Product::where('vendor_id',$user->id)->get();
+        $products = Product::where('vendor_id',$user->id)->paginate(PAGINATE_COUNT);
         if(!$products){
             $message = "قائمة منتجاتك فارغة";
             return $this->sendError($message);
         }
-        $products = ProductResource::collection($products);
+        $products = ProductResource::collection($products)->response()->getData();
         return Response(['data' => $products],200);
     }
     public function ShowProduct(Request $request,$uuid){

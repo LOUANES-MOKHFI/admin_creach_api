@@ -10,12 +10,12 @@ class VideosController extends Controller
 {
     public function GetAllVideos(){
 
-        $videos = Video::get();
+        $videos = Video::paginate(PAGINATE_COUNT);
         if($videos->count() <1){
             $message = "قائمة الفيديوهات فارغة";
             return $this->sendError($message);
         }
-        $videos = VideoResource::collection($videos);
+        $videos = VideoResource::collection($videos)->response()->getData();
         return Response(['data' => $videos],200);
     }  
 

@@ -66,7 +66,7 @@
                                         <td>{{$publicite->admin->name}}</td>
                                         <td>
                                             <span class="badge {{$publicite->status == 1 ? 'badge-success' : 'badge-warning'}}">
-                                                {{$publicite->status == 1 ? مفعل : غير مفعل}}
+                                                {{$publicite->status == 1 ? 'مفعل': 'غير مفعل'}}
                                             </span>
                                         </td>
                                         <td>

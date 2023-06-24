@@ -17,12 +17,12 @@ use App\Http\Resources\DomaineVendorResource;
 class VendorController extends Controller
 {
     public function GetAllVendors(Request $request){
-        $vendors = User::where('type','vendeur')->where('is_active',1)->get();
+        $vendors = User::where('type','vendeur')->where('is_active',1)->paginate(PAGINATE_COUNT);
         if($vendors->count() <1){
             $message = "قائمة البائعين فارغة";
             return $this->sendError($message);
         }
-        $vendors = VendorResource::collection($vendors);
+        $vendors = VendorResource::collection($vendors)->response()->getData();
         return Response(['data' => $vendors],200);
     }   
 
@@ -36,7 +36,7 @@ class VendorController extends Controller
         }
         $data['vendor'] = new VendorResource($vendor);
         $data['domaine'] = new DomaineVendorResource(DomaineVendeur::where('id',$data['vendor']->domaine_vendeur)->first());
-        $data['products'] = ProductResource::collection(Product::where('vendor_id',$data['vendor']->id)->get());
+        $data['products'] = ProductResource::collection(Product::where('vendor_id',$data['vendor']->id)->paginate(PAGINATE_COUNT))->response()->getData();
         return Response(['data' => $data],200);
     }
 
@@ -57,24 +57,24 @@ class VendorController extends Controller
             $query->where('commune_id', $commune);
         }        
 
-        $vendors = $query->get();
+        $vendors = $query->paginate(PAGINATE_COUNT);
         
         if(!$vendors || count($vendors) < 1){
             $message = "قائمة البائعين فارغة";
             return $this->sendError($message);
         }
-        $vendors = VendorResource::collection($vendors);
+        $vendors = VendorResource::collection($vendors)->response()->getData();
         
         return Response(['data' => $vendors],200);
     }
     public function GetAllProducts(Request $request){
 
-        $products = Product::get();
+        $products = Product::paginate(PAGINATE_COUNT);
         if(!$products || $products->count() <1){
             $message = "قائمة المنتجات فارغة";
             return $this->sendError($message);
         }
-        $products = ProductResource::collection($products);
+        $products = ProductResource::collection($products)->response()->getData();
         return Response(['data' => $products],200);
     }  
     

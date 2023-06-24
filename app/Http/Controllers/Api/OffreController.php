@@ -14,12 +14,12 @@ class OffreController extends Controller
 {
     public function GetAllOffres(Request $request){
         $user = $request->user();
-        $offres = OffreEmploi::where('creche_id',$user->id)->get();
+        $offres = OffreEmploi::where('creche_id',$user->id)->paginate(PAGINATE_COUNT);
         if($offres->count() <1){
             $message = "قائمة عروض العمل فارغة";
             return $this->sendError($message);
         }
-        $offres = OffreEmploiResource::collection($offres);
+        $offres = OffreEmploiResource::collection($offres)->response()->getData();
         return Response(['data' => $offres],200);
     }   
 
@@ -130,12 +130,12 @@ class OffreController extends Controller
 
 
     public function ShowAllOffres(){
-        $offres = OffreEmploi::where('is_active',1)->with('creche')->with('emploi')->get();
+        $offres = OffreEmploi::where('is_active',1)->with('creche')->with('emploi')->paginate(PAGINATE_COUNT);
         if($offres->count() <1){
             $message = "قائمة عروض العمل فارغة";
             return $this->sendError($message);
         }
-        $offres = OffreEmploiResource::collection($offres);
+        $offres = OffreEmploiResource::collection($offres)->response()->getData();
         return Response(['data' => $offres],200);
     }
     public function ShowOffreToUser(Request $request,$uuid){

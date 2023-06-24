@@ -16,12 +16,12 @@ use App\Http\Resources\OffreEmploiResource;
 class CrecheController extends Controller
 {
     public function GetAllCreches(Request $request){
-        $creches = User::where('type','creche')->where('is_active',1)->get();
+        $creches = User::where('type','creche')->where('is_active',1)->paginate(PAGINATE_COUNT);
         if($creches->count() <1){
             $message = "قائمة الروضات فارغة";
             return $this->sendError($message);
         }
-        $creches = CrecheResource::collection($creches);
+        $creches = CrecheResource::collection($creches)->response()->getData();
         return Response(['data' => $creches],200);
     }   
 
@@ -35,8 +35,8 @@ class CrecheController extends Controller
         }
         $data['creche'] = new CrecheResource($creche);
         $data['programme'] = new ProgrammeCrecheResource(ProgrammesCreche::where('id',$data['creche']->programme_id)->first());
-        $data['blogs_creche'] = BlogResource::collection(Blog::where('creche_id',$data['creche']->id)->get());
-        $data['offres'] = OffreEmploiResource::collection(OffreEmploi::where('creche_id',$data['creche']->id)->get());
+        $data['blogs_creche'] = BlogResource::collection(Blog::where('creche_id',$data['creche']->id)->paginate(PAGINATE_COUNT))->response()->getData();;
+        $data['offres'] = OffreEmploiResource::collection(OffreEmploi::where('creche_id',$data['creche']->id)->paginate(PAGINATE_COUNT))->response()->getData();;
         return Response(['data' => $data],200);
     }
 
@@ -57,23 +57,23 @@ class CrecheController extends Controller
         if (!empty($commune)) {
             $query->where('commune_id', $commune);
         }
-        $creches = $query->get();
+        $creches = $query->paginate(PAGINATE_COUNT);
         
         if(!$creches || count($creches) < 1){
             $message = "قائمة الروضات فارغة";
             return $this->sendError($message);
         }
-        $creches = CrecheResource::collection($creches);
+        $creches = CrecheResource::collection($creches)->response()->getData();
         return Response(['data' => $creches],200);
     }
     public function GetAllBlogs(Request $request){
 
-        $blogs = Blog::get();
+        $blogs = Blog::paginate(PAGINATE_COUNT);
         if($blogs->count() <1){
             $message = "قائمة المقالات فارغة";
             return $this->sendError($message);
         }
-        $blogs = BlogResource::collection($blogs);
+        $blogs = BlogResource::collection($blogs)->response()->getData();
         return Response(['data' => $blogs],200);
     }  
     

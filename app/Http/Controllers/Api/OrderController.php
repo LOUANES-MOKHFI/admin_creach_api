@@ -14,12 +14,12 @@ class OrderController extends Controller
 {
     public function GetAllMyOrders(Request $request){
     	$user = $request->user();
-    	$orders = Order::where('user_id',$user->id)->get();
+    	$orders = Order::where('user_id',$user->id)->paginate(PAGINATE_COUNT);
         if($orders->count() <1){
             $message = "قائمة طلبياتك فارغة";
             return $this->sendError($message);
         }
-        $orders = OrderResource::collection($orders);
+        $orders = OrderResource::collection($orders)->response()->getData();
         return Response(['data' => $orders],200);
     }
 
@@ -66,12 +66,12 @@ class OrderController extends Controller
     }
     public function GetAllMyStoreOrders(Request $request){
     	$user = $request->user();
-    	$orders = Order::where('vendor_id',$user->id)->get();
+    	$orders = Order::where('vendor_id',$user->id)->paginate(PAGINATE_COUNT);
         if($orders->count() <1){
             $message = "قائمة طلبياتك فارغة";
             return $this->sendError($message);
         }
-        $orders = OrderResource::collection($orders);
+        $orders = OrderResource::collection($orders)->response()->getData();
         return Response(['data' => $orders],200);
     }
 

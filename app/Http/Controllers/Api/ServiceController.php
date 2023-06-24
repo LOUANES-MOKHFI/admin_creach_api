@@ -10,8 +10,8 @@ use App\Http\Resources\RealisationResource;
 class ServiceController extends Controller
 {
     public function GetAllServices(){
-        $services = Realisation::orderBy('id','DESC')->get();
-        $services = RealisationResource::collection($services);
+        $services = Realisation::orderBy('id','DESC')->paginate(PAGINATE_COUNT);
+        $services = RealisationResource::collection($services)->response()->getData();
         return Response(['data' => $services],200);
     }
 

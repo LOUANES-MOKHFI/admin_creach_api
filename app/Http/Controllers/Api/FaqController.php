@@ -11,18 +11,18 @@ class FaqController extends Controller
 {
     public function GetAllFaqs(){
 
-        $faqs = Faq::get();
+        $faqs = Faq::paginate(PAGINATE_COUNT);
         if($faqs->count() <1){
             $message = "قائمة الاستشارات فارغة";
             return $this->sendError($message);
         }
-        $faqs = FaqResource::collection($faqs);
+        $faqs = FaqResource::collection($faqs)->response()->getData();
         return Response(['data' => $faqs],200);
     }  
 
     public function GetAllCategoryFaqs(){
 
-        $categories = Category::orderBy('id','DESC')->where('type','faq')->get();
+        $categories = Category::orderBy('id','DESC')->where('type','faq')->paginate(PAGINATE_COUNT);
         if($categories->count() <1){
             $message = "قائمة أقسام الاستشارات فارغة";
             return $this->sendError($message);
@@ -38,12 +38,12 @@ class FaqController extends Controller
             $message = "لا يوجد هذا القسم";
             return $this->sendError($message);
         }
-        $faqs = Faq::where('category_id',$category->id)->get();
+        $faqs = Faq::where('category_id',$category->id)->paginate(PAGINATE_COUNT);
         if(!$faqs || $faqs->count() <1){
             $message = "لا توجد استشارات في هذا القسم";
             return $this->sendError($message);
         }
-        $data['faqs'] = FaqResource::collection($faqs);
+        $data['faqs'] = FaqResource::collection($faqs)->response()->getData();;
         return Response(['data' => $data],200);
     }  
 }

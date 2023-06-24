@@ -24,13 +24,13 @@ class ProgrammeCrecheController extends Controller
     }
 
     public function ShowProgramme(){
-        $niveaux = NiveauBook::with('books')->get();
+        $niveaux = NiveauBook::with('books')->paginate(PAGINATE_COUNT);
 
         if(!$niveaux){
             $message = "قائمة الكتب فارغة";
             return $this->sendError($message);
         }
-        $niveaux = NiveauBookResource::collection($niveaux);
+        $niveaux = NiveauBookResource::collection($niveaux)->response()->getData();
         return Response(['data' => $niveaux],200);
     }
 
