@@ -11,7 +11,9 @@ use Validator;
 use Ramsey\Uuid\Uuid;
 use App\Events\RegisterEvent;
 use Illuminate\Support\Facades\Mail;
-
+use App\Http\Resources\UserResource;
+use App\Http\Resources\CrecheResource;
+use App\Http\Resources\VendorResource;
 class RegisterController extends Controller
 {
     public function UserRegister(Request $request)
@@ -39,9 +41,10 @@ class RegisterController extends Controller
         $user = User::create($input);
 
         $success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
-        $success['name'] =  $user->name;
+       
         $user->uuid = (string) Uuid::uuid4();
         $user->save();
+        $success['user'] =  new UserResource($user);
         $notification = Notification::create([
             'uuid' => (string) Uuid::uuid4(),
             'uuid_model'=> $user->uuid,
@@ -80,8 +83,9 @@ class RegisterController extends Controller
         $user = User::create($input);
         
         //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
-        $success['name'] =  $user->name;
+        
         $user->uuid = (string) Uuid::uuid4();
+       
          if($request->has('logo')){
             $filename = '';
             $file = $request->file('logo');
@@ -89,6 +93,7 @@ class RegisterController extends Controller
            // $creche->logo = $filename;
         } 
         $user->save();
+        $success['vendor'] =  new VendorResource($user);
         $notification = Notification::create([
             'uuid' => (string) Uuid::uuid4(),
             'uuid_model'=> $user->uuid,
@@ -129,7 +134,7 @@ class RegisterController extends Controller
         $user = User::create($input);
         
         //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
-        $success['name'] =  $user->name;
+        //$success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
          if($request->has('logo')){
             $filename = '';
@@ -144,6 +149,7 @@ class RegisterController extends Controller
            // $creche->logo = $filename;
         } 
         $user->save();
+        $success['creche'] =  new CrecheResource($user);
         $notification = Notification::create([
             'uuid' => (string) Uuid::uuid4(),
             'uuid_model'=> $user->uuid,

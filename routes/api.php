@@ -174,6 +174,9 @@ Route::group(['prefix' => 'videos'],function(){
 });
 
 
+Route::get('/domainevendeurs',[SettingController::class,'GetAllDomaineVendor'])->name('domainevendeurs');
+Route::get('/programmescreche',[SettingController::class,'GetAllProgrammesCreche'])->name('programmescreche');
+Route::get('/typeusers',[SettingController::class,'GetAllTypeUsers'])->name('typeusers');
 Route::get('/countries',[SettingController::class,'GetAllCountries'])->name('countries');
 Route::get('/countrie/{countrie_id}',[SettingController::class,'GetWilayasCountrie'])->name('countries.wilayas');
 Route::get('/wilaya/{wilaya_id}',[SettingController::class,'GetCommunesWilaya'])->name('countries.wilayas.communes');
