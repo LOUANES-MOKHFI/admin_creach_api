@@ -31,7 +31,7 @@ class VendorController extends Controller
        
         //->with('programme')->with('blogs_vendor')->with('offres')
         if(!$vendor){
-            $message = "هذه الروضة غير موجود ";
+            $message = "هذ الحساب غير موجود ";
             return $this->sendError($message);
         }
         $data['vendor'] = new VendorResource($vendor);
@@ -90,7 +90,7 @@ class VendorController extends Controller
         return Response(['data' => $product],200);
     }
 
-    public function sendError($error, $errorMessages = [], $code = 404)
+    public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [
             'success' => false,

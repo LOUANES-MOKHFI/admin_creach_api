@@ -125,7 +125,7 @@ class ProfilController extends Controller
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-        //try {
+        try {
             $user = $request->user();
             
             $user->name = $request->name;
@@ -142,12 +142,12 @@ class ProfilController extends Controller
             $message = "تم تغيير المعلومات المعلومات بنجاح";
 
             return $this->sendResponse($status, $message);
-        /* } catch (\Throwable $th) {
+         } catch (\Throwable $th) {
             return Response(['data' => 'Unauthorized'],401);
-        } */
+        } 
     }
 
-    public function sendError($error, $errorMessages = [], $code = 404)
+    public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [
             'success' => false,

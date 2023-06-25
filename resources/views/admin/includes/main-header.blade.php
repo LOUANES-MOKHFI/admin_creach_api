@@ -79,6 +79,20 @@
 									</div>
 									<p class="mb-0 desc">{{Account($notification->uuid_model)->email}}</p>
 									@endif
+									@if($notification->model == "\App\Models\Blog")
+									<div class="d-flex">
+										<h6 class="mb-1 name">
+											@if(Blog($notification->uuid_model)->type =="blog")
+												<span class="badge badge-danger">مقالة</span>
+											@elseif(Blog($notification->uuid_model)->type == "contribution")
+												<span class="badge badge-success">مساهمة</span>
+											@endif
+										</h6>
+										<h5 class="mb-1 name">{{Blog($notification->uuid_model)->title}}</h5>
+									</div>
+									<p class="mb-0 desc">{{Blog($notification->uuid_model)->creche->name}}</p>
+									<p class="mb-0 desc">{{Blog($notification->uuid_model)->creche->email}}</p>
+									@endif
 									<p class="time mb-0 text-left float-right mr-2 mt-2">{{$notification->created_at}}</p>
 								</div>
 							</a>
@@ -169,7 +183,7 @@
         ////Notification new account
         var channel = pusher.subscribe('new-user-register');
         channel.bind('new-user-event', function(data) {
-            console.log(data);
+            //console.log(data);
 			if(data.type =="user"){
 				var type = `<span class="badge badge-danger">مستخدم</span>`
 			}
@@ -194,6 +208,42 @@
 									<h6 class="mb-1 name">`+type+`</h6>
 									<h5 class="mb-1 name">`+data.name+`</h5>
 								</div>
+								<p class="mb-0 desc">`+data.email+`</p>
+								<p class="time mb-0 text-left float-right mr-2 mt-2">`+data.date+`</p>
+							</div>
+						</a>
+					`;
+                $(".main-message-list").prepend(notification);
+
+        });
+
+
+		////Notification new blog
+        var channel = pusher.subscribe('new-blog');
+        channel.bind('new-blog-event', function(data) {
+            console.log(data);
+			var type = ''
+			if(data.type =="blog"){
+				type = `<span class="badge badge-danger">مقالة</span>`
+			}
+			if(data.type == "contribution"){
+				type = `<span class="badge badge-success">مساهمة</span>`
+			}						 
+                sound();
+                var count_notif = parseInt(1);
+                count_notif = count_notif + parseInt($('.notif_admin').attr('data-count'));
+                $(".notif_admin").attr('data-count',count_notif);
+                $(".notif_admin").html(count_notif);
+                //$(".rdv_list").html()
+                var notification = 
+					`
+						<a href="`+data.link+`" class="p-3 d-flex border-bottom">
+							<div class="wd-90p">
+								<div class="d-flex">
+									<h6 class="mb-1 name">`+type+`</h6>
+									<h5 class="mb-1 name">`+data.title+`</h5>
+								</div>
+								<p class="mb-0 desc">`+data.name+`</p>
 								<p class="mb-0 desc">`+data.email+`</p>
 								<p class="time mb-0 text-left float-right mr-2 mt-2">`+data.date+`</p>
 							</div>

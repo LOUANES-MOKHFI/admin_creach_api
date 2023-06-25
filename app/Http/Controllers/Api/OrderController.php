@@ -86,7 +86,7 @@ class OrderController extends Controller
         return Response(['data' => $order],200);
     }
 
-    public function sendError($error, $errorMessages = [], $code = 404)
+    public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [
             'success' => false,

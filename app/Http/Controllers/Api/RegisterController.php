@@ -82,12 +82,12 @@ class RegisterController extends Controller
         //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         $success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
-        /* if($request->has('logo')){
+         if($request->has('logo')){
             $filename = '';
             $file = $request->file('logo');
             $filename = UploadFile('logo',$file);
            // $creche->logo = $filename;
-        } */
+        } 
         $user->save();
         $notification = Notification::create([
             'uuid' => (string) Uuid::uuid4(),
@@ -131,7 +131,7 @@ class RegisterController extends Controller
         //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         $success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
-        /* if($request->has('logo')){
+         if($request->has('logo')){
             $filename = '';
             $file = $request->file('logo');
             $filename = UploadFile('logo',$file);
@@ -142,7 +142,7 @@ class RegisterController extends Controller
             $file = $request->file('image_rc');
             $filename = UploadFile('image_rc',$file);
            // $creche->logo = $filename;
-        } */
+        } 
         $user->save();
         $notification = Notification::create([
             'uuid' => (string) Uuid::uuid4(),
@@ -168,7 +168,7 @@ class RegisterController extends Controller
 
         return response()->json($response, 200);
     }
-    public function sendError($error, $errorMessages = [], $code = 404)
+    public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [
             'success' => false,

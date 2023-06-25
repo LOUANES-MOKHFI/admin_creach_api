@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\NewBlogEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\BlogImages;
 use App\Models\HeartUser;
+use App\Models\Notification;
 use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
@@ -20,7 +22,7 @@ class ContributionBlogController extends Controller
     
     public function GetAllContributions(Request $request){
         $user = $request->user();
-        $blogs = Blog::where('user_id',$user->id)->where('type','contribution')->paginate(PAGINATE_COUNT);
+        $blogs = Blog::where('creche_id',$user->id)->where('type','contribution')->paginate(PAGINATE_COUNT);
         if($blogs->count() < 1){
             $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);
@@ -30,7 +32,7 @@ class ContributionBlogController extends Controller
     }
     public function ShowContribution(Request $request,$uuid){
         $user = $request->user();
-        $blog = Blog::where('uuid',$uuid)->where('user_id',$user->id)->where('type','contribution')->with('images')->with('comments')->with('heart_users')->first();
+        $blog = Blog::where('uuid',$uuid)->where('creche_id',$user->id)->where('type','contribution')->with('images')->with('comments')->with('heart_users')->first();
         if(!$blog){
             $message = "هذه المساهمة غير موجود ";
             return $this->sendError($message);
@@ -57,7 +59,7 @@ class ContributionBlogController extends Controller
                 'title' => $request->title,
                 'slug' => Str::slug($request->title),
                 'content' => $request->content,
-                'user_id'  => $user->id,
+                'creche_id'  => $user->id,
                 'category_id'  => $request->category,
                 'type'  => 'contribution'
             ]);
@@ -80,6 +82,14 @@ class ContributionBlogController extends Controller
                 $blog->videos = $filename;
                 $blog->save();
             }
+            $notification = Notification::create([
+                'uuid' => (string) Uuid::uuid4(),
+                'uuid_model'=> $blog->uuid,
+                'model' => '\App\Models\Blog',
+                'link' => '/admin/contributions/show/'.$blog->uuid,
+                'is_viewed' => 0,
+            ]);
+            event(new NewBlogEvent($notification->uuid_model,$notification->link,$user->name,$user->email,$blog->type,$blog->title,$notification->created_at));
             $status = 200;
             $message = "تمت اضافة المساهمة بنجاح";
 
@@ -100,7 +110,7 @@ class ContributionBlogController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());       
         }
         try {
-            $blog = Blog::where('uuid',$uuid)->where('user_id',$user->id)->where('type','contribution')->first();
+            $blog = Blog::where('uuid',$uuid)->where('creche_id',$user->id)->where('type','contribution')->first();
 
             if(!$blog){
                 $message = "هذه المساهمة غير موجود ";
@@ -149,7 +159,7 @@ class ContributionBlogController extends Controller
             $message = "هذه المساهمة غير موجود ";
             return $this->sendError($message);
         }
-        $heart_user = HeartUser::where('user_id',$user->id)->where('blog_id',$blog->id)->first();
+        $heart_user = HeartUser::where('creche_id',$user->id)->where('blog_id',$blog->id)->first();
         if($heart_user && $heart_user->count() > 0){
             $heart_user->delete();
             $blog->nbr_heart --;
@@ -172,12 +182,13 @@ class ContributionBlogController extends Controller
     }
 
     public function GetAllContributionsUser(Request $request){
-        $user = $request->user();
+        //$user = $request->user();
         $blogs = Blog::where('is_active',1)->where('type','contribution')->paginate(PAGINATE_COUNT);
         if($blogs->count() < 1){
             $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);
         }
+        //dd($blogs);
         $blogs = BlogResource::collection($blogs)->response()->getData();
         return Response(['data' => $blogs],200);
     }
@@ -194,7 +205,7 @@ class ContributionBlogController extends Controller
         return Response(['data' => $blog],200);
     }
     
-    public function sendError($error, $errorMessages = [], $code = 404)
+    public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [
             'success' => false,

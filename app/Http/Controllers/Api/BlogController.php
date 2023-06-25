@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\NewBlogEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\BlogImages;
 use App\Models\HeartUser;
 use Illuminate\Http\Request;
+use App\Models\Notification;
 use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
@@ -74,6 +76,15 @@ class BlogController extends Controller
                 $blog->videos = $filename;
                 $blog->save();
             }
+            $notification = Notification::create([
+                'uuid' => (string) Uuid::uuid4(),
+                'uuid_model'=> $blog->uuid,
+                'model' => '\App\Models\Blog',
+                'link' => '/admin/blogs/show/'.$blog->uuid,
+                'is_viewed' => 0,
+            ]);
+            event(new NewBlogEvent($notification->uuid_model,$notification->link,$user->name,$user->email,$blog->type,$blog->title,$notification->created_at));
+
             $status = 200;
             $message = "تمت اضافة المقال بنجاح";
 
@@ -163,7 +174,7 @@ class BlogController extends Controller
 
         return $this->sendResponse($status, $message);
     }
-    public function sendError($error, $errorMessages = [], $code = 404)
+    public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [
             'success' => false,

@@ -34,11 +34,13 @@ class FaqController extends Controller
         
         $data = [];
         $data['category'] = Category::where('slug',$category)->where('type','faq')->first();
+        //dd($data);
         if(!$category){
             $message = "لا يوجد هذا القسم";
             return $this->sendError($message);
         }
-        $faqs = Faq::where('category_id',$category->id)->paginate(PAGINATE_COUNT);
+        $faqs = Faq::where('category_id',$data['category']->id)->paginate(PAGINATE_COUNT);
+        //dd($faqs);
         if(!$faqs || $faqs->count() <1){
             $message = "لا توجد استشارات في هذا القسم";
             return $this->sendError($message);
@@ -46,4 +48,26 @@ class FaqController extends Controller
         $data['faqs'] = FaqResource::collection($faqs)->response()->getData();;
         return Response(['data' => $data],200);
     }  
+
+    public function sendError($error, $errorMessages = [], $code = 204)
+    {
+    	$response = [
+            'success' => false,
+            'status'    => $code,
+            'message' => $error,
+        ];
+        if(!empty($errorMessages)){
+            $response['data'] = $errorMessages;
+        }
+        return response()->json($response);
+    }
+    public function sendResponse($result, $message)
+    {
+    	$response = [
+            'success' => true,
+            'status'    => $result,
+            'message' => $message,
+        ];
+        return response()->json($response, 200);
+    }
 }

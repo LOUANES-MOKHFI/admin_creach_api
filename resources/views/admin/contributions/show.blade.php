@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5>  اسم الروضة: <span class="badge badge-success">{{$blog->name}}</span></h5>
+                                <h5>  اسم الحساب: <span class="badge badge-success">{{$blog->creche->name}}</span></h5>
                             </div>
                         </div>
 
@@ -47,11 +47,11 @@
             </div>
             <div class="card mg-b-20">
                 <div class="card-body">
-                    <h4 class="form-section text-danger"><i class="ft-home"></i>معلومات الالمساهمة</h4>
+                    <h4 class="form-section text-danger"><i class="ft-home"></i>معلومات المساهمة</h4>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5>اسم الالمساهمة : <span class="badge badge-danger">{{$blog->title}}</span> </h5>
+                                <h5>اسم المساهمة : <span class="badge badge-danger">{{$blog->title}}</span> </h5>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -66,7 +66,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <h5> محتوى الالمساهمة :</h5>
+                                <h5> محتوى المساهمة :</h5>
                                 <p>
                                     @if($blog->content != null )
                                     {!! html_entity_decode($blog->content) !!}

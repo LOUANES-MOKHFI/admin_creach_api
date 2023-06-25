@@ -30,3 +30,8 @@ function getNotificationType($model){
 function Account($uuid){
     return \App\Models\User::where('uuid',$uuid)->first();
 }
+
+
+function Blog($uuid){
+    return \App\Models\Blog::where('uuid',$uuid)->first();
+}
