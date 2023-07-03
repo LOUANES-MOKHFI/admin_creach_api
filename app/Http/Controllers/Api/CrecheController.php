@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\Blog;
+use App\Models\FollowUser;
 use App\Models\OffreEmploi;
 use App\Models\ProgrammesCreche;
 use Illuminate\Foundation\Auth\User;
@@ -68,7 +70,7 @@ class CrecheController extends Controller
     }
     public function GetAllBlogs(Request $request){
 
-        $blogs = Blog::paginate(PAGINATE_COUNT);
+        $blogs = Blog::orderBy('created_at','DESC')->paginate(PAGINATE_COUNT);
         if($blogs->count() <1){
             $message = "قائمة المقالات فارغة";
             return $this->sendError($message);
@@ -77,8 +79,8 @@ class CrecheController extends Controller
         return Response(['data' => $blogs],200);
     }  
     
-    public function ShowBlog($slug){
-        $blog = Blog::where('slug',$slug)->first();
+    public function ShowBlog($uuid){
+        $blog = Blog::where('uuid',$uuid)->first();
 
         if(!$blog){
             $message = "هذه المقالة غير موجود ";
@@ -90,6 +92,43 @@ class CrecheController extends Controller
         return Response(['data' => $blog],200);
     }
 
+    public function AddFollowToCreche(Request $request){
+        $user = $request->user();
+        $creche = User::where('uuid',$request->creche_id)->first();
+        if(!$creche){
+            $message = "هذه الروضة غير موجودة ";
+            return $this->sendError($message);
+        }
+        $follow_user = FollowUser::where('user_id',$user->id)->where('creche_id',$creche->id)->first();
+        
+        if($follow_user && $follow_user->count() > 0){
+            $follow_user->delete();
+            $creche->nbr_follow --;
+            $creche->save();
+            $message = "تمت حذف متابعتك لللروضة بنجاح";
+        }else{
+            $follow = FollowUser::create([
+                'user_id' => $user->id,
+                'creche_id' => $creche->id
+            ]);
+            $creche->nbr_follow ++;
+            $creche->save();
+            $message = "تمت اضافة متابعتك لللروضة بنجاح";
+        }
+        
+        $status = 200;
+        
+
+        return $this->sendResponse($status, $message);
+    }
+
+    public function FollowerList(Request $request){
+        $user = $request->user();
+        $followers_user_id = FollowUser::where('creche_id',$user->id)->pluck('user_id');
+        $users = User::whereIn('id',$followers_user_id)->get();
+        $users = UserResource::collection($users)->response()->getData();
+        return Response(['data' => $users],200);
+    }
     public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [

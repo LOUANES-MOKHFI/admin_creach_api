@@ -183,7 +183,7 @@ class ContributionBlogController extends Controller
 
     public function GetAllContributionsUser(Request $request){
         //$user = $request->user();
-        $blogs = Blog::where('is_active',1)->where('type','contribution')->paginate(PAGINATE_COUNT);
+        $blogs = Blog::where('is_active',1)->where('type','contribution')->orderBy('created_at','DESC')->paginate(PAGINATE_COUNT);
         if($blogs->count() < 1){
             $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);

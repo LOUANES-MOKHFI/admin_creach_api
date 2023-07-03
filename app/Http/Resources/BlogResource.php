@@ -25,6 +25,7 @@ class BlogResource extends JsonResource
             'video' => $this->video,
             'nbr_heart' => $this->nbr_heart,
             'nbr_view' => $this->nbr_view,
+            'created_at' => $this->created_at,
             'images' => ImageBlogResource::collection($this->images),
             'comments' => CommentBlogResource::collection($this->comments),
         ];

@@ -17,12 +17,12 @@ use App\Http\Resources\DomaineVendorResource;
 class VendorController extends Controller
 {
     public function GetAllVendors(Request $request){
-        $vendors = User::where('type','vendeur')->where('is_active',1)->paginate(PAGINATE_COUNT);
+        $vendors = User::where('type','vendeur')->where('is_active',1)->get();
         if($vendors->count() <1){
             $message = "قائمة البائعين فارغة";
             return $this->sendError($message);
         }
-        $vendors = VendorResource::collection($vendors)->response()->getData();
+        $vendors = VendorResource::collection($vendors);
         return Response(['data' => $vendors],200);
     }   
 
@@ -31,12 +31,12 @@ class VendorController extends Controller
        
         //->with('programme')->with('blogs_vendor')->with('offres')
         if(!$vendor){
-            $message = "هذ الحساب غير موجود ";
+            $message = "هذه الروضة غير موجود ";
             return $this->sendError($message);
         }
         $data['vendor'] = new VendorResource($vendor);
         $data['domaine'] = new DomaineVendorResource(DomaineVendeur::where('id',$data['vendor']->domaine_vendeur)->first());
-        $data['products'] = ProductResource::collection(Product::where('vendor_id',$data['vendor']->id)->paginate(PAGINATE_COUNT))->response()->getData();
+        $data['products'] = ProductResource::collection(Product::where('vendor_id',$data['vendor']->id)->get());
         return Response(['data' => $data],200);
     }
 
@@ -46,6 +46,7 @@ class VendorController extends Controller
         $commune = $request->commune;
         $query = User::query();
         $query->where('type','vendeur')->where('is_active',1);
+        
         if (!empty($keyword)) {
             $query->where('store_name', 'LIKE', '%' . $keyword . '%');
                     
@@ -57,29 +58,27 @@ class VendorController extends Controller
             $query->where('commune_id', $commune);
         }        
 
-        $vendors = $query->paginate(PAGINATE_COUNT);
-        
-        if(!$vendors || count($vendors) < 1){
+        $vendors = $query->get();
+        if(!$vendors || count($vendors) > 1){
             $message = "قائمة البائعين فارغة";
             return $this->sendError($message);
         }
-        $vendors = VendorResource::collection($vendors)->response()->getData();
-        
+        $vendors = VendorResource::collection($vendors);
         return Response(['data' => $vendors],200);
     }
     public function GetAllProducts(Request $request){
 
-        $products = Product::paginate(PAGINATE_COUNT);
+        $products = Product::get();
         if(!$products || $products->count() <1){
             $message = "قائمة المنتجات فارغة";
             return $this->sendError($message);
         }
-        $products = ProductResource::collection($products)->response()->getData();
+        $products = ProductResource::collection($products);
         return Response(['data' => $products],200);
     }  
     
-    public function ShowProduct($uuid){
-        $product = Product::where('uuid',$uuid)->with('categories')->with('images')->with('vendor')->first();
+    public function ShowProduct($slug){
+        $product = Product::where('slug',$slug)->with('categories')->with('images')->with('vendor')->first();
 
         if(!$product){
             $message = "هذا المنتج غير موجود ";
@@ -90,7 +89,7 @@ class VendorController extends Controller
         return Response(['data' => $product],200);
     }
 
-    public function sendError($error, $errorMessages = [], $code = 204)
+    public function sendError($error, $errorMessages = [], $code = 404)
     {
     	$response = [
             'success' => false,

@@ -54,7 +54,7 @@
                                     <tr>
                                         <td>{{$key+1}}</td>
                                         <td>{{$user->name}}</td>
-                                        <td>{{$user->typeUser->name}}</td>
+                                        <td>{{$user->typeUser ? $user->typeUser->name : ''}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>
                                         @if($user->is_active == 0)
