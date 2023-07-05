@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\BlogComment;
-
+use App\Models\Notification;
 class ContributionBlogController extends Controller
 {
     public function index(){
@@ -19,7 +19,11 @@ class ContributionBlogController extends Controller
         if(!$blog){
             return redirect()->back()->with('error','هذا المقال غير موجود');
         }
-
+        $notification = Notification::where('uuid_model',$blog->uuid)->first();
+        if($notification){
+            $notification->is_viewed = 1;
+            $notification->save();
+        }
         return view('admin.contributions.show',compact('blog'));
     }
 

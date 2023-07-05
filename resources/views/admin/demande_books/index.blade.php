@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
 @section('title')
-الإشعارات
+طلبات الكتب
 @endsection
 @section('style')
     <link href="{{ asset('admin/assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
@@ -17,7 +17,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ الإشعارات</span>
+                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ طلبات الكتب</span>
             </div>
         </div>
 
@@ -26,6 +26,7 @@
         <!--div-->
         <div class="col-xl-12">
             <div class="card mg-b-20">
+
                 <div class="card-body">
                     @include('admin.includes.alerts.alerts')
                     <div class="table-responsive">
@@ -33,47 +34,43 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>الاشعار</th>
-                                    <th>الحالة</th>
+                                    <th>الاسم</th>
+                                    <th>اسم الروضة</th>
+                                    <th>اسم المدير</th>
+                                    <th>الولاية</th>
+                                    <th>البلدية</th>
+                                    <th>رقم الهاتف</th>
                                     <th>العمليات</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>الاشعار</th>
-                                    <th>الحالة</th>
+                                    <th>الاسم</th>
+                                    <th>اسم الروضة</th>
+                                    <th>اسم المدير</th>
+                                    <th>الولاية</th>
+                                    <th>البلدية</th>
+                                    <th>رقم الهاتف</th>
                                     <th>العمليات</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                            @isset($notifications)
-                                @foreach($notifications as $key=>$notification)
+                            @isset($demandes)
+                                @foreach($demandes as $key=>$demande)
                                     <tr>
                                         <td>{{$key+1}}</td>
+                                        <td>{{$demande->user ? $demande->user->name : ''}}</td>
+                                        <td>{{$demande->creche_name}}</td>
+                                        <td>{{$demande->gerant_name}}</td>
+                                        <td>{{$demande->wilaya->name}}</td>
+                                        <td>{{$demande->commune->name}}</td>
+                                        <td>{{$demande->telephone}}</td>
+
                                         <td>
-                                            @if($notification->model == '\App\Models\User')
-                                                <span class='text-danger'>تسجيل عضوية</span>
-                                            @elseif($notification->model == '\App\Models\Product')
-                                                <span class='text-danger'>منتج جديد</span>
-                                            @elseif($notification->model == '\App\Models\Blog')
-                                                <span class='text-danger'>مدونة جديدة</span>
-                                            @elseif($notification->model == '\App\Models\DemandeBook')
-                                                <span class='text-danger'> طلب كتاب</span>
-                                            @endif    
-                                        </td>
-                                        <td>
-                                            @if($notification->is_viewed == 0)
-                                                <span class="badge badge-danger">Non Lu</span>
-                                            @else
-                                                <span class="badge badge-success">Lu</span>
-                                            @endif  
-                                        </td>
-                                        <td>
-                                        <a href="{{$notification->link}}" class="btn btn-info waves-effect waves-light" title="عرض">
+                                        <a href="{{route('admin.demande_books.show',$demande->uuid)}}"class="btn btn-info waves-effect waves-light" title="عرض">
                                             <i class="fa fa-eye"></i>
                                         </a>
-
 
                                         </td>
                                     </tr>

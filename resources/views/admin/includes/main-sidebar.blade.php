@@ -56,6 +56,7 @@
                     <li><a class="slide-item" href="{{route('admin.guide_pedagogique')}}">الدليل البيداغوجي</a></li>
                     <li><a class="slide-item" href="{{route('admin.niveau_books')}}">مستويات  الكتب</a></li>
                     <li><a class="slide-item" href="{{route('admin.books_creche')}}">الكتب</a></li>
+                    <li><a class="slide-item" href="{{route('admin.demande_books')}}">طلبات الكتب</a></li>
                 </ul>
             </li>
             <li class="slide">

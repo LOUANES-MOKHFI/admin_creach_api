@@ -140,6 +140,7 @@ class ProfilController extends Controller
             $user->commune_id = $request->commune_id;
             $user->type_creche = $request->type_creche;
             $user->programme_id = $request->programme_id;
+            $user->localisation = $request->localisation;
             $user->save();
             $status = 200;
             $message = "تم تغيير المعلومات المعلومات بنجاح";

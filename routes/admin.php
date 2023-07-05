@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ContributionBlogController;
 use App\Http\Controllers\Admin\PubliciteController;
+use App\Http\Controllers\Admin\DemandeBookController;
 use App\Http\Controllers\Admin\OffreEmploiController;
 
 
@@ -311,6 +312,13 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::get('changeStatus/{uuid}',[ContributionBlogController::class,'ChangeStatus'])->name('admin.contributions.changeStatus');
         Route::get('deleteComment/{id}',[ContributionBlogController::class,'deleteComment'])->name('admin.contributions.deleteComment');
 
+    });
+
+    ///demande Book routes
+    Route::group(['prefix' => 'demande_books'],function(){
+        Route::get('/',[DemandeBookController::class,'index'])->name('admin.demande_books');
+        Route::get('show/{uuid}',[DemandeBookController::class,'show'])->name('admin.demande_books.show');
+        Route::get('changeStatus/{uuid}',[DemandeBookController::class,'ChangeStatus'])->name('admin.demande_books.changeStatus');
     });
 
 

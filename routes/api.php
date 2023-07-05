@@ -50,6 +50,11 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     //Get All Followers
     Route::get('followers',[CrecheController::class,'FollowerList']);
 
+    ///demande book
+    Route::post('demande-book',[ProgrammeCrecheController::class,'DemandeBook']);
+
+
+    
     
     //blogs route api
     Route::group(['prefix' => 'blogs'],function(){
@@ -190,5 +195,7 @@ Route::get('/typeusers',[SettingController::class,'GetAllTypeUsers'])->name('typ
 Route::get('/countries',[SettingController::class,'GetAllCountries'])->name('countries');
 Route::get('/countrie/{countrie_id}',[SettingController::class,'GetWilayasCountrie'])->name('countries.wilayas');
 Route::get('/wilaya/{wilaya_id}',[SettingController::class,'GetCommunesWilaya'])->name('countries.wilayas.communes');
+
+Route::get('/getallbook',[ProgrammeCrecheController::class,'getAllBook'])->name('getallbook');
 
 
