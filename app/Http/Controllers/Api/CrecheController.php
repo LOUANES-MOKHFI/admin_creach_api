@@ -70,13 +70,17 @@ class CrecheController extends Controller
     }
     public function GetAllBlogs(Request $request){
 
+        $data = [];
         $blogs = Blog::orderBy('created_at','DESC')->paginate(PAGINATE_COUNT);
         if($blogs->count() <1){
             $message = "قائمة المقالات فارغة";
             return $this->sendError($message);
         }
-        $blogs = BlogResource::collection($blogs)->response()->getData();
-        return Response(['data' => $blogs],200);
+        $creches = User::where('type','creche')->where('is_active',1)->orderBy('nbr_follow','DESC')->limit(6)->get();
+        
+        $data['blogs'] = BlogResource::collection($blogs)->response()->getData();
+        $data['creches'] = CrecheResource::collection($creches);
+        return Response(['data' => $data],200);
     }  
     
     public function ShowBlog($uuid){

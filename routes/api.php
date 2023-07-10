@@ -149,7 +149,7 @@ Route::group(['prefix' => 'services'],function(){
 Route::group(['prefix' => 'creches'],function(){
     Route::get('/',[CrecheController::class,'GetAllCreches'])->name('creches');
     Route::get('/show-creche/{uuid}',[CrecheController::class,'ShowCreche'])->name('creches.show');
-    Route::get('/search-creche',[CrecheController::class,'SearchCreche'])->name('creches.search');
+    Route::post('/search-creche',[CrecheController::class,'SearchCreche'])->name('creches.search');
     Route::get('/blogs',[CrecheController::class,'GetAllBlogs'])->name('creches.blogs');
     Route::get('/blogs/show/{uuid}',[CrecheController::class,'ShowBlog'])->name('creches.blogs.show');
 });
