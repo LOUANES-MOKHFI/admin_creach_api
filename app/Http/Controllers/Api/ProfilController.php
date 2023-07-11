@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FollowedUserResource;
+use App\Models\FollowUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Resources\UserResource;
@@ -137,6 +140,7 @@ class ProfilController extends Controller
             $user->commune_id = $request->commune_id;
             $user->type_creche = $request->type_creche;
             $user->programme_id = $request->programme_id;
+            $user->localisation = $request->localisation;
             $user->save();
             $status = 200;
             $message = "تم تغيير المعلومات المعلومات بنجاح";
@@ -147,6 +151,23 @@ class ProfilController extends Controller
         } 
     }
 
+    public function FollowedCrecheList(Request $request){
+        if($request->user()) {
+
+            $user = $request->user();
+            $followed_creches_ids = FollowUser::where('user_id',$user->id)->pluck('creche_id');
+            if(!$followed_creches_ids){
+                $message = "قائمة متابعاتك للروضات فارغة";
+                return $this->sendError($message);
+            }
+            $creches = User::whereIn('id',$followed_creches_ids)->get(); 
+            $creches = CrecheResource::collection($creches)->response()->getData();           
+            return Response(['data' => $creches],200);
+        }
+
+        return Response(['data' => 'Unauthorized'],401);
+
+    }
     public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [

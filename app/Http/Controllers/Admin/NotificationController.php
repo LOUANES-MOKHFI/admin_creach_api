@@ -10,7 +10,7 @@ class NotificationController extends Controller
 {
     public function index(){
         $data = [];
-        $data['notifications'] = Notification::all();
+        $data['notifications'] = Notification::orderBy('created_at','DESC')->get();
         return view('admin.notifications.index',$data);
     }
 

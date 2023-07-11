@@ -31,7 +31,13 @@ class DemandeEmploiController extends Controller
                 $message = "هذا العرض غير موجود ";
                 return $this->sendError($message);
             }
+            $is_postuled = DemandeEmploi::where('user_id',$user->id)->where('offre_id',$offre->id)->get();
+            if(count($is_postuled)>0){
+                $status = 200;
+                $message = "لقد قمت بالتقدم لهذا العرض سابقا";
 
+                return $this->sendResponse($status, $message);
+            }
             $demande = DemandeEmploi::create([
                 'uuid' => (string) Uuid::uuid4(),
                 'user_id' => $user->id,

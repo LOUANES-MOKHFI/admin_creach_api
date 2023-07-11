@@ -93,6 +93,16 @@
 									<p class="mb-0 desc">{{Blog($notification->uuid_model)->creche->name}}</p>
 									<p class="mb-0 desc">{{Blog($notification->uuid_model)->creche->email}}</p>
 									@endif
+									@if($notification->model == "\App\Models\DemandeBook")
+									<div class="d-flex">
+										<h6 class="mb-1 name">
+												<span class="badge badge-warning">طلب كتاب</span>
+										</h6>
+										<h5 class="mb-1 name">{{DemandeBook($notification->uuid_model)->title}}</h5>
+									</div>
+									<p class="mb-0 desc">{{DemandeBook($notification->uuid_model)->user->name}}</p>
+									<p class="mb-0 desc">{{DemandeBook($notification->uuid_model)->user->email}}</p>
+									@endif
 									<p class="time mb-0 text-left float-right mr-2 mt-2">{{$notification->created_at}}</p>
 								</div>
 							</a>

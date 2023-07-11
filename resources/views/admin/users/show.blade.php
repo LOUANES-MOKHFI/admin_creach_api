@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5> صفة الحساب: <span class="text-danger">{{$user->typeUser->name}}</span></h5>
+                                <h5> صفة الحساب: <span class="text-danger">{{$user->typeUser ? $user->typeUser->name : ''}}</span></h5>
                             </div>
                         </div>
                         <div class="col-md-4">

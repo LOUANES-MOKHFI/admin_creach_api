@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
 @section('title')
-قائمة الاشهارات
+طلبات الكتب
 @endsection
 @section('style')
     <link href="{{ asset('admin/assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
@@ -17,7 +17,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة الاشهارات</span>
+                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ طلبات الكتب</span>
             </div>
         </div>
 
@@ -26,12 +26,7 @@
         <!--div-->
         <div class="col-xl-12">
             <div class="card mg-b-20">
-                <div class="card-header pb-0">
-                        <a href="{{route('admin.settings.publictes.create')}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
-                                class="fas fa-plus"></i>&nbsp; أضف اشهار
-                        </a>
 
-                </div>
                 <div class="card-body">
                     @include('admin.includes.alerts.alerts')
                     <div class="table-responsive">
@@ -39,42 +34,42 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>صورة الاشهار</th>
-                                    <th>اسم الاشهار</th>
-                                    <th>اسم الأدمن</th>
-                                    <th>الحالة</th>
+                                    <th>الاسم</th>
+                                    <th>اسم الروضة</th>
+                                    <th>اسم المدير</th>
+                                    <th>الولاية</th>
+                                    <th>البلدية</th>
+                                    <th>رقم الهاتف</th>
                                     <th>العمليات</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>صورة الاشهار</th>
-                                    <th>اسم الاشهار</th>
-                                    <th>اسم الأدمن</th>
-                                    <th>الحالة</th>
+                                    <th>الاسم</th>
+                                    <th>اسم الروضة</th>
+                                    <th>اسم المدير</th>
+                                    <th>الولاية</th>
+                                    <th>البلدية</th>
+                                    <th>رقم الهاتف</th>
                                     <th>العمليات</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                            @isset($publictes)
-                                @foreach($publictes as $key=>$publicite)
+                            @isset($demandes)
+                                @foreach($demandes as $key=>$demande)
                                     <tr>
                                         <td>{{$key+1}}</td>
-                                        <td><img src="{{asset('files/publicites/'.$publicite->image)}}"  width="100" alt=""></td>
-                                        <td>{{$publicite->name}}</td>
-                                        <td>{{$publicite->admin->name}}</td>
+                                        <td>{{$demande->user ? $demande->user->name : ''}}</td>
+                                        <td>{{$demande->creche_name}}</td>
+                                        <td>{{$demande->gerant_name}}</td>
+                                        <td>{{$demande->wilaya->name}}</td>
+                                        <td>{{$demande->commune->name}}</td>
+                                        <td>{{$demande->telephone}}</td>
+
                                         <td>
-                                            <span class="badge {{$publicite->status == 1 ? 'badge-success' : 'badge-warning'}}">
-                                                {{$publicite->status == 1 ? 'مفعل' : 'غير مفعل'}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                        <a href="{{route('admin.settings.publictes.edit',$publicite->uuid)}}"class="btn btn-warning waves-effect waves-light" title="{{__('admin/patients.edit')}}">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="{{route('admin.settings.publictes.delete',$publicite->uuid)}}" class="btn btn-danger waves-effect waves-light" title="{{__('admin/patients.delete')}}">
-                                            <i class="fa fa-trash"></i>
+                                        <a href="{{route('admin.demande_books.show',$demande->uuid)}}"class="btn btn-info waves-effect waves-light" title="عرض">
+                                            <i class="fa fa-eye"></i>
                                         </a>
 
                                         </td>

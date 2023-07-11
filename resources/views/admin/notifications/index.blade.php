@@ -57,7 +57,9 @@
                                             @elseif($notification->model == '\App\Models\Product')
                                                 <span class='text-danger'>منتج جديد</span>
                                             @elseif($notification->model == '\App\Models\Blog')
-                                                <span class='text-danger'>مدونة جديدة</span
+                                                <span class='text-danger'>مدونة جديدة</span>
+                                            @elseif($notification->model == '\App\Models\DemandeBook')
+                                                <span class='text-danger'> طلب كتاب</span>
                                             @endif    
                                         </td>
                                         <td>
@@ -68,7 +70,7 @@
                                             @endif  
                                         </td>
                                         <td>
-                                        <a href="{{route('admin.notifications.show',$notification->link)}}"class="btn btn-info waves-effect waves-light" title="عرض">
+                                        <a href="{{$notification->link}}" class="btn btn-info waves-effect waves-light" title="عرض">
                                             <i class="fa fa-eye"></i>
                                         </a>
 

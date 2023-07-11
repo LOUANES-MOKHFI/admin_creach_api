@@ -40,6 +40,21 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::post('changeInformationCreche',[ProfilController::class,'ChangeInformationCreche']);
     Route::get('logout',[UserLoginController::class,'logout']);
 
+    //// creche Follow user
+    Route::group(['prefix' => 'creches'],function(){
+        Route::post('/add-follow',[CrecheController::class,'AddFollowToCreche'])->name('creches.addFollow');
+    });
+    // get All creche Followed
+    Route::get('followed-creches',[ProfilController::class,'FollowedCrecheList']);
+
+    //Get All Followers
+    Route::get('followers',[CrecheController::class,'FollowerList']);
+
+    ///demande book
+    Route::post('demande-book',[ProgrammeCrecheController::class,'DemandeBook']);
+
+
+    
     
     //blogs route api
     Route::group(['prefix' => 'blogs'],function(){
@@ -128,20 +143,20 @@ Route::group(['prefix' => 'about'],function(){
 
 Route::group(['prefix' => 'services'],function(){
     Route::get('/',[ServiceController::class,'GetAllServices'])->name('services');
-    Route::get('/show-service/{slug}',[ServiceController::class,'ShowService'])->name('services.show');
+    Route::get('/show-service/{uuid}',[ServiceController::class,'ShowService'])->name('services.show');
 });
 
 Route::group(['prefix' => 'creches'],function(){
     Route::get('/',[CrecheController::class,'GetAllCreches'])->name('creches');
     Route::get('/show-creche/{uuid}',[CrecheController::class,'ShowCreche'])->name('creches.show');
-    Route::get('/search-creche',[CrecheController::class,'SearchCreche'])->name('creches.search');
+    Route::post('/search-creche',[CrecheController::class,'SearchCreche'])->name('creches.search');
     Route::get('/blogs',[CrecheController::class,'GetAllBlogs'])->name('creches.blogs');
-    Route::get('/blogs/show/{slug}',[CrecheController::class,'ShowBlog'])->name('creches.blogs.show');
+    Route::get('/blogs/show/{uuid}',[CrecheController::class,'ShowBlog'])->name('creches.blogs.show');
 });
 
 Route::group(['prefix' => 'all_contributions'],function(){
     Route::get('/',[ContributionBlogController::class,'GetAllContributionsUser'])->name('all_contributions');
-    Route::get('/show/{slug}',[ContributionBlogController::class,'ShowContributionUser'])->name('all_contributions.show');
+    Route::get('/show/{uuid}',[ContributionBlogController::class,'ShowContributionUser'])->name('all_contributions.show');
 });
 
 Route::group(['prefix' => 'offres_emplois'],function(){
@@ -154,7 +169,7 @@ Route::group(['prefix' => 'vendors'],function(){
     Route::get('/show-vendor/{uuid}',[VendorController::class,'ShowVendor'])->name('vendors.show');
     Route::get('/search-vendor',[VendorController::class,'SearchVendor'])->name('vendors.search');
     Route::get('/products',[VendorController::class,'GetAllProducts'])->name('vendors.products');
-    Route::get('/products/show/{slug}',[VendorController::class,'ShowProduct'])->name('vendors.products.show');
+    Route::get('/products/show/{uuid}',[VendorController::class,'ShowProduct'])->name('vendors.products.show');
 });
 
 Route::group(['prefix' => 'programme_creche'],function(){
@@ -180,5 +195,7 @@ Route::get('/typeusers',[SettingController::class,'GetAllTypeUsers'])->name('typ
 Route::get('/countries',[SettingController::class,'GetAllCountries'])->name('countries');
 Route::get('/countrie/{countrie_id}',[SettingController::class,'GetWilayasCountrie'])->name('countries.wilayas');
 Route::get('/wilaya/{wilaya_id}',[SettingController::class,'GetCommunesWilaya'])->name('countries.wilayas.communes');
+
+Route::get('/getallbook',[ProgrammeCrecheController::class,'getAllBook'])->name('getallbook');
 
 

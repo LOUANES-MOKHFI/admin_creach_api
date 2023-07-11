@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\BlogComment;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -18,6 +19,11 @@ class BlogController extends Controller
         $blog = Blog::where('uuid',$uuid)->where('type','blog')->first();
         if(!$blog){
             return redirect()->back()->with('error','هذا المقال غير موجود');
+        }
+        $notification = Notification::where('uuid_model',$blog->uuid)->first();
+        if($notification){
+            $notification->is_viewed = 1;
+            $notification->save();
         }
 
         return view('admin.blogs.show',compact('blog'));

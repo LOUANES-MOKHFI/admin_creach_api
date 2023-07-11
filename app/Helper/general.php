@@ -35,3 +35,8 @@ function Account($uuid){
 function Blog($uuid){
     return \App\Models\Blog::where('uuid',$uuid)->first();
 }
+
+function DemandeBook($uuid){
+    return \App\Models\DemandeBook::where('uuid',$uuid)->first();
+}
+

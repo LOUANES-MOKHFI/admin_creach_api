@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
 @section('title')
-قائمة الاشهارات
+عرض الطلب
 @endsection
 @section('style')
     <link href="{{ asset('admin/assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
@@ -17,7 +17,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ قائمة الاشهارات</span>
+                <h4 class="content-title mb-0 my-auto">الرئيسية</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ عرض الطلب</span>
             </div>
         </div>
 
@@ -26,58 +26,81 @@
         <!--div-->
         <div class="col-xl-12">
             <div class="card mg-b-20">
-                <div class="card-header pb-0">
-                        <a href="{{route('admin.settings.publictes.create')}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
-                                class="fas fa-plus"></i>&nbsp; أضف اشهار
-                        </a>
-
+                <div class="card-body">
+                    @include('admin.includes.alerts.alerts')
+                    
+                    <h4 class="form-section text-danger"><i class="ft-home"></i>معلومات الروضة</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <h5>  اسم الروضة: <span class="badge badge-success">{{$demande->creche_name}}</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <h5> اسم مدير الروضة : <span class="badge badge-success">{{$demande->gerant_name}}</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <h5> رقم الهاتف : <span class="badge badge-success">{{$demande->telephone}}</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <h5> الولاية: <span class="badge badge-success">{{$demande->wilaya->name}}</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <h5>  البلدية : <span class="badge badge-success">{{$demande->commune->name}}</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <h5>  سنة التأسيس : <span class="badge badge-success">{{$demande->annee}}</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <h5>  البرنامج الذي عملت به الموسم الماضي : <span class="badge badge-success">{{$demande->programme->name}}</span></h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div class="card mg-b-20">
+
                 <div class="card-body">
                     @include('admin.includes.alerts.alerts')
                     <div class="table-responsive">
-                        <table id="example1" class="table key-buttons text-md-nowrap" data-page-length='50'style="text-align: center">
+                        <table class="table key-buttons text-md-nowrap" style="text-align: center">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>صورة الاشهار</th>
-                                    <th>اسم الاشهار</th>
-                                    <th>اسم الأدمن</th>
-                                    <th>الحالة</th>
-                                    <th>العمليات</th>
+                                    <th>الكتاب</th>
+                                    <th>المستوى</th>
+                                    <th>الكمية</th>
+                                   
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>صورة الاشهار</th>
-                                    <th>اسم الاشهار</th>
-                                    <th>اسم الأدمن</th>
-                                    <th>الحالة</th>
-                                    <th>العمليات</th>
+                                    <th>الكتاب</th>
+                                    <th>المستوى</th>
+                                    <th>الكمية</th>
+
                                 </tr>
                             </tfoot>
                             <tbody>
-                            @isset($publictes)
-                                @foreach($publictes as $key=>$publicite)
+                            @isset($demande->detail)
+                                @foreach($demande->detail as $key=>$detail)
                                     <tr>
                                         <td>{{$key+1}}</td>
-                                        <td><img src="{{asset('files/publicites/'.$publicite->image)}}"  width="100" alt=""></td>
-                                        <td>{{$publicite->name}}</td>
-                                        <td>{{$publicite->admin->name}}</td>
-                                        <td>
-                                            <span class="badge {{$publicite->status == 1 ? 'badge-success' : 'badge-warning'}}">
-                                                {{$publicite->status == 1 ? 'مفعل' : 'غير مفعل'}}
-                                            </span>
-                                        </td>
-                                        <td>
-                                        <a href="{{route('admin.settings.publictes.edit',$publicite->uuid)}}"class="btn btn-warning waves-effect waves-light" title="{{__('admin/patients.edit')}}">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="{{route('admin.settings.publictes.delete',$publicite->uuid)}}" class="btn btn-danger waves-effect waves-light" title="{{__('admin/patients.delete')}}">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-
-                                        </td>
+                                        <td>{{$detail->book ? $detail->book->name : ''}}</td>
+                                        <td>{{$detail->niveau}}</td>
+                                        <td>{{$detail->qty}}</td>
                                     </tr>
                                 @endforeach
                             @endisset

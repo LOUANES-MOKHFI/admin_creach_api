@@ -15,8 +15,8 @@ class ServiceController extends Controller
         return Response(['data' => $services],200);
     }
 
-    public function ShowService($slug){
-        $service = Realisation::where('slug',$slug)->first();
+    public function ShowService($uuid){
+        $service = Realisation::where('uuid',$uuid)->first();
         if(!$service){
             $message = "هذا العمل غير موجود ";
             return $this->sendError($message);

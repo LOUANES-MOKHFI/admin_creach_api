@@ -34,7 +34,7 @@ class CrecheResource extends JsonResource
             'countrie'   => new PaysResource($this->countrie),
             'wilaya' => new WilayasResource($this->wilaya),
             'commune'=> new CommuneResource($this->commune),
-            
+            'localisation' => $this->localisation,
         ];
     }
 }
