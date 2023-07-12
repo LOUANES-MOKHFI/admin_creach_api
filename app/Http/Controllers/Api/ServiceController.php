@@ -10,18 +10,21 @@ use App\Http\Resources\RealisationResource;
 class ServiceController extends Controller
 {
     public function GetAllServices(){
-        $services = Realisation::orderBy('id','DESC')->paginate(PAGINATE_COUNT);
-        $services = RealisationResource::collection($services)->response()->getData();
-        return Response(['data' => $services],200);
+        $data = [];
+        $data['services'] = Realisation::select('id','name','slug','type','video','description')->orderBy('id','DESC')->where('type','عمل')->with('images')->get();
+        $data['moltaka'] = Realisation::select('id','name','slug','type','video','description')->orderBy('id','DESC')->where('type','ملتقى')->with('images')->first();
+        /* $data['services'] = RealisationResource::collection($services);
+        $data['moltaka'] = new RealisationResource($moltaka); */
+        return Response(['data' => $data],200);
     }
 
-    public function ShowService($uuid){
-        $service = Realisation::where('uuid',$uuid)->first();
+    public function ShowService($slug){
+        $service = Realisation::select('id','name','slug','type','video','description')->where('slug',$slug)->with('images')->first();
         if(!$service){
             $message = "هذا العمل غير موجود ";
             return $this->sendError($message);
         }
-        $service = new RealisationResource($service);
+        //$service = new RealisationResource($service);
         return Response(['data' => $service],200);
     }
 
