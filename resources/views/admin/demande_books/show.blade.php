@@ -63,7 +63,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <h5>  البرنامج الذي عملت به الموسم الماضي : <span class="badge badge-success">{{$demande->programme->name}}</span></h5>
+                                <h5>  البرنامج الذي عملت به الموسم الماضي : <span class="badge badge-success">{{$demande->programme_id == 13 ? $demande->other_programme : $demande->programme->name}}</span></h5>
                             </div>
                         </div>
                     </div>

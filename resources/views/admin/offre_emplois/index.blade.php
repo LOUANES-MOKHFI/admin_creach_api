@@ -59,7 +59,8 @@
                                 @foreach($offres as $key=>$offre)
                                     <tr>
                                         <td>{{$key+1}}</td>
-                                        <td>{{$offre->emploi ? $offre->emploi->name : ''}}</td>
+                                        <td>{{$offre->emploi_id == 31 ? $offre->other_emploi : $offre->emploi->name}} </td>
+                                       {{--  <td>{{$offre->emploi ? $offre->emploi->name : ''}}</td> --}}
                                         <td>{{$offre->creche ? $offre->creche->name : ''}}</td>
                                         <td>{{$offre->degre_etude}}</td>
                                         <td>{{$offre->experience}}</td>

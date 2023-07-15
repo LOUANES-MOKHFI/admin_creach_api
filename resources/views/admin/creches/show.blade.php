@@ -63,7 +63,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <h5>برنامج الروضة: <span class="text-danger">{{$creche->programme->name}}</span></h5>
+                                <h5>برنامج الروضة: <span class="text-danger">{{$creche->programme_id == 13 ? $creche->other_programme : $creche->programme->name}} </span></h5>
                             </div>
                         </div>  
                     </div>

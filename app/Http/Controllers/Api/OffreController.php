@@ -71,6 +71,7 @@ class OffreController extends Controller
                 'phone' => $request->phone,
                 'degre_etude' => $request->degre_etude,
                 'experience' => $request->experience,
+                'other_emploi' => $request->emploi_id == 31 ? $request->other_emploi : '',
                 'creche_id'  => $user->id
             ]);
             
@@ -97,7 +98,6 @@ class OffreController extends Controller
             'phone' => 'required',
         ]);
         
-
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
@@ -114,6 +114,7 @@ class OffreController extends Controller
                 'phone' => $request->phone,
                 'degre_etude' => $request->degre_etude,
                 'experience' => $request->experience,
+                'other_emploi' => $request->emploi_id == 31 ? $request->other_emploi : '',
             ]);
             
             
