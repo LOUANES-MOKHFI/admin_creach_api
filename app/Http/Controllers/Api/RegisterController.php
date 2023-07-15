@@ -139,7 +139,7 @@ class RegisterController extends Controller
         //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         //$success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
-         if($request->has('logo')){
+        if($request->has('logo')){
             $filename = '';
             $file = $request->file('logo');
             $filename = UploadFile('logo',$file);
