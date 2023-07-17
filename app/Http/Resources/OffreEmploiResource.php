@@ -21,6 +21,7 @@ class OffreEmploiResource extends JsonResource
             'uuid'  => $this->uuid,
             'creche_id'  => new CrecheResource($this->creche),
             'emploi' => new EmploiResource($this->emploi),
+            'other_emploi' => $this->other_emploi,
             'wilaya' => new WilayasResource($this->wilaya),
             'commune'=> new CommuneResource($this->commune),
             'degre_etude' => $this->degre_etude,

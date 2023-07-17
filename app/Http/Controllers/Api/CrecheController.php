@@ -71,7 +71,7 @@ class CrecheController extends Controller
     public function GetAllBlogs(Request $request){
 
         $data = [];
-        $blogs = Blog::orderBy('created_at','DESC')->paginate(PAGINATE_COUNT);
+        $blogs = Blog::where('type','blog')->orderBy('created_at','DESC')->paginate(PAGINATE_COUNT);
         if($blogs->count() <1){
             $message = "قائمة المقالات فارغة";
             return $this->sendError($message);
