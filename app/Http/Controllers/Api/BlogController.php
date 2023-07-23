@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
 use App\Http\Resources\BlogResource;
+use App\Http\Resources\BlogResourceHeart;
 
 class BlogController extends Controller
 {
@@ -173,6 +174,18 @@ class BlogController extends Controller
         
 
         return $this->sendResponse($status, $message);
+    }
+
+    public function GetAllHeartBlog(Request $request){
+        $user = $request->user();
+        $heart_user_ids = HeartUser::where('user_id',$user->id)->pluck('blog_id');
+        $blogs = Blog::whereIn('id',$heart_user_ids)->where('type','blog')->get();
+        if($blogs->count() < 1){
+            $message = "قائمة مقالات فارغة";
+            return $this->sendError($message);
+        }
+        $blogs = BlogResourceHeart::collection($blogs);
+        return Response(['data' => $blogs],200);
     }
     public function sendError($error, $errorMessages = [], $code = 204)
     {

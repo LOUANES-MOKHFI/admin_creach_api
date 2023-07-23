@@ -91,6 +91,8 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
         Route::post('/update-blog/{uuid}',[BlogController::class,'UpdateBlog'])->name('blogs.update');
         Route::get('/show-blog/{uuid}',[BlogController::class,'ShowBlog'])->name('blogs.show');
         Route::post('/add-heart',[BlogController::class,'AddHeartToBlog'])->name('blogs.addHeart');
+        Route::get('/list-hearts-blog',[BlogController::class,'GetAllHeartBlog'])->name('blogs.listHeartsBlogs');
+        
         
     });
 
@@ -101,6 +103,7 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
         Route::post('/update-contribution/{uuid}',[ContributionBlogController::class,'UpdateContribution'])->name('contributions.update');
         Route::get('/show-contribution/{uuid}',[ContributionBlogController::class,'ShowContribution'])->name('contributions.show');
         Route::post('/add-heart',[ContributionBlogController::class,'AddHeartToContribution'])->name('contributions.addHeart');
+        Route::get('/list-hearts-contribution',[ContributionBlogController::class,'GetAllHeartContribution'])->name('blogs.listHeartsContribution');
         
     });
 
@@ -161,7 +164,9 @@ Route::group(['prefix' => 'all_contributions'],function(){
 
 Route::group(['prefix' => 'offres_emplois'],function(){
     Route::get('/show-all-offres',[OffreController::class,'ShowAllOffres'])->name('offres_emplois.show_all_offres');
-    Route::get('/show_offre/{uuid}',[OffreController::class,'ShowOffreToUser'])->name('offres_emplois.show_offre');    
+    Route::get('/show_offre/{uuid}',[OffreController::class,'ShowOffreToUser'])->name('offres_emplois.show_offre');   
+    Route::post('/search-offre',[OffreController::class,'SearchOffre'])->name('offres_emplois.search');        
+ 
 });
 
 Route::group(['prefix' => 'vendors'],function(){

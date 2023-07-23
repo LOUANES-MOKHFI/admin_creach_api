@@ -149,7 +149,33 @@ class OffreController extends Controller
         return Response(['data' => $offre],200);
     }
 
-    
+    public function SearchOffre(Request $request){
+        $type = $request->type;
+        $wilaya = $request->wilaya;
+        $commune = $request->commune;
+        $query = OffreEmploi::query();
+        $query->where('is_active',1);
+        
+        if (!empty($type)) {
+            $query->where('emploi_id',$type);         
+        }
+        if (!empty($wilaya)) {
+            $query->where('wilaya_id', $wilaya);
+        }
+        if (!empty($commune)) {
+            $query->where('commune_id', $commune);
+        }
+        $creches = $query->paginate(PAGINATE_COUNT);
+
+        $offres = $query->with('creche')->with('emploi')->paginate(PAGINATE_COUNT);
+
+        if(!$offres || count($offres) < 1){
+            $message = "هذا العرض غير موجود ";
+            return $this->sendError($message);
+        }
+        $offres = OffreEmploiResource::collection($offres)->response()->getData();
+        return Response(['data' => $offres],200);
+    }
 
     
     public function sendError($error, $errorMessages = [], $code = 204)
