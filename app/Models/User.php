@@ -38,7 +38,8 @@ class User extends Authenticatable
         'pays_id',
         'wilaya_id',
         'commune_id',
-        'is_active'
+        'is_active',
+        'other_programme'
     ];
 
     /**

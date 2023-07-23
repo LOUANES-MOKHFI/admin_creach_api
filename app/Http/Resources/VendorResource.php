@@ -31,8 +31,8 @@ class VendorResource extends JsonResource
             'tiktok' => $this->tiktok,
             'youtube' => $this->youtube,
             //'countrie'   => new PaysResource($this->countrie),
-            'wilaya' => new WilayasResource($this->wilaya),
-            'commune'=> new CommuneResource($this->commune),
+            'wilaya' => $this->wilaya_id,
+            'commune'=> $this->commune_id,
         ];
     }
 }

@@ -107,7 +107,7 @@ class RealisationController extends Controller
                     $file = $image;
                     $filename = UploadFile('realisations',$file);
                     $realisationImage->image = $filename;
-                    $realisationImage->ralisation_id = $realisation->id;
+                    $realisationImage->realisation_id = $realisation->id;
                     $realisationImage->save();
                 }
             } 

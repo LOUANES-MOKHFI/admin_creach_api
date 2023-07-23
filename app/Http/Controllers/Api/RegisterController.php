@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\ProgrammesCreche;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -126,7 +127,9 @@ class RegisterController extends Controller
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-
+        if($request->programme_id == 13){
+            $request->request->add(['other_programme' => $request->other_programme]);
+        }
         $request->request->add(['type' => 'creche']);
         //$request->request->add(['is_active' => 1]);
         $input = $request->all();
@@ -136,7 +139,7 @@ class RegisterController extends Controller
         //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         //$success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
-         if($request->has('logo')){
+        if($request->has('logo')){
             $filename = '';
             $file = $request->file('logo');
             $filename = UploadFile('logo',$file);

@@ -60,7 +60,7 @@
                                         <td>{{$creche->creche_name}}</td>
                                         <td>{{$creche->name}}</td>
                                         <td>{{$creche->type_creche}}</td>
-                                        <td>{{$creche->programme->name}}</td>
+                                        <td>{{$creche->programme_id == 13 ? $creche->other_programme : $creche->programme->name}} </td>
                                         <td>{{$creche->email}}</td>
                                         <td>
                                         @if($creche->is_active == 0)

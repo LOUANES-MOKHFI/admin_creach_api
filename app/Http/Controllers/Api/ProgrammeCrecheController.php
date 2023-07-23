@@ -71,7 +71,7 @@ class ProgrammeCrecheController extends Controller
             $message = "قائمة الكتب فارغة";
             return $this->sendError($message);
         }
-        
+
         //$books = BookResource::collection($books)->response()->getData();
         return Response(['data' => $books],200);
     }
@@ -102,6 +102,7 @@ class ProgrammeCrecheController extends Controller
                 "annee" => $request->annee,
                 "programme_id" => $request->programme_id,
                 "telephone" => $request->telephone,
+                'other_programme' => $request->programme_id == 13 ? $request->other_programme : '',
             ]);
             foreach($request->books as $detail){
                 $detailstore = DemandeBookDetail::create([

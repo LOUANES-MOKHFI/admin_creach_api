@@ -24,9 +24,9 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'phone' => $this->phone,
             'type_user' => new TypeUserResource($this->typeUser),
-            'countrie'   => new PaysResource($this->countrie),
-            'wilaya' => new WilayasResource($this->wilaya),
-            'commune'=> new CommuneResource($this->commune),
+            'countrie'   => $this->pays_id,
+            'wilaya' => $this->wilaya_id,
+            'commune'=> $this->commune_id,
         ];
     }
 }
