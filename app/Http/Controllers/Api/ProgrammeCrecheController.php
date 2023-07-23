@@ -31,16 +31,38 @@ class ProgrammeCrecheController extends Controller
     }
 
     public function ShowProgramme(){
-        $niveaux = NiveauBook::with('books')->paginate(PAGINATE_COUNT);
-
+       
+        $niveaux = NiveauBook::select('id','uuid','name','slug','age')->get();
         if(!$niveaux){
             $message = "قائمة الكتب فارغة";
             return $this->sendError($message);
         }
-        $niveaux = NiveauBookResource::collection($niveaux)->response()->getData();
+        
+        
+        
+        // $niveaux = NiveauBookResource::collection($niveaux);
         return Response(['data' => $niveaux],200);
     }
 
+    public function getBookById($id){
+        $books = BookCreche::where('niveau_id',$id)->get();
+        //$data = [];
+        foreach($books as $book){
+            $data[] = [
+                'id' => $book->id,
+                'uuid' => $book->uuid,
+                'name' => $book->name,
+                'slug' => $book->slug,
+                'niveau_id' => $book->niveau_id,
+                'image' => 'public/files/books_creche'.$book->image,
+                'pdf_file' => 'public/files/books_creche'.$book->pdf_file,
+            ];
+        }
+        
+        
+        // $niveaux = NiveauBookResource::collection($niveaux);
+        return Response(['data' => $data],200);
+    }
 
     public function getAllBook(){
         $books = BookCreche::all();
@@ -49,6 +71,7 @@ class ProgrammeCrecheController extends Controller
             $message = "قائمة الكتب فارغة";
             return $this->sendError($message);
         }
+        
         //$books = BookResource::collection($books)->response()->getData();
         return Response(['data' => $books],200);
     }

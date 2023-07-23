@@ -175,6 +175,7 @@ Route::group(['prefix' => 'vendors'],function(){
 Route::group(['prefix' => 'programme_creche'],function(){
     Route::get('/guide-pedagogique',[ProgrammeCrecheController::class,'ShowGuidePedagogique'])->name('programme_creche.guide_pedagogique');
     Route::get('/show-programme',[ProgrammeCrecheController::class,'ShowProgramme'])->name('programme_creche.show_programme');    
+    Route::get('/show-books/{id}',[ProgrammeCrecheController::class,'getBookById'])->name('programme_creche.show_books');    
 });
 
 ///faq
