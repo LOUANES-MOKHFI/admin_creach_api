@@ -175,6 +175,7 @@ Route::group(['prefix' => 'vendors'],function(){
     Route::get('/search-vendor',[VendorController::class,'SearchVendor'])->name('vendors.search');
     Route::get('/products',[VendorController::class,'GetAllProducts'])->name('vendors.products');
     Route::get('/products/show/{uuid}',[VendorController::class,'ShowProduct'])->name('vendors.products.show');
+    Route::get('/search-product',[VendorController::class,'SearchProduct'])->name('vendors.products.search');
 });
 
 Route::group(['prefix' => 'programme_creche'],function(){
@@ -196,6 +197,7 @@ Route::group(['prefix' => 'videos'],function(){
 
 
 Route::get('/domainevendeurs',[SettingController::class,'GetAllDomaineVendor'])->name('domainevendeurs');
+Route::get('/emplois',[SettingController::class,'GetAllEmplois'])->name('emplois');
 Route::get('/programmescreche',[SettingController::class,'GetAllProgrammesCreche'])->name('programmescreche');
 Route::get('/typeusers',[SettingController::class,'GetAllTypeUsers'])->name('typeusers');
 Route::get('/countries',[SettingController::class,'GetAllCountries'])->name('countries');

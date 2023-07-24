@@ -90,6 +90,30 @@ class VendorController extends Controller
         return Response(['data' => $product],200);
     }
 
+    
+    public function SearchProduct(Request $request){
+        $keyword = $request->keyword;
+        //$wilaya = $request->wilaya;
+        //$commune = $request->commune;
+        $query = Product::query();
+        //$query->where('is_active',1);
+        if (!empty($keyword)) {
+            $query->where('name', 'LIKE', '%' . $keyword . '%');
+                    
+        }
+        
+          
+
+        $products = $query->paginate(PAGINATE_COUNT);
+        
+        if(!$products || count($products) < 1){
+            $message = "قائمة المنتجات فارغة";
+            return $this->sendError($message);
+        }
+        $products = ProductResource::collection($products)->response()->getData();
+        
+        return Response(['data' => $products],200);
+    }
     public function sendError($error, $errorMessages = [], $code = 204)
     {
     	$response = [

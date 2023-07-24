@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\Countrie;
 use App\Models\Wilaya;
 use App\Models\Commune;
+use App\Models\Emploi;
+
 class SettingController extends Controller
 {
     public function GetAllCountries(){
@@ -39,5 +41,10 @@ class SettingController extends Controller
         $types = TypesUsers::select('id','name')->get();
         return Response(['data' => $types],200);
     }
+    public function GetAllEmplois(){
+        $emplois = Emploi::select('id','name')->get();
+        return Response(['data' => $emplois],200);
+    }
     
+
 }
