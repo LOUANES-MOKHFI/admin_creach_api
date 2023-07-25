@@ -54,8 +54,8 @@ class ProgrammeCrecheController extends Controller
                 'name' => $book->name,
                 'slug' => $book->slug,
                 'niveau_id' => $book->niveau_id,
-                'image' => 'public/files/books_creche'.$book->image,
-                'pdf_file' => 'public/files/books_creche'.$book->pdf_file,
+                'image' => 'public/files/books_creche/'.$book->image,
+                'pdf_file' => 'public/files/books_creche/'.$book->pdf_file,
             ];
         }
         

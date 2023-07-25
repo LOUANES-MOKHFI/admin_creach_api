@@ -8,7 +8,7 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ImagesProductResource;
 use App\Http\Resources\VendorResource;
 
-class ProductResource extends JsonResource
+class ProductOrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,9 +25,6 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'gros_price' => $this->gros_price,
             'description' => $this->description,
-            'categories' => CategoryResource::collection($this->categories),
-            'images' => ImagesProductResource::collection($this->images),
-            'vendor' => new VendorResource($this->vendor)
         ];
     }
 }

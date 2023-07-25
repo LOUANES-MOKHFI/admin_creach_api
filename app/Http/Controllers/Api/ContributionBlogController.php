@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\NewBlogEvent;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\BlogImages;
@@ -27,6 +28,7 @@ class ContributionBlogController extends Controller
         if($blogs->count() < 1){
             $message = "قائمة المساهمات فارغة";
             return $this->sendError($message);
+            
         }
         $blogs = BlogResource::collection($blogs)->response()->getData();;
         return Response(['data' => $blogs],200);
@@ -49,7 +51,7 @@ class ContributionBlogController extends Controller
         $user = $request->user();
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'category' => 'required',
+            //'category' => 'required',
         ]);
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
@@ -61,7 +63,6 @@ class ContributionBlogController extends Controller
                 'slug' => Str::slug($request->title),
                 'content' => $request->content,
                 'creche_id'  => $user->id,
-                'category_id'  => $request->category,
                 'type'  => 'contribution'
             ]);
             
