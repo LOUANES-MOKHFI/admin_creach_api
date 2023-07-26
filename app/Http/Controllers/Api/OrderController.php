@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\User;
 use Validator;
 use Ramsey\Uuid\Uuid;
 use App\Http\Resources\OrderResource;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -52,14 +54,17 @@ class OrderController extends Controller
                 'user_id'  => $user->id
             ]);
             
-            
+            $vendor = User::where('id',$product->vendor_id)->first();
+            if($vendor->count()>0){
+                $this->sendMailInfoOrder($vendor->email,$user->email,$user->name,$product->name);
+            }
             $status = 200;
             $message = "تمت اضافة الطلبية بنجاح";
 
             return $this->sendResponse($status, $message);
 	    }catch (\Throwable $th) {
 	        return Response(['data' => 'Unauthorized'],401);
-	   	} 
+	   	}  
 
 
            
@@ -84,6 +89,22 @@ class OrderController extends Controller
         }
         $order = new OrderResource($order);
         return Response(['data' => $order],200);
+    }
+    
+    function sendMailInfoOrder($vendor_email,$client_email,$client_name,$product_name){
+        $data = array(
+        'name'=>$client_name, 
+        "header" => "لديك طلبية جديدة في منصة روضتي",
+        "Email"   => $client_email,
+        "Name"    => $client_name,
+        "Product" => $product_name
+        );
+        Mail::send('admin.emails.email_order', $data, function($message) use ($client_name, $vendor_email) {
+        $message->to($vendor_email, $client_name)
+        ->subject(' التسجيل في روضتي');
+        $message->from('louanes.mokhfi@gmail.com','RawdatiDZ');
+        });
+        
     }
 
     public function sendError($error, $errorMessages = [], $code = 204)
