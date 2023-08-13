@@ -108,8 +108,8 @@ class VendeurController extends Controller
 
 
     function sendMail($client_name,$client_email,$type_user){
-        //$to_email = 'louanes.mokhfi@gmail.com';
-        //$to_email = 'louanes.mokhfi@gmail.com';
+        //$to_email = 'contact@rawdati-dz.com';
+        //$to_email = 'contact@rawdati-dz.com';
         $data = array('name'=>$client_name, "header" => "نعلمك بأنه تم تأكيد حسابك في منصة روضتي, يمكنك الآن تسجيل دخولك بالنقر على : ",
         "Email" => "إيمايل الحساب :".$client_email,
         "Name" => $client_name,
@@ -119,7 +119,7 @@ class VendeurController extends Controller
         Mail::send('admin.emails.email', $data, function($message) use ($client_name, $client_email) {
         $message->to($client_email, $client_name)
         ->subject('تأكيد حساب روضتي');
-        $message->from('louanes.mokhfi@gmail.com','RawdatiDZ');
+        $message->from('contact@rawdati-dz.com','RawdatiDZ');
         });
         
     }

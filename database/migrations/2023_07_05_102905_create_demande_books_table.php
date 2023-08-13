@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('demande_books', function (Blueprint $table) {
+        /* Schema::create('demande_books', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
             $table->integer('user_id');
@@ -25,7 +25,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-        });
+        }); */
     }
 
     /**

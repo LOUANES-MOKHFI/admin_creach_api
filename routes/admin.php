@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\ContributionBlogController;
 use App\Http\Controllers\Admin\PubliciteController;
 use App\Http\Controllers\Admin\DemandeBookController;
 use App\Http\Controllers\Admin\OffreEmploiController;
+use App\Http\Controllers\Admin\DossierController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -167,7 +168,18 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
     });
 
 
-    
+    ///Dossier and files
+    Route::group(['prefix' => 'dossiers'],function(){
+        Route::get('/',[DossierController::class,'index'])->name('admin.dossiers');
+        Route::get('create',[DossierController::class,'create'])->name('admin.dossiers.create');
+        Route::post('store',[DossierController::class,'store'])->name('admin.dossiers.store');
+        Route::get('edit/{id}',[DossierController::class,'edit'])->name('admin.dossiers.edit');
+        Route::post('update/{id}',[DossierController::class,'update'])->name('admin.dossiers.update');
+        Route::get('delete/{id}',[DossierController::class,'destroy'])->name('admin.dossiers.delete');
+        Route::get('deleteFile/{uuid}',[DossierController::class,'deleteFile'])->name('admin.dossiers.deleteFile');
+    });
+
+
     ///guide_pedagogique
     Route::group(['prefix' => 'guide_pedagogique'],function(){
         Route::get('/',[GuidePedagogiqueController::class,'index'])->name('admin.guide_pedagogique');

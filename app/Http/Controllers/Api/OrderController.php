@@ -102,7 +102,7 @@ class OrderController extends Controller
         Mail::send('admin.emails.email_order', $data, function($message) use ($client_name, $vendor_email) {
         $message->to($vendor_email, $client_name)
         ->subject(' التسجيل في روضتي');
-        $message->from('louanes.mokhfi@gmail.com','RawdatiDZ');
+        $message->from('contact@rawdati-dz.com','RawdatiDZ');
         });
         
     }

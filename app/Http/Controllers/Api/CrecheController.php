@@ -14,31 +14,78 @@ use App\Http\Resources\ProgrammeCrecheResource;
 use App\Http\Resources\CrecheResource;
 use App\Http\Resources\BlogResource;
 use App\Http\Resources\OffreEmploiResource;
-
+use App\Models\Countrie;
+use App\Models\Wilaya;
+use App\Models\Commune;
 class CrecheController extends Controller
 {
     public function GetAllCreches(Request $request){
-        $creches = User::where('type','creche')->where('is_active',1)->paginate(PAGINATE_COUNT);
+
+
+        $creches = User::select('id','uuid','type','name','email','phone','type_creche','creche_name','programme_id'
+        ,'other_programme','facebook','instagram','tiktok','youtube','pays_id','wilaya_id','commune_id','localisation')->where('type','creche')->where('is_active',1)->paginate(PAGINATE_COUNT);
         if($creches->count() <1){
             $message = "قائمة الروضات فارغة";
             return $this->sendError($message);
         }
+        $data = [];
+        foreach($creches as $creche){
+            $data[] = [
+                'id' => $creche->id,
+                'uuid' => $creche->uuid,
+                'name' => $creche->name,
+                'email' => $creche->email,
+                'phone' => $creche->phone,
+                'type_creche' => $creche->type_creche,
+                'creche_name' => $creche->creche_name,
+                'programme_id' => $creche->programme_id,
+                'other_programme' => $creche->other_programme,
+                'facebook' => $creche->facebook,
+                'instagram' => $creche->instagram,
+                'tiktok' => $creche->tiktok,
+                'youtube' => $creche->youtube,
+                'pays' => $creche->pays_id ? $this->getPays($creche->pays_id) : '',
+                'wilaya' => $this->getWilaya($creche->wilaya_id),
+                'commune' => $this->getCommune($creche->commune_id),
+                'localisation' => $creche->localisation,
+            ];
+        }
+        $creches1['data'] = $data;
         $creches = CrecheResource::collection($creches)->response()->getData();
-        return Response(['data' => $creches],200);
+        return Response(['data' => $creches1],200);
     }   
 
     public function ShowCreche($uuid){
-        $creche = User::where('type','creche')->where('is_active',1)->where('uuid',$uuid)->first();
+        $creche = User::select('id','uuid','type','name','email','phone','type_creche','creche_name','programme_id'
+        ,'other_programme','facebook','instagram','tiktok','youtube','pays_id','wilaya_id','commune_id','localisation')->where('type','creche')->where('is_active',1)->where('uuid',$uuid)->first();
        
         //->with('programme')->with('blogs_creche')->with('offres')
         if(!$creche){
             $message = "هذه الروضة غير موجود ";
             return $this->sendError($message);
         }
-        $data['creche'] = new CrecheResource($creche);
-        $data['programme'] = new ProgrammeCrecheResource(ProgrammesCreche::where('id',$data['creche']->programme_id)->first());
-        $data['blogs_creche'] = BlogResource::collection(Blog::where('creche_id',$data['creche']->id)->paginate(PAGINATE_COUNT))->response()->getData();;
-        $data['offres'] = OffreEmploiResource::collection(OffreEmploi::where('creche_id',$data['creche']->id)->paginate(PAGINATE_COUNT))->response()->getData();;
+        $data['creche'] = [
+            'id' => $creche->id,
+            'uuid' => $creche->uuid,
+            'name' => $creche->name,
+            'email' => $creche->email,
+            'phone' => $creche->phone,
+            'type_creche' => $creche->type_creche,
+            'creche_name' => $creche->creche_name,
+            'programme_id' => $creche->programme_id,
+            'other_programme' => $creche->other_programme,
+            'facebook' => $creche->facebook,
+            'instagram' => $creche->instagram,
+            'tiktok' => $creche->tiktok,
+            'youtube' => $creche->youtube,
+            'pays' => $creche->pays_id ? $this->getPays($creche->pays_id) : '',
+            'wilaya' => $this->getWilaya($creche->wilaya_id),
+            'commune' => $this->getCommune($creche->commune_id),
+            'localisation' => $creche->localisation,
+        ];
+        $data['programme'] = new ProgrammeCrecheResource(ProgrammesCreche::where('id',$creche->programme_id)->first());
+        $data['blogs_creche'] = BlogResource::collection(Blog::where('creche_id',$creche->id)->paginate(PAGINATE_COUNT))->response()->getData();;
+        $data['offres'] = OffreEmploiResource::collection(OffreEmploi::where('creche_id',$creche->id)->paginate(PAGINATE_COUNT))->response()->getData();;
         return Response(['data' => $data],200);
     }
 
@@ -71,7 +118,6 @@ class CrecheController extends Controller
     public function GetAllBlogs(Request $request){
 
         $data = [];
-
         $blogs = Blog::where('type','blog')->orderBy('created_at','DESC')->paginate(PAGINATE_COUNT);
         if($blogs->count() <1){
             $message = "قائمة المقالات فارغة";
@@ -154,5 +200,21 @@ class CrecheController extends Controller
             'message' => $message,
         ];
         return response()->json($response, 200);
+    }
+
+    function getPays($id){
+
+        $pays = Countrie::where('id',$id)->first();
+        return $pays->name;
+    }
+    function getWilaya($id){
+
+        $wilaya = Wilaya::where('id',$id)->first();
+        return $wilaya->name;
+    }
+    function getCommune($id){
+
+        $commune = Commune::where('id',$id)->first();
+        return $commune->name;
     }
 }

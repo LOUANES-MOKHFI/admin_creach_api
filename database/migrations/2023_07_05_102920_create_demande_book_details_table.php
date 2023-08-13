@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('demande_book_details', function (Blueprint $table) {
+        /* Schema::create('demande_book_details', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->unsignedBigInteger('demande_id');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('book_id');
             $table->string('qty');
             $table->timestamps();
-        });
+        }); */
     }
 
     /**

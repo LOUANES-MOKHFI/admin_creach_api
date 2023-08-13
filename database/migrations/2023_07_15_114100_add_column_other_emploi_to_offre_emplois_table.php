@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('offre_emplois', function (Blueprint $table) {
+        /* Schema::table('offre_emplois', function (Blueprint $table) {
             $table->string('other_emploi')->nullable()->after('emploi_id');
             
-        });
+        }); */
     }
 
     /**

@@ -2,6 +2,7 @@
 define('PAGINATE_COUNT',15);
 function UploadFile($folder, $file){
 
+   
     $file->store('/', $folder);
 
     $filename = $file->hashName();

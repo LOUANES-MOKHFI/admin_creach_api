@@ -194,7 +194,7 @@ class RegisterController extends Controller
     }
 
     function sendMailAdmin($client_name,$client_email,$type_user){
-        $to_email = 'louanes.mokhfi@gmail.com';
+        $to_email = 'contact@rawdati-dz.com';
         $data = array('name'=>$client_name, "header" => "لديك حساب جديد في منصة روضتي : ",
         "Email" =>$client_email,
         "Name" => $client_name,
@@ -203,7 +203,7 @@ class RegisterController extends Controller
         Mail::send('admin.emails.email_admin', $data, function($message) use ($client_name, $to_email) {
         $message->to($to_email, $client_name)
         ->subject('حساب جديد');
-        $message->from('louanes.mokhfi@gmail.com','RawdatiDZ');
+        $message->from('contact@rawdati-dz.com','RawdatiDZ');
         });
         
     }
@@ -214,7 +214,7 @@ class RegisterController extends Controller
         Mail::send('admin.emails.email_user', $data, function($message) use ($client_name, $client_email) {
         $message->to($client_email, $client_name)
         ->subject(' التسجيل في روضتي');
-        $message->from('louanes.mokhfi@gmail.com','RawdatiDZ');
+        $message->from('contact@rawdati-dz.com','RawdatiDZ');
         });
         
     }
