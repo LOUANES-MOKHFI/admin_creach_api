@@ -14,4 +14,12 @@ class Dossier extends Model
     public function files(){
         return $this->hasMany(FileDossier::class);
     }
+
+    public function childs(){
+        return $this->hasMany(Self::class);
+    }
+
+    public function parent(){
+        return $this->belongsTo(Self::class,'parent_id');
+    }
 }

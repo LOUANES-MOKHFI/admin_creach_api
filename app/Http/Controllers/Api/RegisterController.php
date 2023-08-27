@@ -40,11 +40,11 @@ class RegisterController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-
-        $success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
-       
         $user->uuid = (string) Uuid::uuid4();
         $user->save();
+        $success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
+       
+        
         $success['user'] =  new UserResource($user);
         $notification = Notification::create([
             'uuid' => (string) Uuid::uuid4(),
@@ -86,12 +86,12 @@ class RegisterController extends Controller
         //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         
         $user->uuid = (string) Uuid::uuid4();
-       
+        $user->save();
          if($request->has('logo')){
             $filename = '';
             $file = $request->file('logo');
             $filename = UploadFile('logo',$file);
-           // $creche->logo = $filename;
+           // $user->logo = $filename;
         } 
         $user->save();
         $success['vendor'] =  new VendorResource($user);
@@ -119,7 +119,7 @@ class RegisterController extends Controller
             'wilaya_id' => 'required',
             'commune_id' => 'required',
             'programme_id' => 'required',
-            //'image_rc' => 'required',
+            'image_rc' => 'required',
             'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
@@ -139,18 +139,19 @@ class RegisterController extends Controller
         //$success['token'] =  $user->createToken('CrecheApp')->plainTextToken;
         //$success['name'] =  $user->name;
         $user->uuid = (string) Uuid::uuid4();
+        $user->save();
         if($request->has('logo')){
             $filename = '';
             $file = $request->file('logo');
             $filename = UploadFile('logo',$file);
-           // $creche->logo = $filename;
+           // $user->logo = $filename;
         }
-        if($request->has('image_rc')){
+        /* if($request->has('image_rc')){
             $filename = '';
-            $file = $request->file('image_rc');
-            $filename = UploadFile('image_rc',$file);
-           // $creche->logo = $filename;
-        } 
+            $file1 = $request->file('image_rc');
+            $filename = UploadFile('image_rc',$file1);
+           // $user->logo = $filename;
+        }  */
         $user->save();
         $success['creche'] =  new CrecheResource($user);
         $notification = Notification::create([

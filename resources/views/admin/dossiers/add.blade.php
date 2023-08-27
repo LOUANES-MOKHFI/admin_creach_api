@@ -28,7 +28,20 @@
                         <h4 class="form-section"><i class="ft-home"></i>معلومات القسم</h4>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="projectinput1">  نوع القسم </label>
+                                    <select name="type" id="type_class"  class="form-control">
+                                        <option value="">-- اختر نوع القسم --</option>
+                                        <option value="1"> قسم فرعي </option>
+                                        <option value="2">  صور </option>
+                                    </select>
+                                    @error("name")
+                                    <span class="text-danger"> {{$message}}  </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="projectinput1">  اسم القسم </label>
                                     <input type="text" value="{{old('name')}}" id="name"
@@ -40,7 +53,23 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-4" id="dossier" style="display:none">
+                                <div class="form-group">
+                                    <label for="projectinput1" > القسم الأساسي </label>
+                                    <select name="parent_id" id="parent_id"  class="form-control">
+                                        <option value="">-- اختر القسم --</option>
+                                        @isset($dossiers)
+                                        @foreach($dossiers as $dossier)
+                                            <option value="{{$dossier->id}}">{{$dossier->name}}</option>
+                                        @endforeach
+                                        @endisset
+                                    </select>
+                                    @error("name")
+                                    <span class="text-danger"> {{$message}}  </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="images" style="display:none">
                                 <div class="form-group">
                                     <label for="projectinput1"> الصور  </label>
                                     <input type="file" multiple id="images"
@@ -75,5 +104,15 @@
 @endsection
 
 @section('script')
-
+<script>
+    $('#type_class').on('change',function(){
+        if(this.value == 1){
+            $('#images').css('display','none');
+            $('#dossier').css('display','block');
+        }else{
+            $('#dossier').css('display','none');
+            $('#images').css('display','block');
+        }
+    })
+</script>
 @endsection

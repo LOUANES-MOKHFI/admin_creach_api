@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\ProgrammeCrecheController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\VideosController;
 use App\Http\Controllers\Api\SettingController;
+use App\Http\Controllers\Api\DossierController;
 
 Route::post('user/register',[RegisterController::class,'UserRegister'])->name('user.register');
 Route::post('vendeur/register',[RegisterController::class,'VendeurRegister'])->name('vendeur.register');
@@ -196,6 +197,8 @@ Route::group(['prefix' => 'videos'],function(){
 });
 
 
+Route::get('/dossiers',[DossierController::class,'index'])->name('dossiers');
+Route::get('/dossier/{id}',[DossierController::class,'show'])->name('dossiers');
 Route::get('/domainevendeurs',[SettingController::class,'GetAllDomaineVendor'])->name('domainevendeurs');
 Route::get('/emplois',[SettingController::class,'GetAllEmplois'])->name('emplois');
 Route::get('/programmescreche',[SettingController::class,'GetAllProgrammesCreche'])->name('programmescreche');

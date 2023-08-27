@@ -112,6 +112,20 @@ class CrecheController extends Controller
         }
     }
 
+    public function destroy($uuid){
+        try {
+            $user = User::where('type','creche')->where('uuid',$uuid)->first();
+            if(!$user){
+                return redirect()->back()->with('error','هذا الحساب غير موجود , يرجى التأكد من المعلومات');
+            }
+            $user->delete();
+
+            return redirect()->back()->with('success','تم حذف الحساب بنحاح');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['error' => $th->getMessage()]);
+        }
+    }
+
     function sendMail($client_name,$client_email,$type_user){
         //$to_email = 'contact@rawdati-dz.com';
         //$to_email = 'contact@rawdati-dz.com';

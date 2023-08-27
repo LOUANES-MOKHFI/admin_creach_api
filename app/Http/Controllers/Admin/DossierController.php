@@ -35,6 +35,7 @@ class DossierController extends Controller
            $dossier->uuid = (string) Uuid::uuid4();
            //$dossier->slug = Str::slug($request->name);
            $dossier->name = $request->name;
+           $dossier->parent_id = $request->parent_id;
            $dossier->save();
              
             if($request->has('images')){
@@ -94,6 +95,7 @@ class DossierController extends Controller
            $dossier->uuid = (string) Uuid::uuid4();
            //$dossier->slug = Str::slug($request->name);
            $dossier->name = $request->name;
+           $dossier->parent_id = $request->parent_id;
            $dossier->save();
 
             if($request->has('images')){
