@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\PubliciteController;
 use App\Http\Controllers\Admin\DemandeBookController;
 use App\Http\Controllers\Admin\OffreEmploiController;
 use App\Http\Controllers\Admin\DossierController;
+use App\Http\Controllers\Admin\AvisController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -177,6 +178,16 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
         Route::post('update/{id}',[DossierController::class,'update'])->name('admin.dossiers.update');
         Route::get('delete/{id}',[DossierController::class,'destroy'])->name('admin.dossiers.delete');
         Route::get('deleteFile/{uuid}',[DossierController::class,'deleteFile'])->name('admin.dossiers.deleteFile');
+    });
+
+    ///Avis
+    Route::group(['prefix' => 'avis'],function(){
+        Route::get('/',[AvisController::class,'index'])->name('admin.avis');
+        Route::get('create',[AvisController::class,'create'])->name('admin.avis.create');
+        Route::post('store',[AvisController::class,'store'])->name('admin.avis.store');
+        Route::get('edit/{id}',[AvisController::class,'edit'])->name('admin.avis.edit');
+        Route::post('update/{id}',[AvisController::class,'update'])->name('admin.avis.update');
+        Route::get('delete/{id}',[AvisController::class,'destroy'])->name('admin.avis.delete');
     });
 
 

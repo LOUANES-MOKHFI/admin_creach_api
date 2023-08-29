@@ -25,6 +25,9 @@ use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\VideosController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\DossierController;
+use App\Http\Controllers\Api\AvisController;
+
+
 
 Route::post('user/register',[RegisterController::class,'UserRegister'])->name('user.register');
 Route::post('vendeur/register',[RegisterController::class,'VendeurRegister'])->name('vendeur.register');
@@ -194,9 +197,16 @@ Route::group(['prefix' => 'faqs'],function(){
 ///videos
 Route::group(['prefix' => 'videos'],function(){
     Route::get('/',[VideosController::class,'GetAllVideos'])->name('videos');
+    Route::get('/{categorie}',[VideosController::class,'GetVideosByCategorie'])->name('videos.categorie');
+
+    Route::post('/store',[VideoController::class,'store'])->name('videos.store');
+    Route::get('/edit/{id}',[VideoController::class,'edit'])->name('videos.edit');
+    Route::post('/update/{id}',[VideoController::class,'update'])->name('videos.store');
+    
 });
 
 
+Route::get('/avis',[AvisController::class,'getAllAvis'])->name('avis');
 Route::get('/dossiers',[DossierController::class,'index'])->name('dossiers');
 Route::get('/dossier/{id}',[DossierController::class,'show'])->name('dossiers');
 Route::get('/domainevendeurs',[SettingController::class,'GetAllDomaineVendor'])->name('domainevendeurs');

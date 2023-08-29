@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('videos', function (Blueprint $table) {
+        Schema::create('avis', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid');
-            $table->string('title');
-            $table->string('slug');
-            $table->string('publisher')->nullable();
-            $table->string('domaine');
-            $table->string('link')->nullable();
+            $table->string('name');
+            $table->string('image');
+            $table->string('wilaya');
+            $table->string('video')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('videos');
+        Schema::dropIfExists('avis');
     }
 };

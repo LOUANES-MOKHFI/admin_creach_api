@@ -43,10 +43,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="projectinput1"> المجال</label>
-                                    <input type="text" value="{{$video->domaine}}" id="domaine"
-                                           class="form-control"
-                                           placeholder="  "
-                                           name="domaine">
+                                    <select name="domaine" class="form-control" id="">
+                                        <option value="">اختر القسم</option>
+                                        <option value="القسم التربوي" {{$video->domaine == 'القسم التربوي' ? 'selected' : ''}}>القسم التربوي</option>
+                                        <option value="إنشاء الروضة" {{$video->domaine == 'إنشاء الروضة' ? 'selected' : ''}}>إنشاء الروضة</option>
+                                        <option value="إدارة الروضة" {{$video->domaine == 'إدارة الروضة' ? 'selected' : ''}}>إدارة الروضة</option>
+                                    </select>
                                     @error("domaine")
                                     <span class="text-danger"> {{$message}}  </span>
                                     @enderror

@@ -98,6 +98,18 @@ return [
             'url'    => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
+        'video' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/video',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
+        'avis' => [
+            'driver' => 'local',
+            'root'   => public_path().'/files/avis',
+            'url'    => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
         
         
         's3' => [
