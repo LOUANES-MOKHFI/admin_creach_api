@@ -17,7 +17,7 @@ class DossierResource extends JsonResource
         return [
             'id'  => $this->id,
             'name'  => $this->name,
-            'parent'  => $this->parent_id,
+            //'parent'  => $this->parent,
             'childs'  => $this->childs,
             'files'  => $this->files,
             

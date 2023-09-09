@@ -8,9 +8,17 @@ use App\Models\Avis;
 class AvisController extends Controller
 {
     public function getAllAvis(){
-        $avis = Avis::select('id','name','image','video')->get();
-        
-        return Response(['data' => $avis],200);
+        $avis = Avis::select('id','name','image','video','wilaya')->get();
+        foreach($avis as $avi){
+            $data[] = [
+                'id' => $avi->id,
+                'name' => $avi->name,
+                'image' => 'public/files/avis/'.$avi->image,
+                'video' => 'public/files/avis/'.$avi->video,
+                'location' => $avi->wilaya,
+            ];
+        }
+        return Response(['data' => $data],200);
 
     }
 

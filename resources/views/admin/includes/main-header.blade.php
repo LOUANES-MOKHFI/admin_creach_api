@@ -158,7 +158,7 @@
 		        </audio> 
 
 				<div class="dropdown main-profile-menu nav nav-item nav-link">
-					<a class="profile-user d-flex" href=""><img alt="" src="{{asset('admin/assets/img/faces/6.jpg')}}"></a>
+					<a class="profile-user d-flex" href="#"><img alt="" src="{{asset('admin/assets/img/faces/6.jpg')}}"></a>
 					<div class="dropdown-menu">
 						<div class="main-header-profile bg-primary p-3">
 							<div class="d-flex wd-100p">

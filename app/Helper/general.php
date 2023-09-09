@@ -14,6 +14,10 @@ function Messages(){
     return \App\Models\Contact::where('is_viewed',0)->get();
 }
 
+function setting(){
+    return \App\Models\About::where('id',1)->first();
+}
+
 function Notifications(){
     return \App\Models\Notification::where('is_viewed',0)->orderBy('created_at','DESC')->get();
 }

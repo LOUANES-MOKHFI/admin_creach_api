@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\DemandeBookController;
 use App\Http\Controllers\Admin\OffreEmploiController;
 use App\Http\Controllers\Admin\DossierController;
 use App\Http\Controllers\Admin\AvisController;
+use App\Http\Controllers\Admin\DemandeEmploiUserController;
 
 
 Route::get('/',[AdminController::class,'login'])->name('admin.login');
@@ -328,6 +329,14 @@ Route::group(['prefix' => 'admin','middleware'=>'auth:admins'],function(){
 
     });
 
+    ///offre_emplois routes
+    Route::group(['prefix' => 'demandes_emplois_user','middleware' => 'can:offre-list'],function(){
+        Route::get('/',[DemandeEmploiUserController::class,'index'])->name('admin.demandes_emplois_user');
+        Route::get('/destroy/{id}',[DemandeEmploiUserController::class,'destroy'])->name('admin.demandes_emplois_user.destroy');
+
+    });
+
+    
     ///contributions routes
     Route::group(['prefix' => 'contributions','middleware' => 'can:contribution-list'],function(){
         Route::get('/',[ContributionBlogController::class,'index'])->name('admin.contributions');

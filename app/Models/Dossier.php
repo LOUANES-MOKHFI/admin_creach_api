@@ -16,7 +16,7 @@ class Dossier extends Model
     }
 
     public function childs(){
-        return $this->hasMany(Self::class);
+        return $this->hasMany(Self::class,'parent_id');
     }
 
     public function parent(){

@@ -3,51 +3,51 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\OffreEmploi;
 use Illuminate\Http\Request;
+use App\Models\DemandeEmploiUser;
 use Validator;
 use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Support\Str;
-use App\Http\Resources\OffreEmploiResource;
-class OffreController extends Controller
+use App\Http\Resources\DemandeEmploiUserResource;
+class DemandeEmploiUserController extends Controller
 {
-    public function GetAllOffres(Request $request){
+    public function GetAllDemandes(Request $request){
         $user = $request->user();
-        $offres = OffreEmploi::where('creche_id',$user->id)->paginate(PAGINATE_COUNT);
-        if($offres->count() <1){
-            $message = "قائمة عروض العمل فارغة";
+        $demandes = DemandeEmploiUser::where('user_id',$user->id)->paginate(PAGINATE_COUNT);
+        if($demandes->count() <1){
+            $message = "قائمة طلبات العمل فارغة";
             return $this->sendError($message);
         }
-        $offres = OffreEmploiResource::collection($offres)->response()->getData();
-        return Response(['data' => $offres],200);
+        $demandes = DemandeEmploiUserResource::collection($demandes)->response()->getData();
+        return Response(['data' => $demandes],200);
     }   
 
-    public function ShowOffre(Request $request,$uuid){
+    public function ShowDemande(Request $request,$uuid){
         $user = $request->user();
-        $offre = OffreEmploi::where('uuid',$uuid)->where('creche_id',$user->id)->with('emploi')->first();
-        if(!$offre){
-            $message = "هذا العرض غير موجود ";
+        $demande = DemandeEmploiUser::where('uuid',$uuid)->where('user_id',$user->id)->with('emploi')->first();
+        if(!$demande){
+            $message = "هذا الطلب غير موجود ";
             return $this->sendError($message);
         }
-        $offre = new OffreEmploiResource($offre);
-        return Response(['data' => $offre],200);
+        $demande = new DemandeEmploiUserResource($demande);
+        return Response(['data' => $demande],200);
     }
-    public function StopOffre(Request $request,$uuid){
+    public function StopDemande(Request $request,$uuid){
         $user = $request->user();
-        $offre = OffreEmploi::where('uuid',$uuid)->where('creche_id',$user->id)->with('emploi')->first();
-        if(!$offre){
-            $message = "هذا العرض غير موجود ";
+        $demande = DemandeEmploiUser::where('uuid',$uuid)->where('user_id',$user->id)->with('emploi')->first();
+        if(!$demande){
+            $message = "هذا الطلب غير موجود ";
             return $this->sendError($message);
         }
-        $offre->is_active = 0;
-        $offre->save();
+        $demande->is_active = 0;
+        $demande->save();
         $status = 200;
-        $message = "تمت توقيف عرض العمل بنجاح بنجاح";
+        $message = "تمت توقيف طلب العمل بنجاح بنجاح";
 
         return $this->sendResponse($status, $message);
     }
-    public function AddOffre(Request $request){
+    public function AddDemande(Request $request){
         $user = $request->user();
         $validator = Validator::make($request->all(), [
             'emploi_id' => 'required|exists:emplois,id',
@@ -63,7 +63,7 @@ class OffreController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());       
         }
         try {
-            $offre = OffreEmploi::create([
+            $demande = DemandeEmploiUser::create([
                 'uuid' => (string) Uuid::uuid4(),
                 'emploi_id' => $request->emploi_id,
                 'wilaya_id' => $request->wilaya_id,
@@ -72,12 +72,12 @@ class OffreController extends Controller
                 'degre_etude' => $request->degre_etude,
                 'experience' => $request->experience,
                 'other_emploi' => $request->emploi_id == 31 ? $request->other_emploi : '',
-                'creche_id'  => $user->id
+                'user_id'  => $user->id
             ]);
             
             
             $status = 200;
-            $message = "تمت اضافة عرض العمل بنجاح";
+            $message = "تمت اضافة طلب العمل بنجاح";
 
             return $this->sendResponse($status, $message);
      } catch (\Throwable $th) {
@@ -87,7 +87,7 @@ class OffreController extends Controller
 
     }
 
-    public function UpdateOffre(Request $request,$uuid){
+    public function UpdateDemande(Request $request,$uuid){
         $user = $request->user();
         $validator = Validator::make($request->all(), [
             'emploi_id' => 'required|exists:emplois,id',
@@ -102,12 +102,12 @@ class OffreController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());       
         }
         try {
-            $offre = OffreEmploi::where('creche_id',$user->id)->where('uuid',$uuid)->first();
-            if(!$offre){
-                $message = "هذا العرض غير موجود ";
+            $demande = DemandeEmploiUser::where('user_id',$user->id)->where('uuid',$uuid)->first();
+            if(!$demande){
+                $message = "هذا الطلب غير موجود ";
                 return $this->sendError($message);
             }
-            $offre->update([
+            $demande->update([
                 'emploi_id' => $request->emploi_id,
                 'wilaya_id' => $request->wilaya_id,
                 'commune_id' => $request->commune_id,
@@ -119,7 +119,7 @@ class OffreController extends Controller
             
             
             $status = 200;
-            $message = "تم تعديل عرض العمل بنجاح";
+            $message = "تم تعديل طلب العمل بنجاح";
 
             return $this->sendResponse($status, $message);
      } catch (\Throwable $th) {
@@ -130,30 +130,30 @@ class OffreController extends Controller
     }
 
 
-    public function ShowAllOffres(){
-        $offres = OffreEmploi::where('is_active',1)->with('creche')->with('emploi')->paginate(PAGINATE_COUNT);
-        if($offres->count() <1){
-            $message = "قائمة عروض العمل فارغة";
+    public function ShowAllDemandes(){
+        $demandes = DemandeEmploiUser::where('is_active',1)->with('creche')->with('emploi')->paginate(PAGINATE_COUNT);
+        if($demandes->count() <1){
+            $message = "قائمة طلبات العمل فارغة";
             return $this->sendError($message);
         }
-        $offres = OffreEmploiResource::collection($offres)->response()->getData();
-        return Response(['data' => $offres],200);
+        $demandes = DemandeEmploiUserResource::collection($demandes)->response()->getData();
+        return Response(['data' => $demandes],200);
     }
-    public function ShowOffreToUser(Request $request,$uuid){
-        $offre = OffreEmploi::where('uuid',$uuid)->with('emploi')->first();
-        if(!$offre){
-            $message = "هذا العرض غير موجود ";
+    public function ShowDemandeToUser(Request $request,$uuid){
+        $demande = DemandeEmploiUser::where('uuid',$uuid)->with('emploi')->first();
+        if(!$demande){
+            $message = "هذا الطلب غير موجود ";
             return $this->sendError($message);
         }
-        $offre = new OffreEmploiResource($offre);
-        return Response(['data' => $offre],200);
+        $demande = new DemandeEmploiUserResource($demande);
+        return Response(['data' => $demande],200);
     }
 
-    public function SearchOffre(Request $request){
+    public function SearchDemande(Request $request){
         $type = $request->type;
         $wilaya = $request->wilaya;
         $commune = $request->commune;
-        $query = OffreEmploi::query();
+        $query = DemandeEmploiUser::query();
         $query->where('is_active',1);
         
         if (!empty($type)) {
@@ -167,14 +167,14 @@ class OffreController extends Controller
         }
         $creches = $query->paginate(PAGINATE_COUNT);
 
-        $offres = $query->with('creche')->with('emploi')->paginate(PAGINATE_COUNT);
+        $demandes = $query->with('user')->with('emploi')->paginate(PAGINATE_COUNT);
 
-        if(!$offres || count($offres) < 1){
-            $message = "هذا العرض غير موجود ";
+        if(!$demandes || count($demandes) < 1){
+            $message = "هذا الطلب غير موجود ";
             return $this->sendError($message);
         }
-        $offres = OffreEmploiResource::collection($offres)->response()->getData();
-        return Response(['data' => $offres],200);
+        $demandes = DemandeEmploiUserResource::collection($demandes)->response()->getData();
+        return Response(['data' => $demandes],200);
     }
 
     

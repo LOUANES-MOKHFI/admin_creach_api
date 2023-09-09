@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\VideosController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\DossierController;
 use App\Http\Controllers\Api\AvisController;
+use App\Http\Controllers\Api\DemandeEmploiUserController;
 
 
 
@@ -75,6 +76,18 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
         Route::get('/stop-offre/{uuid}',[OffreController::class,'StopOffre'])->name('offres_emplois.stop_offre');
         
     });
+
+       //Demande emplois user route api
+       Route::group(['prefix' => 'demandes_emplois_user'],function(){
+        Route::get('/',[DemandeEmploiUserController::class,'GetAllDemandes'])->name('demandes_emplois_user');
+        Route::post('/add-demande-user',[DemandeEmploiUserController::class,'AddDemande'])->name('demandes_emplois_user.add');
+        Route::post('/update-demande-user/{uuid}',[DemandeEmploiUserController::class,'UpdateDemande'])->name('demandes_emplois_user.update');
+        Route::get('/show-demande-user/{uuid}',[DemandeEmploiUserController::class,'ShowDemande'])->name('demandes_emplois_user.show');
+        Route::get('/stop-demande-user/{uuid}',[DemandeEmploiUserController::class,'StopDemande'])->name('demandes_emplois_user.stop_offre');
+        
+    });
+
+
     //Demande emplois route api
     Route::group(['prefix' => 'demandes_emplois'],function(){
         Route::get('/show-all-demandes',[DemandeEmploiController::class,'GetAllDemandesEmploi'])->name('demandes_emplois');
@@ -172,6 +185,14 @@ Route::group(['prefix' => 'offres_emplois'],function(){
     Route::post('/search-offre',[OffreController::class,'SearchOffre'])->name('offres_emplois.search');        
  
 });
+
+Route::group(['prefix' => 'demandes_emplois_user'],function(){
+    Route::get('/show-all-demandes',[DemandeEmploiUserController::class,'ShowAllDemandes'])->name('demandes_emplois_user.show_all_demandes');
+    Route::get('/show_demande/{uuid}',[DemandeEmploiUserController::class,'ShowDemandeToUser'])->name('demandes_emplois_user.show_demande');   
+    Route::post('/search-demande',[DemandeEmploiUserController::class,'SearchDemande'])->name('demandes_emplois_user.search');         
+});
+
+
 
 Route::group(['prefix' => 'vendors'],function(){
     Route::get('/',[VendorController::class,'GetAllVendors'])->name('vendors');
