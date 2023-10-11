@@ -78,6 +78,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>الصورة</th>
                                     <th>الكتاب</th>
                                     <th>المستوى</th>
                                     <th>الكمية</th>
@@ -87,6 +88,7 @@
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
+                                    <th>الصورة</th>
                                     <th>الكتاب</th>
                                     <th>المستوى</th>
                                     <th>الكمية</th>
@@ -94,10 +96,12 @@
                                 </tr>
                             </tfoot>
                             <tbody>
+                           
                             @isset($demande->detail)
                                 @foreach($demande->detail as $key=>$detail)
                                     <tr>
                                         <td>{{$key+1}}</td>
+                                        <td><img src="{{asset('files/books_creche/'.$detail->book->image)}}" style="width:80px;height:110px"></td>
                                         <td>{{$detail->book ? $detail->book->name : ''}}</td>
                                         <td>{{$detail->niveau}}</td>
                                         <td>{{$detail->qty}}</td>

@@ -33,7 +33,7 @@ class DossierController extends Controller
            DB::beginTransaction();
            //dd($request->files);
            $dossier->uuid = (string) Uuid::uuid4();
-           //$dossier->slug = Str::slug($request->name);
+           $dossier->slug = Str::slug($request->name);
            $dossier->name = $request->name;
            $dossier->parent_id = $request->parent_id;
            $dossier->save();

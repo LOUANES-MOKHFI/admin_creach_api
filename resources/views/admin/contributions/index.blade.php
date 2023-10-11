@@ -53,10 +53,20 @@
                             <tbody>
                             @isset($blogs)
                                 @foreach($blogs as $key=>$blog)
+                                @if($blog->creche)
                                     <tr>
                                         <td>{{$key+1}}</td>
                                         <td>{{$blog->title}}</td>
-                                        <td>{{$blog->creche->creche_name}}</td>
+                                        <td>@if($blog->creche->type == 'creche')
+                                                {{$blog->creche->creche_name}}
+                                            @endif
+                                            @if($blog->creche->type == 'user')
+                                            {{$blog->creche->name}}
+                                            @endif
+                                            @if($blog->creche->type == 'vendeur')
+                                            {{$blog->creche->store_name}}
+                                            @endif
+                                            </td>
                                         <td><span class="badge badge-primary">{{$blog->nbr_heart}}</span></td>
                                         <td><span class="badge badge-success">{{$blog->nbr_view}}</span></td>
                                         <td>
@@ -72,6 +82,7 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    @endif
                                 @endforeach
                             @endisset
                             </tbody>

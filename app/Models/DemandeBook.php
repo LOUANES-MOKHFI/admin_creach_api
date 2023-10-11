@@ -11,7 +11,7 @@ class DemandeBook extends Model
     protected $table = 'demande_books';
     protected $guarded = [];
     public function detail(){
-        return $this->hasMany(DemandeBookDetail::class,'demande_id');
+        return $this->hasMany(DemandeBookDetail::class);
     }
 
     public function user(){

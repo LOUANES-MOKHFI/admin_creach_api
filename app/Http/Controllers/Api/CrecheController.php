@@ -23,7 +23,7 @@ class CrecheController extends Controller
 
 
         $creches = User::select('id','uuid','type','name','email','phone','type_creche','creche_name','programme_id'
-        ,'other_programme','facebook','instagram','tiktok','youtube','pays_id','wilaya_id','commune_id','localisation')->where('type','creche')->where('is_active',1)->paginate(PAGINATE_COUNT);
+        ,'other_programme','facebook','instagram','tiktok','youtube','pays_id','wilaya_id','commune_id','localisation')->where('type','creche')->where('is_active',1)->where('deleted_at',null)->paginate(PAGINATE_COUNT);
         if($creches->count() <1){
             $message = "قائمة الروضات فارغة";
             return $this->sendError($message);
@@ -57,7 +57,7 @@ class CrecheController extends Controller
 
     public function ShowCreche($uuid){
         $creche = User::select('id','uuid','type','name','email','phone','type_creche','creche_name','programme_id'
-        ,'other_programme','facebook','instagram','tiktok','youtube','pays_id','wilaya_id','commune_id','localisation')->where('type','creche')->where('is_active',1)->where('uuid',$uuid)->first();
+        ,'other_programme','facebook','instagram','tiktok','youtube','pays_id','wilaya_id','commune_id','localisation')->where('deleted_at',null)->where('type','creche')->where('is_active',1)->where('uuid',$uuid)->first();
        
         //->with('programme')->with('blogs_creche')->with('offres')
         if(!$creche){
@@ -94,7 +94,7 @@ class CrecheController extends Controller
         $wilaya = $request->wilaya;
         $commune = $request->commune;
         $query = User::query();
-        $query->where('type','creche')->where('is_active',1);
+        $query->where('type','creche')->where('is_active',1)->where('deleted_at',null);
         
         if (!empty($keyword)) {
             $query->where('creche_name', 'LIKE', '%' . $keyword . '%');

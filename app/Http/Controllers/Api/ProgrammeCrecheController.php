@@ -92,27 +92,32 @@ class ProgrammeCrecheController extends Controller
         }
 
         try {
-            $demande = DemandeBook::create([
-                "uuid" => (string) Uuid::uuid4(),
-                "creche_name" => $request->creche_name,
-                "user_id" => $user->id,
-                "wilaya_id" => $request->wilaya_id,
-                "commune_id" => $request->commune_id,
-                "gerant_name" => $request->gerant_name,
-                "annee" => $request->annee,
-                "programme_id" => $request->programme_id,
-                "telephone" => $request->telephone,
-                'other_programme' => $request->programme_id == 13 ? $request->other_programme : '',
-            ]);
-            foreach($request->books as $detail){
-                $detailstore = DemandeBookDetail::create([
-                    "demande_id" => $demande->id,
+            
+                $demande = DemandeBook::create([
+                    "uuid" => (string) Uuid::uuid4(),
+                    "creche_name" => $request->creche_name,
                     "user_id" => $user->id,
-                    "niveau" => $detail['niveau'],
-                    "book_id" => $detail['book'],
-                    "qty" => $detail['qty'],
+                    "wilaya_id" => $request->wilaya_id,
+                    "commune_id" => $request->commune_id,
+                    "gerant_name" => $request->gerant_name,
+                    "annee" => $request->annee,
+                    "programme_id" => $request->programme_id,
+                    "telephone" => $request->telephone,
+                    'other_programme' => $request->programme_id == 13 ? $request->other : '',
                 ]);
-            }
+                if($request->qty >1){
+                    foreach($request->books as $detail){
+                        $detailstore = DemandeBookDetail::create([
+                            "demande_id" => $demande->id,
+                            "user_id" => $user->id,
+                            "niveau" => $detail['niveau'],
+                            "book_id" => $detail['id'],
+                            "qty" => $detail['qty'],
+                        ]);
+                    }
+                }
+            
+            
 
             $notification = Notification::create([
                 'uuid' => (string) Uuid::uuid4(),
