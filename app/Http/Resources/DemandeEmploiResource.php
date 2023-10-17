@@ -16,9 +16,9 @@ class DemandeEmploiResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'user_id' => new UserResource($this->user),
-            'offre_id' => new OffreEmploiResource($this->offre),
-            'creche_id' => new CrecheResource($this->creche)
+            'user' => new UserResource($this->user),
+            'offre' => new OffreEmploiResource($this->offre),
+            //'creche_id' => new CrecheResource($this->creche)
         ];
     }
 }

@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\DossierController;
 use App\Http\Controllers\Api\AvisController;
 use App\Http\Controllers\Api\DemandeEmploiUserController;
+use App\Http\Controllers\Api\CartController;
 
 
 
@@ -96,6 +97,7 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
 
     //products route api
     Route::group(['prefix' => 'products'],function(){
+        
         Route::get('/',[ProductController::class,'GetAllProducts'])->name('products');
         Route::post('/add-product',[ProductController::class,'AddProduct'])->name('products.add');
         Route::post('/update-product/{uuid}',[ProductController::class,'UpdateProduct'])->name('products.update');
@@ -150,6 +152,20 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
         Route::post('/postuler',[DemandeEmploiController::class,'Postuler'])->name('demande_emplois.postuler');
         
     });
+
+
+    /////////////Cart And Order
+    
+    Route::get('/cart-header', [CartController::class, 'CartContentHeader'])->name('cart_header');
+    Route::get('/cart', [CartController::class, 'checkout'])->name('shoping_cart');
+    Route::get('/clear-cart', [CartController::class, 'clearCart'])->name('clear_cart');
+    Route::get('/clear-item/{id}', [CartController::class, 'clearItem'])->name('clear_item');
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add_to_cart');
+
+
+    Route::post('/update-cart', [CartController::class, 'updateItemInCart'])->name('update_cart');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::post('/validate_checkout', [CartController::class, 'validateCheckout'])->name('validate_checkout');
 
 });
 
@@ -240,4 +256,6 @@ Route::get('/wilaya/{wilaya_id}',[SettingController::class,'GetCommunesWilaya'])
 
 Route::get('/getallbook',[ProgrammeCrecheController::class,'getAllBook'])->name('getallbook');
 
+
+Route::get('/products/get_all_categories_product',[ProductController::class,'GetAllCategories'])->name('products.get_all_categories_product');
 

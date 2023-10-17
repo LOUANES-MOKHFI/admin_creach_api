@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryProducts;
 use App\Models\Product;
+use App\Models\Category;
+
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
 use Validator;
@@ -49,7 +51,7 @@ class ProductController extends Controller
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-        try {
+        //try {
             $product = Product::create([
                 'uuid' => (string) Uuid::uuid4(),
                 'name' => $request->name,
@@ -60,7 +62,7 @@ class ProductController extends Controller
                 'vendor_id'  => $user->id
             ]);
             
-            $product->categories()->attach($request->categories);
+            
             if($request->has('images')){
                 foreach($request->images as $image){
                     $productImage = new ProductImages();
@@ -72,17 +74,23 @@ class ProductController extends Controller
                     $productImage->save();
                 }
             }
+            $product->categories()->attach($request->categories);
             $status = 200;
             $message = "تمت اضافة المنتج بنجاح بنجاح";
 
             return $this->sendResponse($status, $message);
-     } catch (\Throwable $th) {
+     /* } catch (\Throwable $th) {
         return Response(['data' => 'Unauthorized'],401);
-    } 
+    }  */
         
 
     }
 
+    public function GetAllCategories(){
+
+        $categories = Category::where('type','product')->get();
+        return Response(['data' => $categories],200);
+    }
     public function UpdateProduct(Request $request,$uuid){
         $user = $request->user();
         $validator = Validator::make($request->all(), [

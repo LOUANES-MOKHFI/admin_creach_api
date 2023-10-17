@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\OrderDetail;
+
 use App\Models\User;
 use Validator;
 use Ramsey\Uuid\Uuid;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderDetailResource;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -21,8 +24,23 @@ class OrderController extends Controller
             $message = "قائمة طلبياتك فارغة";
             return $this->sendError($message);
         }
-        $orders = OrderResource::collection($orders)->response()->getData();
-        return Response(['data' => $orders],200);
+        foreach($orders as $key => $order){
+            $orderss[] = [
+                "id"=> $order->id,
+                "user_id"=> $order->user_id,
+                "name"=> $order->name,
+                "phone"=> $order->phone,
+                "email"=> $order->email,
+                "address"=> $order->address,
+                "total_order"=> $order->total_order,
+                "note"=> $order->note,
+                "details" => OrderDetailResource::collection($order->details),
+                "created_at"=> $order->created_at,
+                "updated_at"=> $order->updated_at,
+            ];
+       }
+        //$orders = OrderResource::collection($orders)->response()->getData();
+        return Response(['data' => $orderss],200);
     }
 
     public function AddOrder(Request $request){
@@ -69,15 +87,58 @@ class OrderController extends Controller
 
            
     }
+
+    function detailOrder($details,$user){
+        if(!$details){
+            return "";
+        }else{
+            if($details[0]->vendor_id == $user->id){
+                return $details;
+            }
+        }
+    }
+    /* function getOrder($id){
+        $order = Order::where('id',$id)->first();
+        return[]
+    } */
     public function GetAllMyStoreOrders(Request $request){
     	$user = $request->user();
-    	$orders = Order::where('vendor_id',$user->id)->paginate(PAGINATE_COUNT);
-        if($orders->count() <1){
-            $message = "قائمة طلبياتك فارغة";
-            return $this->sendError($message);
+        $data = [];
+        //$orders = Order::all();
+        
+        $details = OrderDetail::where('vendor_id',$user->id)->get();
+        
+        $detailOrders = [];
+        foreach($details as $key => $detail){
+            $detailOrders[] = [
+                "id" => $detail->id,
+                "order" => $detail->order,
+                "product" => $detail->product,
+                //"vendor" => $detail->vendor,
+                "qty" => $detail->qty,
+                "total" => $detail->qty*$detail->price,
+                "created_at" => $detail->created_at,
+                "updated_at" => $detail->updated_at
+            ];
         }
-        $orders = OrderResource::collection($orders)->response()->getData();
-        return Response(['data' => $orders],200);
+         /*foreach($orders as $key => $order){
+            
+            $orderss[] = [
+                "id"=> $order->id,
+                "user_id"=> $order->user_id,
+                "name"=> $order->name,
+                "phone"=> $order->phone,
+                "email"=> $order->email,
+                "address"=> $order->address,
+                "total_order"=> $order->total_order,
+                "note"=> $order->note,
+                "details" => OrderDetailResource::collection($this->detailOrder($order->details,$user)),
+                "created_at"=> $order->created_at,
+                "updated_at"=> $order->updated_at,
+            ];
+       } */
+
+        return Response($detailOrders,200);
     }
 
     public function ShowStoreOrders(Request $request,$id){
